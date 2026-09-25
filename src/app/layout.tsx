@@ -21,8 +21,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Infozub Digital Academy",
-  description: "Production-ready foundation for Infozub Digital Academy.",
+  title: "Infozub AI Assistant",
+  description:
+    "Ask anything about Infozub Digital Academy courses, curriculum, enrollment, and learning programs.",
 };
 
 export default function RootLayout({
