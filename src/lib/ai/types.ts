@@ -1,5 +1,5 @@
 export interface AssistantMessage {
-  role: "user" | "assistant";
+  role: "system" | "user" | "assistant";
   content: string;
 }
 
@@ -13,11 +13,12 @@ export interface AssistantResponse {
 }
 
 /**
- * Provider contract for later Ollama, Qwen, Llama, and hosted models.
- * Phase 1 uses only the mock provider.
+ * Provider contract. Ollama is implemented. Other providers can use the same interface.
  */
-export interface AiProvider {
+export interface AIProvider {
   id: string;
   name: string;
   complete(request: AssistantRequest): Promise<AssistantResponse>;
 }
+
+export type AiProvider = AIProvider;

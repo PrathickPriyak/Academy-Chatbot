@@ -55,6 +55,7 @@ model Course {
   faqs             Faq[]
   features         CourseFeature[]
   resources        CourseResource[]
+  knowledgeChunks  KnowledgeChunk[]
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 
@@ -116,6 +117,20 @@ model CourseFeature {
   updatedAt   DateTime @updatedAt
 
   @@index([courseId])
+}
+
+model KnowledgeChunk {
+  id         String                      @id @default(cuid())
+  courseId   String
+  course     Course                      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  sourceType String
+  title      String
+  content    String
+  embedding  Unsupported("vector(768)")?
+  createdAt  DateTime                    @default(now())
+
+  @@index([courseId])
+  @@index([sourceType])
 }
 
 model CourseResource {

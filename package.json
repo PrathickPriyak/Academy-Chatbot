@@ -13,7 +13,8 @@
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "knowledge:index": "tsx scripts/reindex-knowledge.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
