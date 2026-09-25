@@ -1,0 +1,14 @@
+---
+description: Infozub Digital Academy architecture and phase scope
+alwaysApply: true
+---
+
+# Infozub Digital Academy
+
+Phase 1 is the foundation only: Next.js App Router, the design system, shared UI, theme, linting, and a PostgreSQL-ready Prisma schema.
+
+- Keep new UI on tokens in `src/app/globals.css` and `src/lib/design-system`.
+- Import shared components from `@/components/ui` and `@/components/layout`.
+- Use the `cn` helper in `src/lib/utils.ts` for class names.
+- Do not add course, auth, chatbot, or billing features in this phase.
+- Prisma models belong in later phases. Keep `prisma/schema.prisma` PostgreSQL-ready.
