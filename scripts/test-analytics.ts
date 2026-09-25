@@ -18,7 +18,7 @@ async function main() {
   });
   await recordAnalyticsEvent({
     type: "answer_generated",
-    courseTitle: "Full Stack Web Development",
+    courseTitle: "Social Media Marketing Master Course",
   });
   await recordAnalyticsEvent({
     type: "fallback_triggered",
@@ -33,7 +33,7 @@ async function main() {
   if (!report.mostAsked[0]?.label.includes("[email]") || report.mostAsked[0].label.includes("ada@example.com")) {
     throw new Error(`Question was not redacted: ${report.mostAsked[0]?.label}`);
   }
-  if (report.mostDiscussed[0]?.label !== "Full Stack Web Development") {
+  if (report.mostDiscussed[0]?.label !== "Social Media Marketing Master Course") {
     throw new Error("Discussed course was not recorded.");
   }
 
@@ -58,7 +58,7 @@ async function main() {
   const course = await fetch("http://127.0.0.1:3000/api/analytics", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ type: "course_clicked", courseTitle: "Full Stack Web Development" }),
+    body: JSON.stringify({ type: "course_clicked", courseTitle: "Social Media Marketing Master Course" }),
   });
   if (course.status !== 200) {
     throw new Error(`Course click was not accepted (${course.status}).`);

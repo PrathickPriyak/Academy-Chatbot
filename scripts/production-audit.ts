@@ -63,11 +63,16 @@ async function main() {
   check("fallback", hostel.fallback && hostel.content === fallbackMessage && hostel.sources.length === 0);
 
   const followUp = await answerConversation([
-    { role: "user", content: "Tell me about the Full Stack course." },
-    { role: "assistant", content: "The Full Stack Web Development course is offered by Infozub." },
+    { role: "user", content: "Tell me about the Social Media Marketing course." },
+    { role: "assistant", content: "The Social Media Marketing Master Course is offered by Infozub." },
     { role: "user", content: "What is its duration?" },
   ]);
-  check("follow-up", followUp.content.includes("24 weeks") && !followUp.fallback);
+  const followUpText = followUp.content.toLowerCase();
+  check(
+    "follow-up",
+    !followUp.fallback &&
+      (followUpText.includes("self-paced, lifetime access") || followUpText.includes("life-time")),
+  );
 
   const previousUrl = process.env.OLLAMA_URL;
   process.env.OLLAMA_URL = "http://127.0.0.1:9";

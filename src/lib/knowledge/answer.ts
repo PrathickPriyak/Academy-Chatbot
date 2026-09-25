@@ -86,7 +86,8 @@ function isGrounded(answer: string, chunks: RetrievedChunk[]): boolean {
   }
 
   const contextDigits = context.replace(/,/g, "");
-  const numbers = normalized.match(/\d[\d,]*/g) ?? [];
+  const withoutListMarkers = normalized.replace(/^\s*\d{1,2}[.)]\s+/gm, "");
+  const numbers = withoutListMarkers.match(/\d[\d,]*/g) ?? [];
   return numbers.every((value) => {
     const digits = value.replace(/,/g, "");
     return digits.length < 2 || contextDigits.includes(digits);
@@ -151,10 +152,23 @@ export async function answerConversation(
   }
 
   const content = includeMissingCatalogTitles(question, answer, chunks);
-  return { content, sources: await sourcesFor(content, chunks), fallback: false };
+  return { content, sources: await sourcesFor(question, content, chunks), fallback: false };
+}
+
+function coursesNamedIn(
+  text: string,
+  courses: { title: string; enrollmentUrl: string }[],
+) {
+  const lower = text.toLowerCase();
+  return courses.filter((course) => {
+    const title = course.title.toLowerCase();
+    const shortened = title.replace(" master course", "").replace(" mastery", "");
+    return lower.includes(title) || (shortened !== title && shortened.length >= 8 && lower.includes(shortened));
+  });
 }
 
 async function sourcesFor(
+  question: string,
   answer: string,
   chunks: RetrievedChunk[],
 ): Promise<AnswerSource[]> {
@@ -175,33 +189,31 @@ async function sourcesFor(
   });
   const lower = answer.toLowerCase();
   const digits = answer.replace(/,/g, "");
+  const linked = courses.filter((course) => course.enrollmentUrl.startsWith("http"));
 
-  return courses
-    .filter((course) => course.enrollmentUrl.startsWith("http"))
-    .filter((course) => {
-      const title = course.title.toLowerCase();
-      if (
-        lower.includes(title) ||
-        (title.includes("full stack") && lower.includes("full stack")) ||
-        (title.includes("data analytics") && lower.includes("data analytics")) ||
-        (title.includes("digital marketing") && lower.includes("digital marketing")) ||
-        (title.includes("ui/ux") && lower.includes("ui/ux"))
-      ) {
-        return true;
-      }
+  const named = coursesNamedIn(answer, linked);
+  if (named.length > 0) {
+    return named.map((course) => ({ title: course.title, url: course.enrollmentUrl }));
+  }
+  const asked = coursesNamedIn(question, linked);
+  if (asked.length === 1) {
+    return asked.map((course) => ({ title: course.title, url: course.enrollmentUrl }));
+  }
 
-      return chunks
-        .filter((chunk) => chunk.courseId === course.id)
-        .some((chunk) => {
-          const duration = chunk.content.match(/Duration of .+: (.+)\./)?.[1];
-          const price = chunk.content.match(/Price of .+: (\d+)/)?.[1];
-          return (
-            (duration !== undefined && lower.includes(duration.toLowerCase())) ||
-            (price !== undefined && digits.includes(price))
-          );
-        });
-    })
-    .map((course) => ({ title: course.title, url: course.enrollmentUrl }));
+  const byFact = linked.filter((course) =>
+    chunks
+      .filter((chunk) => chunk.courseId === course.id)
+      .some((chunk) => {
+        const duration = chunk.content.match(/Duration of .+: (.+)\./)?.[1];
+        const price = chunk.content.match(/Price of .+: (\d+)/)?.[1];
+        return (
+          (duration !== undefined && lower.includes(duration.toLowerCase())) ||
+          (price !== undefined && price !== "0" && digits.includes(price))
+        );
+      }),
+  );
+  const unique = byFact.length === 1 ? byFact : [];
+  return unique.map((course) => ({ title: course.title, url: course.enrollmentUrl }));
 }
 
 function includeMissingCatalogTitles(
@@ -218,6 +230,7 @@ function includeMissingCatalogTitles(
   }
 
   const titles = catalog.content
+    .replace(/^Infozub offers \d+ courses:\s*/i, "")
     .replace(/^Infozub courses offered:\s*/i, "")
     .replace(/\.$/, "")
     .split(";")

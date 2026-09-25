@@ -4,11 +4,20 @@ import type { AssistantMessage } from "@/lib/ai/types";
 function phrasesFor(title: string): string[] {
   const lower = title.toLowerCase();
   const phrases = [lower];
-  if (lower.includes("full stack")) phrases.push("full stack");
-  if (lower.includes("data analytics")) phrases.push("data analytics");
-  if (lower.includes("ui/ux")) phrases.push("ui/ux");
-  if (lower.includes("product design")) phrases.push("product design");
-  if (lower.includes("digital marketing")) phrases.push("digital marketing");
+  if (lower.includes("master course")) {
+    phrases.push(lower.replace(" master course", "").trim());
+  }
+  if (lower.includes("photoshop")) phrases.push("photoshop");
+  if (lower.includes("premiere")) phrases.push("premiere", "premiere pro");
+  if (lower.includes("canva")) phrases.push("canva");
+  if (lower.includes("google ads")) phrases.push("google ads");
+  if (lower.includes("seo") || lower.includes("search engine")) phrases.push("seo");
+  if (lower.includes("wordpress") || lower.includes("webdesign")) phrases.push("wordpress", "web design");
+  if (lower.includes("social media")) phrases.push("social media marketing");
+  if (lower.includes("interview")) phrases.push("interview");
+  if (lower.includes("business success")) phrases.push("business success");
+  if (lower.includes("mobile app video")) phrases.push("mobile video editing", "video editing");
+  if (lower.includes("ai website")) phrases.push("ai website", "website builder");
   return phrases;
 }
 

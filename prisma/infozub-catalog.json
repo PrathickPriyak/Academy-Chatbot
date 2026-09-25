@@ -1,0 +1,657 @@
+{
+  "categories": [
+    {
+      "name": "Design",
+      "slug": "design",
+      "description": "Design courses published by Infozub Digital Academy."
+    },
+    {
+      "name": "Video",
+      "slug": "video",
+      "description": "Video editing courses published by Infozub Digital Academy."
+    },
+    {
+      "name": "Web",
+      "slug": "web",
+      "description": "Website courses published by Infozub Digital Academy."
+    },
+    {
+      "name": "Marketing",
+      "slug": "marketing",
+      "description": "Marketing courses published by Infozub Digital Academy."
+    },
+    {
+      "name": "Business",
+      "slug": "business",
+      "description": "Business courses published by Infozub Digital Academy."
+    },
+    {
+      "name": "Career",
+      "slug": "career",
+      "description": "Career courses published by Infozub Digital Academy."
+    }
+  ],
+  "instructor": {
+    "name": "Logesh Kumar",
+    "title": "Founder of INFOZUB",
+    "bio": "The public about page says INFOZUB started in May 2013. Logesh Kumar is named as Managing Director and Founder of Infozub Pvt Ltd on the academy course pages."
+  },
+  "courses": [
+    {
+      "category": "design",
+      "title": "Adobe Photoshop Master Course",
+      "slug": "adobe-photoshop",
+      "shortDescription": "Learn Adobe Photoshop in Tamil! Enroll now for just \u20b91,999 and master essential tools, design techniques, and creative skills easily.",
+      "description": "Learn Adobe Photoshop in Tamil! Enroll now for just \u20b91,999 and master essential tools, design techniques, and creative skills easily. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 1999,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/adobe-photoshop/",
+      "modules": [
+        {
+          "title": "Module 01: Photoshop Foundations",
+          "description": "Get fully comfortable with Photoshop \u2013 setting up the workspace, understanding layers, and building a smooth beginner workflow that forms the base for all future designs."
+        },
+        {
+          "title": "Module 02: Typography and Text Design",
+          "description": "Learn to work professionally with text \u2014 mastering font selection, paragraph styling, and creative typography. Includes Tamil typing and real practice designing text perfectly for posters and social media."
+        },
+        {
+          "title": "Module 03: Shapes, Gradients and Transformations",
+          "description": "Explore creative tools to build dynamic layouts using shapes, gradients, smart objects, and advanced transformation techniques to design your first professional compositions."
+        },
+        {
+          "title": "Module 04: Layout and Export Mastery",
+          "description": "Understand alignment, spacing, guides, slices, cropping techniques, and optimized export methods for perfect results on Instagram, print, and digital platforms."
+        },
+        {
+          "title": "Module 05: Brushes, Masks and Effects",
+          "description": "Unleash creativity by working with custom brushes, layer masks, clipping masks, blend-if effects, and artistic tools to create advanced photo-art and painting designs."
+        },
+        {
+          "title": "Module 06: Selection and Cut-Out Pro Techniques",
+          "description": "Become highly skilled in professional selections, including complex hair masking and object extraction using advanced tools and techniques used in real client projects."
+        },
+        {
+          "title": "Module 07: Print and Digital Designs Workflow",
+          "description": "Master image resolution, correct document setup for print and social media, resizing techniques, and professional export workflows to ensure your designs look perfect everywhere."
+        },
+        {
+          "title": "Module 08: Real-World Design Projects",
+          "description": "Create industry-level designs including social media posters, cinematic posters, product ads, and print-ready materials. Build a strong portfolio and gain practical confidence."
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "title": "Adobe Premiere Pro Master Course",
+      "slug": "adobe-premiere-pro",
+      "shortDescription": "Earn a globally recognized Adobe Premiere Pro Master Course certification and learn professional editing\u2014from fundamentals to pro\u2014with lifetime access.",
+      "description": "Earn a globally recognized Adobe Premiere Pro Master Course certification and learn professional editing\u2014from fundamentals to pro\u2014with lifetime access. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 0,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/adobe-premiere-pro/",
+      "modules": [
+        {
+          "title": "Video Editing Fundamentals",
+          "description": "Learn essential concepts like codecs, FPS, resolution, and editing workflows before creating your first project."
+        },
+        {
+          "title": "Interface and Workspace",
+          "description": "Master the Premiere Pro interface and organize your workspace like a professional."
+        },
+        {
+          "title": "Professional Editing Workflow",
+          "description": "Learn the complete editing workflow from importing footage to final export."
+        },
+        {
+          "title": "Speed Ramping and Motion",
+          "description": "Create smooth cinematic motion using keyframes, speed ramping, and interpolation."
+        },
+        {
+          "title": "Audio Editing and SFX",
+          "description": "Enhance videos with clean dialogue, music, and sound effects."
+        },
+        {
+          "title": "Color Correction and Grading",
+          "description": "Master color correction, grading, LUTs, Log footage, and the Lumetri Color panel."
+        },
+        {
+          "title": "Text Animation",
+          "description": "Create professional titles, lower thirds, and motion graphics."
+        },
+        {
+          "title": "Dynamic Link",
+          "description": "Connect Premiere Pro with Photoshop and After Effects without rendering."
+        },
+        {
+          "title": "AI-Powered Video Editing",
+          "description": "The page covers AI audio cleanup, Generative Extend, Higgsfield, and Magnific AI."
+        }
+      ]
+    },
+    {
+      "category": "web",
+      "title": "AI Website Builder Mastery",
+      "slug": "ai-website-builder-mastery",
+      "shortDescription": "Explore comprehensive modules on AI website builder mastery in Tamil, from prompt engineering to deployment and advanced customization techniques.",
+      "description": "Explore comprehensive modules on AI website builder mastery in Tamil, from prompt engineering to deployment and advanced customization techniques. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 0,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/ai-website-builder-mastery/",
+      "modules": [
+        {
+          "title": "Module 01: Prompt Engineering for Web Design",
+          "description": "Learn the exact scripts to tell AI what kind of website you want."
+        },
+        {
+          "title": "Module 02: Complete Site Creation",
+          "description": "Use ZipWP and 10Web to create entire multi-page sites instantly."
+        },
+        {
+          "title": "Module 03: Specialized Development",
+          "description": "Master Bolt, Lovable, and Relume for custom, high-performance web apps."
+        },
+        {
+          "title": "Module 04: Deployment and Integration",
+          "description": "Learn to host your sites using Netlify and GitHub like a pro."
+        }
+      ]
+    },
+    {
+      "category": "business",
+      "title": "Business Success Formula",
+      "slug": "business-success-formula",
+      "shortDescription": "Transform your business with the Tamil Business Success Formula course: comprehensive modules on mindset, planning, marketing, and data-driven decisions.",
+      "description": "Transform your business with the Tamil Business Success Formula course: comprehensive modules on mindset, planning, marketing, and data-driven decisions. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 0,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/business-success-formula/",
+      "modules": [
+        {
+          "title": "Module 01: Introduction to Entrepreneurship",
+          "description": "Understand what entrepreneurship really means and why starting your own business can change your life. Learn the mindset, traits, and thinking patterns of successful entrepreneurs. Discover how to identify the right opportunities and shift from working in your business to working on your business."
+        },
+        {
+          "title": "Module 02: Strategic Business Planning & Model Development",
+          "description": "Learn how to generate powerful business ideas and validate them before investing. Understand startup costs, working capital, and ROI calculations. Build a strong and sustainable business model using tools like the Business Model Canvas and idea validation techniques."
+        },
+        {
+          "title": "Module 03: Market Research & Marketing Strategy",
+          "description": "Master how to identify your ideal customer and position your brand effectively. Learn both traditional and digital marketing strategies including SEO, social media, and content marketing. Create marketing plans, analyze competitors, and track performance using tools like Canva and Google Analytics."
+        },
+        {
+          "title": "Module 04: Customer Understanding",
+          "description": "Deep dive into customer psychology. Learn how to identify customer pain points, needs, and desires to create products and services that truly connect and sell."
+        },
+        {
+          "title": "Module 05: Business Finance & Legal Compliance Essentials",
+          "description": "Understand the financial backbone of your business including taxes, GST, and legal registrations. Learn compliance processes like PF, ESI, ROC filings, and startup registration to run your business smoothly and legally."
+        },
+        {
+          "title": "Module 06: Sales and Customer Engagement",
+          "description": "Learn the art and science of selling. Build effective sales funnels, handle objections confidently, and close deals successfully. Master upselling, cross-selling, and customer communication to increase revenue and build long-term relationships."
+        },
+        {
+          "title": "Module 07: Operations & Team Management",
+          "description": "Learn how to build efficient business operations and systems. Create SOPs, manage teams, and improve productivity. Develop leadership skills using proven frameworks and ensure smooth workflow management."
+        },
+        {
+          "title": "Module 08: Innovation & R&D \u2013 Stay Ahead",
+          "description": "Stay competitive by learning innovation strategies and product development frameworks like MVP and Design Thinking. Understand how to use customer feedback, market trends, and new technologies like AI to continuously improve your business."
+        },
+        {
+          "title": "Module 09: Human Resource & Team Building",
+          "description": "Build a strong team with effective hiring and HR practices. Learn recruitment processes, company culture building, employee management, and HR systems to create a productive and positive workplace."
+        },
+        {
+          "title": "Module 10: Data-Driven Decision Making",
+          "description": "Make smarter business decisions using data. Learn different types of analytics, track business performance, and use tools like Excel and Power BI to forecast growth and reduce risks."
+        },
+        {
+          "title": "Module 11: Business Growth & Scaling Strategies",
+          "description": "Transform your business from survival mode to scalable success. Learn growth strategies like franchising, partnerships, and automation. Avoid common growth mistakes and build a long-term sustainable business."
+        }
+      ]
+    },
+    {
+      "category": "design",
+      "title": "Canva Master Course",
+      "slug": "canva-master-course",
+      "shortDescription": "Canva Master Course",
+      "description": "Canva Master Course This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 0,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/canva-master-course/",
+      "modules": [
+        {
+          "title": "Module 01: Canva Introduction",
+          "description": "Get introduced to Canva and understand how it helps you design graphics easily without prior design experience. Learn about the interface, account setup, and basic navigation."
+        },
+        {
+          "title": "Module 02: Canva Fundamentals",
+          "description": "Learn the core tools and features of Canva needed to create professional designs. You will work with templates, text, elements, colors, images, and layouts step by step."
+        },
+        {
+          "title": "Module 03: Branding Your Business",
+          "description": "Understand how to use Canva to promote your business visually across digital platforms. Learn to design marketing creatives that maintain consistency and attract your target audience."
+        },
+        {
+          "title": "Module 04: Building Your Brand Identity",
+          "description": "Learn how to create a strong brand identity using logos, brand colors, fonts, and style guides in Canva. You will design visuals that reflect your brand\u2019s personality and values."
+        },
+        {
+          "title": "Module 05: Design Creation: Social Media",
+          "description": "Create engaging social media designs for Instagram, Facebook, and other platforms using Canva. Learn post design, stories, reels covers, banners, and content sizing best practices."
+        },
+        {
+          "title": "Module 06: Bonus",
+          "description": "Explore additional tips, shortcuts, and advanced design ideas to improve your Canva skills. These lessons help you work faster and create more polished designs."
+        }
+      ]
+    },
+    {
+      "category": "marketing",
+      "title": "Google Ads Course",
+      "slug": "google-ads",
+      "shortDescription": "Master the art of Google Ads with Infozub Digital Academy specialized marketing course. Drive targeted traffic and achieve higher ROI. Enroll now!",
+      "description": "Master the art of Google Ads with Infozub Digital Academy specialized marketing course. Drive targeted traffic and achieve higher ROI. Enroll now! This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 0,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/google-ads/",
+      "modules": [
+        {
+          "title": "Module 01: Google Ads Basics and Setup",
+          "description": "Understand what Google Ads is and its importance. Learn to create, set up, and secure your Google Ads account effectively."
+        },
+        {
+          "title": "Module 02: Fundamentals of Google Ads",
+          "description": "In this module, learn clearly about the core concepts of Google Ads, the ad auction process, and how campaigns are structured."
+        },
+        {
+          "title": "Module 03: Keyword Research and Plannig",
+          "description": "Understand keyword functionality and importance. Learn to research keywords, use match types, and filter irrelevant traffic."
+        },
+        {
+          "title": "Module 04: Ad Extensions and Policies",
+          "description": "Learn to use various ad extensions to improve ads. Understand the policies applicable to ad extensions."
+        },
+        {
+          "title": "Module 05: Conversion Tracking and ROI",
+          "description": "Learn to track various conversions (website, phone, app, offline). Understand how to analyze reports and calculate ROI."
+        },
+        {
+          "title": "Module 06: Ad Formats and Budget Management",
+          "description": "Learn about various ad formats (Search, Display, Dynamic, Call Only). This module covers Ad Strength and managing Google Ads budget types."
+        },
+        {
+          "title": "Module 07: Campaign Types and Bidding Strategies",
+          "description": "Learn about different campaign types and their objectives. Understand how to choose the right bidding strategy for your goals."
+        },
+        {
+          "title": "Module 08: Advanced Campaign Creation and Remarketing",
+          "description": "Learn to create Shopping, App, Smart campaigns. This module covers setting up remarketing campaigns using Audience Manager."
+        },
+        {
+          "title": "Module 09: Landing Page and Quality Score",
+          "description": "Understand landing page use cases and types. Learn about Quality Score, Ad Rank, and Ads Auction in this module."
+        },
+        {
+          "title": "Module 10: Optimization and Reporting",
+          "description": "Learn to improve ad relevance, landing page experience, and CTR. Understand how to optimize campaigns using KPIs, data analysis, and reports."
+        },
+        {
+          "title": "Module 11: Budget Control and Bidding Strategies",
+          "description": "Understand how CPC and Quality Score affect cost. Learn to control budget and increase profit using bidding strategies and the Auction Insights Tool."
+        }
+      ]
+    },
+    {
+      "category": "career",
+      "title": "Interview Success Formula",
+      "slug": "interview-success-formula",
+      "shortDescription": "Interview Success Formula",
+      "description": "Interview Success Formula This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 0,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/interview-success-formula/",
+      "modules": [
+        {
+          "title": "Module 01: Understanding This Course",
+          "description": "Get a clear overview of what this course covers and how it will help you succeed in interviews. Learn how to use the course content effectively for maximum results."
+        },
+        {
+          "title": "Module 02: Understanding Interview Process",
+          "description": "Learn how interviews work from application to final selection. Understand different interview rounds and what recruiters expect at each stage."
+        },
+        {
+          "title": "Module 03: Self-Assessment and Reflection",
+          "description": "Identify your strengths, weaknesses, and skill gaps before attending interviews. Learn how to improve confidence through self-evaluation and goal setting."
+        },
+        {
+          "title": "Module 04: Tailoring Your Resume",
+          "description": "Learn how to customize your resume based on job roles and company requirements. Understand what recruiters look for and how to highlight your skills clearly."
+        },
+        {
+          "title": "Module 05: Mastering Common Interview Questions",
+          "description": "Practice answering frequently asked interview questions with confidence. Learn how to structure your answers clearly and professionally."
+        },
+        {
+          "title": "Module 06: Effective Communication Skills",
+          "description": "Improve your verbal and non-verbal communication for interviews. Learn how to express ideas clearly, confidently, and professionally."
+        },
+        {
+          "title": "Module 07: Interview Techniques and Strategies",
+          "description": "Understand smart interview techniques to stand out from other candidates. Learn how to handle tricky questions and present yourself effectively."
+        },
+        {
+          "title": "Module 08: Dressing for Success",
+          "description": "Learn how to dress appropriately for different types of interviews. Understand professional grooming and first-impression essentials."
+        },
+        {
+          "title": "Module 09: Remote (or) Virtual Interview Preparation",
+          "description": "Prepare for online interviews with proper setup and communication tips. Learn how to handle video interviews confidently and professionally."
+        },
+        {
+          "title": "Module 10: Post Interview Follow-ups",
+          "description": "Learn what to do after an interview to leave a positive impression. Understand follow-up emails, thank-you notes, and professional etiquette."
+        },
+        {
+          "title": "Module 11: Negotiating the Offer",
+          "description": "Understand how to discuss salary and job offers confidently. Learn negotiation tips to get fair compensation without losing opportunities."
+        },
+        {
+          "title": "Module 12: Overcoming Interview Setbacks",
+          "description": "Learn how to handle interview rejections positively. Understand how to improve performance and prepare better for future interviews."
+        },
+        {
+          "title": "Module 13: Continuous Improvement and Growth",
+          "description": "Learn how to keep improving your interview skills over time. Build a mindset focused on learning, feedback, and long-term career growth."
+        },
+        {
+          "title": "Module 14: Interview Workbook",
+          "description": "Use practical exercises and worksheets to apply what you learn. This helps reinforce concepts and improve interview readiness."
+        },
+        {
+          "title": "Module 15: Aptitude Question and Answer",
+          "description": "Practice common aptitude questions asked in interviews and exams. Improve problem-solving speed and logical thinking skills."
+        },
+        {
+          "title": "Module 16: Resume Templates",
+          "description": "Get ready-to-use resume templates designed for job applications. Learn how to fill them correctly with your details and skills."
+        },
+        {
+          "title": "Module 17: Common Interview Question and Answer",
+          "description": "Access a curated list of common interview questions with sample answers. Use them as a reference to prepare and practice confidently."
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "title": "Mobile App Video Editing Master Course",
+      "slug": "mobile-app-video-editing",
+      "shortDescription": "Unlock Mobile App Video Editing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! Join Now for \u20b9999. Mastering Popular Video Editing Apps. Storyboarding and Video Planning. Essential Editing Techniques. Color Correction and Grading. Audio Mastery for Mobile Videos.",
+      "description": "Unlock Mobile App Video Editing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! Join Now for \u20b9999. Mastering Popular Video Editing Apps. Storyboarding and Video Planning. Essential Editing Techniques. Color Correction and Grading. Audio Mastery for Mobile Videos. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 999,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/mobile-app-video-editing/",
+      "modules": [
+        {
+          "title": "Module 01: Inshot App",
+          "description": "Learn how to edit photos and videos easily using the InShot App with step-by-step guidance. You will create collages, apply AI effects, use green screen, and design trending videos for social media."
+        },
+        {
+          "title": "Module 02: YouCut App",
+          "description": "Understand the basics of video editing using the YouCut App with a clean and simple interface. You will learn trimming, merging, adding music, effects, and exporting videos without watermarks."
+        },
+        {
+          "title": "Module 03: VITA Editing Apps",
+          "description": "Explore creative video editing using ready-made templates and stylish effects in the VITA App. You will design eye-catching reels, shorts, and text-animated videos quickly and easily."
+        },
+        {
+          "title": "Module 04: VN Video Editor App",
+          "description": "Get hands-on experience with professional-style editing using the VN Video Editor. You will work with timelines, keyframes, speed control, filters, and smooth transitions for high-quality videos."
+        },
+        {
+          "title": "Module 05: PowerDirector App",
+          "description": "Learn advanced mobile video editing using powerful tools available in the PowerDirector App. You will create multi-layer videos using green screen, motion effects, transitions, and AI features."
+        },
+        {
+          "title": "Module 06: Splice App",
+          "description": "Edit videos smoothly with the Splice App using simple tools and a beginner-friendly layout. You will learn how to trim clips, add music, text, transitions, and create clean social media videos."
+        },
+        {
+          "title": "Module 07: Video Maker App",
+          "description": "Create attractive videos quickly using templates and easy editing options in the Video Maker App. You will add text animations, music, effects, and design videos for promotions and storytelling."
+        },
+        {
+          "title": "Module 08: VIVA Cut App",
+          "description": "Learn creative and cinematic editing techniques using the VivaCut App. You will practice masking, blending effects, transitions, and layered editing to produce professional-looking videos."
+        },
+        {
+          "title": "Module 09: LightCut App",
+          "description": "Discover AI-based video creation using the LightCut App for fast and smart editing. You will use automatic templates, music sync, and quick edits to create professional videos in minutes."
+        },
+        {
+          "title": "Module 10: Film Maker App",
+          "description": "Get started with simple video editing using the Film Maker App. You will learn basic trimming, effects, text, music, and transitions to create engaging videos with ease."
+        }
+      ]
+    },
+    {
+      "category": "marketing",
+      "title": "SEO Master Course",
+      "slug": "search-engine-optimisation",
+      "shortDescription": "Become an SEO master with Infozub Digital Academy comprehensive course. Learn cutting-edge strategies, boost rankings, and drive organic traffic like a pro. Enroll now in our SEO Master course.",
+      "description": "Become an SEO master with Infozub Digital Academy comprehensive course. Learn cutting-edge strategies, boost rankings, and drive organic traffic like a pro. Enroll now in our SEO Master course. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "12 months access and 15+ hours of content",
+      "price": 0,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/search-engine-optimisation/",
+      "modules": [
+        {
+          "title": "Introduction to SEO",
+          "description": "An overview of SEO, the difference between SEO and SEM, how a search engine works, types of SEO, and important SEO parameters."
+        },
+        {
+          "title": "On-Page SEO",
+          "description": "Competitor analysis, keyword research, types of keywords, website and URL structuring, and title and description optimization."
+        },
+        {
+          "title": "Off-Page SEO",
+          "description": "What links are, types of links, competitor backlink analysis, backlink importance, and the effect of backlinks."
+        },
+        {
+          "title": "Local SEO",
+          "description": "Google Business Profile setup, verification, NAP consistency, and reviews."
+        },
+        {
+          "title": "Technical SEO",
+          "description": "Website loading time, performance, the Google mobile-friendly test, redirection, and crawlability."
+        },
+        {
+          "title": "Advanced SEO Marketing Strategies",
+          "description": "Google page experience and Core Web Vitals, technical SEO, SEO for website migrations, and SEO performance analytics."
+        }
+      ]
+    },
+    {
+      "category": "marketing",
+      "title": "Social Media Marketing Master Course",
+      "slug": "social-media-marketing",
+      "shortDescription": "Master Social Media Marketing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd with our course at just \u20b9999! Learn effective strategies, analytics, trends, community building & platform-specific marketing.",
+      "description": "Master Social Media Marketing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd with our course at just \u20b9999! Learn effective strategies, analytics, trends, community building & platform-specific marketing. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 999,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/social-media-marketing/",
+      "modules": [
+        {
+          "title": "Module 01: Social Media Marketing Fundamentals",
+          "description": "Understand the core concepts, platforms and strategies of social media marketing. Learn why every business needs it and how it drives visibility, engagement, and sales."
+        },
+        {
+          "title": "Module 02: Branding and Identity Building",
+          "description": "Craft a clear brand personality, mission, and voice that your audience remembers. Build a consistent visual identiy using colors, fonts, and stories across all platforms."
+        },
+        {
+          "title": "Module 03: Meta Account Setup and Integration",
+          "description": "Set up Facebook, Instagram, and WhatsApp Business the right way inside Meta Business Manager. Connect and secure all accounts for smooth ad management and tracking."
+        },
+        {
+          "title": "Module 04: Whatsapp Business and Catalog Creation",
+          "description": "Create and optimize your WhatsApp Business profile and product catalog. Learn how to use catalogs, quick replies, and messaging tools to turn chats into customers."
+        },
+        {
+          "title": "Module 05: Audience Building and Meta Pixel (DataSets)",
+          "description": "Install Meta Pixel and set up key events to track website actions. Use this data to buils custom, lookalike and saved audiences for laser-focused targeting."
+        },
+        {
+          "title": "Module 06: Meta Ads Fundamentals and Automation",
+          "description": "Learn all Meta campaign objectives across awareness, consideration, and conversion stages. Automate basic optimizations so Meta\u2019s algorithm can get you best results."
+        },
+        {
+          "title": "Module 07: Lead Generation and Conversion Campaigns",
+          "description": "Create high-converting lead ads using instant forms, Messenger, website, and call objectives. Design simple funnels that move cold audiences into paying customers."
+        },
+        {
+          "title": "Module 08: Advanced Meta Campaigns and Sales Optimization",
+          "description": "Build full-funnel campaigns with retargeting, offer testing and budget scaling. Optimize creatives, audiences, and placements to consistently increase ROAS."
+        },
+        {
+          "title": "Module 09: Design and Content Creation (CANVA)",
+          "description": "Design professional posts, stories, carousels, and thumbnails tailored to each platform. Learn layout, hierarchy, and consistency so every creative tool look like brand, not a random post, Canva modules are complimentary and not eligible for Q&A."
+        },
+        {
+          "title": "Module 10: Twitter/X Strategy and Growth",
+          "description": "Set up and optimize a professional X profile that matches your brand. Learn how to write hooks, threads, and replies that attract followers and drive traffic."
+        },
+        {
+          "title": "Module 11: WhatsApp Automation and Meta Commerce Manager",
+          "description": "Automate welcome flows, follow-ups, and broadcast campaigns using WhatsApp tools and APIs. Combine WhatsApp, Reels, and Facebook Groups to build a community."
+        },
+        {
+          "title": "Module 12: AI Tools for Marketing and Content Automation",
+          "description": "Use ChatGPT, Gemini, Grok and similar tools to ideate, script and write content at scale. Build your own AI-assisted workflow for ads, captions, emails, and client reports."
+        }
+      ]
+    },
+    {
+      "category": "web",
+      "title": "WordPress Webdesign Master Course",
+      "slug": "web-design",
+      "shortDescription": "Learn WordPress Web Design in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! At Just \u20b9999. Master DIVI Framework. Creative Animations. Dynamic Website Development. Visual Storytelling Through Web Design.",
+      "description": "Learn WordPress Web Design in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! At Just \u20b9999. Master DIVI Framework. Creative Animations. Dynamic Website Development. Visual Storytelling Through Web Design. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "level": "BEGINNER",
+      "duration": "Self-paced, lifetime access",
+      "price": 999,
+      "enrollmentUrl": "https://academy.infozub.com/course/tamil/web-design/",
+      "modules": [
+        {
+          "title": "Module 01: Fundamentals: Domain, Hosting & WordPress",
+          "description": "Learn how domains, hosting, and subdomains work together to bring a website online. Understand how to choose the right provider and connect your domain to hosting. Set up WordPress from scratch so you are ready to start building."
+        },
+        {
+          "title": "Module 02: WordPress Block Editor & Pages",
+          "description": "Learn t o use the Gutenberg block editor t o structure content visually and cleanly. Explore essential blocks and how they combine to form sections and layouts. Build complete pages and set a custom homepage for your site."
+        },
+        {
+          "title": "Module 03: Divi Theme & Divi 5 Basics",
+          "description": "Learn to install and configure the Divi theme for any WordPress website. Manage roles, permissions, and the Divi Library for reusable designs. Get comfortable with Divi 5\u2019s updated builder interface and core features."
+        },
+        {
+          "title": "Module 04: Divi Theme Builder & Core Modules",
+          "description": "Learn how sections, rows, and columns control layout inside Divi Theme Builder. Work with core modules such as accordions, blurbs, counters, CTAs, and forms. Build structured designs that are easy to edit and scale."
+        },
+        {
+          "title": "Module 05: Advanced Divi Modules",
+          "description": "Learn to enhance pages with timers, galleries, menus, sliders, and pricing tables. Add trust and social proof using testimonials and social follow modules. Use text, video, and fullwidth modules to create high-impact sections."
+        },
+        {
+          "title": "Module 06: Page Creation workflow in Divi",
+          "description": "Learn a complete workflow for creating pages in Divi from blank canvas to final design. Configure homepage, header, and footer while ensuring strong mobile responsiveness. Use plugins and layout import/export to speed up future builds."
+        },
+        {
+          "title": "Module 07: Website creation and migration with Divi",
+          "description": "Learn to plan and build single-page and multi-page websites from scratch using Divi. Apply presets and consistent styling across your entire site. Migrate finished websites between hosting accounts using the Duplicator plugin."
+        },
+        {
+          "title": "Module 08: Integrations, Divi Cloud and Divi AI",
+          "description": "Learn to connect Google Analytics and Search Console to track performance. Add engagement tools like chatbots, popups, and WhatsApp icons to your site. Use Divi Cloud and Divi Al to save designs and create content more efficiently."
+        },
+        {
+          "title": "Module 09: Shopify store setup and Customization",
+          "description": "Learn to create and configure a Shopify store from signup to launch. Add products, manage shipping, and customize your theme\u2019s sections for branding. Integrate Razorpay and connect a custom domain for a professional storefront."
+        },
+        {
+          "title": "Module 10: Woo-Commerce and Payment Integration",
+          "description": "Learn WooCommerce basics, from installation to essential settings and features. Create simple and advanced product types suited for different business models. Integrate Razorpay and prepare a fully functional e-commerce site on your hosting."
+        },
+        {
+          "title": "Module 11: Elementor Fundamentals and Landing Pages",
+          "description": "Learn WooCommerce basics, from installation to essential settings and features. Create simple and advanced product types suited for different business models. Integrate Razorpay and prepare a fully functional e-commerce site on your hosting."
+        },
+        {
+          "title": "Module 12: Advanced Divi Design Tutorials",
+          "description": "Learn WooCommerce basics, from installation to essential settings and features. Create simple and advanced product types suited for different business models. Integrate Razorpay and prepare a fully functional e-commerce site on your hosting."
+        }
+      ]
+    }
+  ],
+  "platform": [
+    {
+      "title": "Create an account",
+      "content": "To create an account on courses.infozub.com, open the menu, choose Login/Register, then Sign Up, and enter an email and password."
+    },
+    {
+      "title": "Access codes",
+      "content": "After login on courses.infozub.com, open My Courses and use the gift icon to enter an access code. The course is then added to My Courses."
+    },
+    {
+      "title": "Start a purchased course",
+      "content": "After purchase or an access code, the course appears in My Courses on courses.infozub.com. Open the course image to start."
+    },
+    {
+      "title": "Login help",
+      "content": "Use Forgot Password on the courses.infozub.com login screen. If login still fails, the published FAQ says to email logesh@infozub.com."
+    },
+    {
+      "title": "Course access help",
+      "content": "Use the same email used to purchase or redeem the course, then check My Courses. If it is still missing, the published FAQ says to email logesh@infozub.com."
+    },
+    {
+      "title": "Refund policy",
+      "content": "Infozub Digital Academy refund policy on courses.infozub.com: a full refund can be requested within 7 days of purchase if no more than 20% of the course content has been completed. Email academy@infozub.com with the order number and purchase email. Refunds are processed within 7 business days to the original payment method. Access ends when the refund is processed."
+    },
+    {
+      "title": "Academy contact",
+      "content": "The courses.infozub.com site links contact to https://academy.infozub.com/contact/. Support email published on the refund policy is academy@infozub.com. Login and course-access issues use logesh@infozub.com."
+    },
+    {
+      "title": "About INFOZUB",
+      "content": "INFOZUB Digital Academy says quality education for everyone. The about page says INFOZUB started in May 2013 and lists more than 10 years of digital marketing experience."
+    },
+    {
+      "title": "Phone contact",
+      "content": "The public Infozub course pages list the phone number +91 93 22 33 88 22."
+    }
+  ]
+}

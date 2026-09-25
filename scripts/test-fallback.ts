@@ -4,12 +4,12 @@ import { fallbackMessage } from "../src/lib/knowledge/fallback";
 
 async function main() {
   const course = await db.course.findUnique({
-    where: { slug: "full-stack-web-development" },
+    where: { slug: "social-media-marketing" },
     include: { instructor: true },
   });
   const instructors = await db.instructor.findMany();
   if (!course) {
-    throw new Error("Full Stack course is missing.");
+    throw new Error("Social Media Marketing course is missing.");
   }
 
   const hostel = await answerConversation([
@@ -19,7 +19,7 @@ async function main() {
     { role: "user", content: "Who won yesterday's cricket match?" },
   ]);
   const duration = await answerConversation([
-    { role: "user", content: "What is the Full Stack course duration?" },
+    { role: "user", content: "What is the Social Media Marketing course duration?" },
   ]);
   const instructor = await answerConversation([
     { role: "user", content: "Who is the instructor?" },
@@ -44,7 +44,7 @@ async function main() {
     duration.fallback ||
     !duration.content.toLowerCase().includes(course.duration.toLowerCase())
   ) {
-    throw new Error("Full Stack duration should come from the database.");
+    throw new Error("Social Media Marketing duration should come from the database.");
   }
   const namedInstructor = instructors.some((person) =>
     instructor.content.includes(person.name),

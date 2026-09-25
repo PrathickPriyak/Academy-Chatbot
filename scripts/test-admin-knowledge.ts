@@ -5,10 +5,10 @@ import { reindexKnowledge } from "../src/lib/knowledge/reindex";
 
 async function main() {
 const faq = await db.faq.findFirst({
-  where: { course: { slug: "full-stack-web-development" } },
+  where: { course: { slug: "social-media-marketing" } },
 });
 if (!faq) {
-  throw new Error("Expected a Full Stack FAQ.");
+  throw new Error("Expected a Social Media Marketing FAQ.");
 }
 
 const original = faq.answer;
@@ -36,7 +36,9 @@ if (customRun.embedded !== 1) {
   throw new Error(`Expected 1 custom embedding, got ${customRun.embedded}.`);
 }
 await db.customKnowledge.delete({ where: { id: custom.id } });
-const remainingCustom = await db.knowledgeChunk.count({ where: { sourceType: "custom" } });
+const remainingCustom = await db.knowledgeChunk.count({
+  where: { customKnowledgeId: custom.id },
+});
 if (remainingCustom !== 0) {
   throw new Error("Deleting custom knowledge left indexed chunks behind.");
 }

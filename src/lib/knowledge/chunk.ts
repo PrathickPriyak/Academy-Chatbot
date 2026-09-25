@@ -23,7 +23,10 @@ export function chunkCourse(course: CourseRecord): KnowledgeDocument[] {
       customKnowledgeId: null,
       sourceType: "pricing",
       title: `${course.title} price`,
-      content: `Price of ${course.title}: ${course.price} ${course.currency} (${formatPrice(course.price, course.currency)}).`,
+      content:
+        course.price > 0
+          ? `Price of ${course.title}: ${course.price} ${course.currency} (${formatPrice(course.price, course.currency)}).`
+          : `Price of ${course.title}: the published course page does not list a numeric price. Use the enrollment page ${course.enrollmentUrl}.`,
     },
     {
       courseId: course.id,
@@ -112,7 +115,7 @@ export function chunkCatalog(courses: CourseRecord[]): KnowledgeDocument[] {
       customKnowledgeId: null,
       sourceType: "catalog",
       title: "Published Infozub courses",
-      content: `Infozub courses offered: ${list}.`,
+      content: `Infozub offers ${courses.length} courses: ${list}.`,
     },
   ];
 }

@@ -36,7 +36,7 @@ interface Conversation {
 
 const suggestions = [
   "What courses are available?",
-  "Tell me about the Full Stack course.",
+  "Tell me about the Social Media Marketing course.",
   "What is the course duration?",
   "What topics are covered?",
   "How can I enroll?",
