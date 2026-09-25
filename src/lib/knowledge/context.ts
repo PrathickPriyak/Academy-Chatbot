@@ -21,7 +21,7 @@ function phrasesFor(title: string): string[] {
   return phrases;
 }
 
-function mentionedTitle(text: string, titles: string[]): string | undefined {
+export function mentionedTitle(text: string, titles: string[]): string | undefined {
   const lower = text.toLowerCase();
   return titles.find((title) =>
     phrasesFor(title).some((phrase) => lower.includes(phrase)),

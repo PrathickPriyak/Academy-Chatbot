@@ -3,6 +3,7 @@ import type { AssistantMessage } from "@/lib/ai/types";
 import { db } from "@/lib/db";
 
 import { standaloneQuestion } from "./context";
+import { directAnswer } from "./direct";
 import { fallbackMessage, reliableScore } from "./fallback";
 import { searchKnowledge, type RetrievedChunk } from "./search";
 
@@ -107,9 +108,14 @@ export async function answerConversation(
     return { content: fallbackMessage, sources: [], fallback: true };
   }
 
+  const direct = await directAnswer(question);
+  if (direct) {
+    return direct;
+  }
+
   let retrieved;
   try {
-    retrieved = await searchKnowledge(question, 8, reliableScore);
+    retrieved = await searchKnowledge(question, 5, reliableScore);
   } catch (error) {
     console.error("Knowledge search failed:", error instanceof Error ? error.message : "Unknown error");
     return { content: fallbackMessage, sources: [], fallback: true };

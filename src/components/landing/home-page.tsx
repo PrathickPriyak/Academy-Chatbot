@@ -22,26 +22,22 @@ export interface CourseHighlight {
 const features = [
   {
     title: "Course knowledge only",
-    description:
-      "Answers stay inside Infozub programs, curriculum, and enrollment details.",
+    description: "Answers stay inside published Infozub courses, policies, and enrollment pages.",
     icon: ShieldCheck,
   },
   {
-    title: "Instant replies",
-    description:
-      "Ask about duration, topics, cohorts, and how to join without waiting on email.",
+    title: "Quick replies",
+    description: "Prices, durations, and the course list come straight from the stored catalog.",
     icon: Sparkles,
   },
   {
-    title: "Guided questions",
-    description:
-      "Start from suggested prompts, then follow up inside the same conversation.",
+    title: "Follow-up questions",
+    description: "Ask about a course, then ask for its modules, price, or enrollment link.",
     icon: MessagesSquare,
   },
   {
-    title: "Clear curricula",
-    description:
-      "Each program lists modules, level, format, tuition, and the next start date.",
+    title: "Published syllabi",
+    description: "Each course card opens a conversation about that course’s modules and page.",
     icon: BookOpen,
   },
 ];
@@ -49,9 +45,12 @@ const features = [
 const examples = [
   "What courses are available?",
   "Tell me about the Social Media Marketing course.",
-  "What is the course duration?",
-  "How can I enroll?",
+  "Who should enroll?",
+  "What is the refund policy?",
+  "Where is the Infozub office?",
 ];
+
+const audiences = ["Digital marketers", "Students and freshers", "Business owners", "Freelancers"];
 
 export function HomePage({ courses }: { courses: CourseHighlight[] }) {
   return (
@@ -95,16 +94,31 @@ export function HomePage({ courses }: { courses: CourseHighlight[] }) {
 
         <Section spacing="md" className="pt-0">
           <Container>
-            <h2 className="font-display text-3xl tracking-tight">Course highlights</h2>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <h2 className="font-display text-3xl tracking-tight">Course highlights</h2>
+              <div className="flex flex-wrap gap-2">
+                {audiences.map((audience) => (
+                  <Link
+                    key={audience}
+                    href={`/chat?q=${encodeURIComponent("Who should enroll?")}`}
+                    className="bg-muted text-foreground rounded-full px-3 py-1 text-xs font-medium"
+                  >
+                    {audience}
+                  </Link>
+                ))}
+              </div>
+            </div>
             <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {courses.slice(0, 3).map((course) => (
-                <Card key={course.slug} variant="interactive">
-                  <CardHeader>
-                    <Badge variant="secondary">{course.duration}</Badge>
-                    <CardTitle className="mt-3">{course.title}</CardTitle>
-                    <CardDescription>{course.shortDescription}</CardDescription>
-                  </CardHeader>
-                </Card>
+              {courses.map((course) => (
+                <Link key={course.slug} href={`/chat?q=${encodeURIComponent(`Tell me about the ${course.title}`)}`}>
+                  <Card variant="interactive" className="h-full">
+                    <CardHeader>
+                      <Badge variant="secondary">{course.duration}</Badge>
+                      <CardTitle className="mt-3">{course.title}</CardTitle>
+                      <CardDescription className="line-clamp-3">{course.shortDescription}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                </Link>
               ))}
             </div>
           </Container>

@@ -40,6 +40,8 @@ const suggestions = [
   "What is the course duration?",
   "What topics are covered?",
   "How can I enroll?",
+  "What is the refund policy?",
+  "Where is the Infozub office?",
 ];
 
 const starter: Conversation[] = [

@@ -1,12 +1,17 @@
 import { getAiConfig } from "@/lib/ai/config";
 
 const embeddingSize = 768;
+const cache = new Map<string, number[]>();
 
 interface OllamaEmbedResponse {
   embeddings?: number[][];
 }
 
 export async function embedText(text: string): Promise<number[]> {
+  const cached = cache.get(text);
+  if (cached) {
+    return cached;
+  }
   const config = getAiConfig();
   const response = await fetch(`${config.ollamaUrl}/api/embed`, {
     method: "POST",
@@ -27,6 +32,13 @@ export async function embedText(text: string): Promise<number[]> {
   if (!vector || vector.length !== embeddingSize) {
     throw new Error("Ollama returned an unexpected embedding size.");
   }
+  if (cache.size > 80) {
+    const oldest = cache.keys().next().value;
+    if (oldest) {
+      cache.delete(oldest);
+    }
+  }
+  cache.set(text, vector);
   return vector;
 }
 

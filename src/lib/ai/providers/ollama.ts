@@ -19,7 +19,7 @@ export class OllamaProvider implements AIProvider {
         model: config.ollamaModel,
         stream: false,
         messages: request.messages,
-        options: { temperature: 0 },
+        options: { temperature: 0, num_predict: 160, num_ctx: 2048 },
       }),
     });
 
