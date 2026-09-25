@@ -100,4 +100,39 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+kbd {
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--muted);
+  padding: 0.1rem 0.4rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+}
+
+@keyframes message-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.message-enter {
+  animation: message-enter 280ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message-enter {
+    animation: none;
+  }
 }
