@@ -27,6 +27,7 @@ interface ChatMessage {
 
 interface Conversation {
   id: string;
+  serverId?: string;
   title: string;
   messages: ChatMessage[];
 }
@@ -78,11 +79,21 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
     });
   }, [active?.messages, typing]);
 
-  function updateActive(conversationId: string, messages: ChatMessage[], title?: string) {
+  function updateActive(
+    conversationId: string,
+    messages: ChatMessage[],
+    title?: string,
+    serverId?: string,
+  ) {
     setConversations((current) =>
       current.map((item) =>
         item.id === conversationId
-          ? { ...item, messages, title: title ?? item.title }
+          ? {
+              ...item,
+              messages,
+              title: title ?? item.title,
+              serverId: serverId ?? item.serverId,
+            }
           : item,
       ),
     );
@@ -105,6 +116,7 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        conversationId: conversations.find((item) => item.id === conversationId)?.serverId,
         messages: history
           .filter((message) => message.id !== "intro")
           .map(({ role, content }) => ({ role, content })),
@@ -147,9 +159,13 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
         const payload = JSON.parse(line) as {
           type?: string;
           text?: string;
+          id?: string;
           sources?: ChatSource[];
           fallback?: boolean;
         };
+        if (payload.type === "conversation" && payload.id) {
+          updateActive(conversationId, [...history, { ...pending, content, sources, fallback }], undefined, payload.id);
+        }
         if (payload.type === "sources") {
           fallback = payload.fallback === true;
           sources = (payload.sources ?? []).filter(
@@ -225,7 +241,18 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
     if (!active || typing) {
       return;
     }
-    updateActive(active.id, starter[0]?.messages ?? [], "New conversation");
+    setConversations((current) =>
+      current.map((item) =>
+        item.id === active.id
+          ? {
+              ...item,
+              serverId: undefined,
+              title: "New conversation",
+              messages: starter[0]?.messages ?? [],
+            }
+          : item,
+      ),
+    );
   }
 
   useEffect(() => {

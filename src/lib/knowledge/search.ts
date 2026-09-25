@@ -6,14 +6,12 @@ import { embedText, toVectorLiteral } from "./embed";
 
 export interface RetrievedChunk {
   id: string;
-  courseId: string;
+  courseId: string | null;
   sourceType: string;
   title: string;
   content: string;
   score: number;
 }
-
-const minimumScore = 0.35;
 
 export async function searchKnowledge(
   question: string,

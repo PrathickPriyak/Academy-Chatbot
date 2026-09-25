@@ -1,10 +1,12 @@
-import { answerConversation } from "@/lib/knowledge/answer";
 import type { AssistantMessage } from "@/lib/ai/types";
+import { answerConversation } from "@/lib/knowledge/answer";
+import { recordConversationTurn } from "@/lib/knowledge/conversations";
 
 export const runtime = "nodejs";
 
 interface ChatRequest {
   messages?: AssistantMessage[];
+  conversationId?: string;
 }
 
 function isMessage(value: unknown): value is AssistantMessage {
@@ -22,6 +24,16 @@ export async function POST(request: Request): Promise<Response> {
   const body = (await request.json()) as ChatRequest;
   const messages = (body.messages ?? []).filter(isMessage);
   const result = await answerConversation(messages);
+  const latestUser = [...messages].reverse().find((message) => message.role === "user");
+  const conversationId = latestUser
+    ? await recordConversationTurn({
+        conversationId: typeof body.conversationId === "string" ? body.conversationId : undefined,
+        title: latestUser.content,
+        userContent: latestUser.content,
+        assistantContent: result.content,
+        fallback: result.fallback,
+      })
+    : null;
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
@@ -30,6 +42,9 @@ export async function POST(request: Request): Promise<Response> {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`));
       };
 
+      if (conversationId) {
+        send({ type: "conversation", id: conversationId });
+      }
       send({ type: "sources", sources: result.sources, fallback: result.fallback });
       const text = result.content;
       const size = 24;

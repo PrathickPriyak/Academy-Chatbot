@@ -150,7 +150,13 @@ async function sourcesFor(
     return [];
   }
 
-  const courseIds = [...new Set(chunks.map((chunk) => chunk.courseId))];
+  const courseIds = [
+    ...new Set(
+      chunks
+        .map((chunk) => chunk.courseId)
+        .filter((courseId): courseId is string => courseId !== null),
+    ),
+  ];
   const courses = await db.course.findMany({
     where: { id: { in: courseIds } },
     select: { id: true, title: true, enrollmentUrl: true },

@@ -2,7 +2,8 @@ import type { CourseRecord } from "@/lib/courses/queries";
 import { formatPrice, levelLabel } from "@/lib/courses/present";
 
 export interface KnowledgeDocument {
-  courseId: string;
+  courseId: string | null;
+  customKnowledgeId: string | null;
   sourceType: string;
   title: string;
   content: string;
@@ -12,30 +13,35 @@ export function chunkCourse(course: CourseRecord): KnowledgeDocument[] {
   const documents: KnowledgeDocument[] = [
     {
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "description",
       title: `${course.title} description`,
       content: `Infozub course offered: ${course.title}. Category: ${course.category.name}. Level: ${levelLabel(course.level)}. Short description: ${course.shortDescription} Description: ${course.description}`,
     },
     {
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "pricing",
       title: `${course.title} price`,
       content: `Price of ${course.title}: ${course.price} ${course.currency} (${formatPrice(course.price, course.currency)}).`,
     },
     {
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "duration",
       title: `${course.title} duration`,
       content: `Duration of ${course.title}: ${course.duration}.`,
     },
     {
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "instructor",
       title: `${course.title} instructor`,
       content: `Instructor for ${course.title}: ${course.instructor.name}, ${course.instructor.title}. ${course.instructor.bio}`,
     },
     {
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "enrollment",
       title: `${course.title} enrollment`,
       content: `Enrollment for ${course.title}: ${course.enrollmentUrl}.`,
@@ -45,6 +51,7 @@ export function chunkCourse(course: CourseRecord): KnowledgeDocument[] {
   if (course.features.length > 0) {
     documents.push({
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "features",
       title: `${course.title} features`,
       content: `Features of ${course.title}: ${course.features
@@ -56,6 +63,7 @@ export function chunkCourse(course: CourseRecord): KnowledgeDocument[] {
   for (const faq of course.faqs) {
     documents.push({
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "faq",
       title: `${course.title} FAQ`,
       content: `FAQ for ${course.title}. Question: ${faq.question} Answer: ${faq.answer}`,
@@ -68,6 +76,7 @@ export function chunkCourse(course: CourseRecord): KnowledgeDocument[] {
       .join(" ");
     documents.push({
       courseId: course.id,
+      customKnowledgeId: null,
       sourceType: "curriculum",
       title: `${course.title} ${courseModule.title}`,
       content: `Curriculum topics covered in ${course.title}, module ${courseModule.title}. ${courseModule.description} Lessons: ${lessons}`,
@@ -75,6 +84,20 @@ export function chunkCourse(course: CourseRecord): KnowledgeDocument[] {
   }
 
   return documents;
+}
+
+export function chunkCustom(entry: {
+  id: string;
+  title: string;
+  content: string;
+}): KnowledgeDocument {
+  return {
+    courseId: null,
+    customKnowledgeId: entry.id,
+    sourceType: "custom",
+    title: entry.title,
+    content: entry.content,
+  };
 }
 
 export function chunkCatalog(courses: CourseRecord[]): KnowledgeDocument[] {
@@ -86,6 +109,7 @@ export function chunkCatalog(courses: CourseRecord[]): KnowledgeDocument[] {
   return [
     {
       courseId: first.id,
+      customKnowledgeId: null,
       sourceType: "catalog",
       title: "Published Infozub courses",
       content: `Infozub courses offered: ${list}.`,

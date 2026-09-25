@@ -31,6 +31,7 @@ function refresh(courseId?: string) {
   revalidatePath("/");
   revalidatePath("/courses");
   revalidatePath("/admin");
+  revalidatePath("/admin/knowledge");
   if (courseId) {
     revalidatePath(`/admin/courses/${courseId}`);
   }

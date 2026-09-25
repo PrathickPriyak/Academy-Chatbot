@@ -1,15 +1,21 @@
 import { cookies } from "next/headers";
 
-const cookieName = "infozub_admin";
+import { adminCookieName, createAdminToken, verifyAdminToken } from "@/lib/admin-token";
 
 export const demoAdmin = {
   email: "admin@infozub.academy",
   password: "academy-preview",
 };
 
+const weekSeconds = 60 * 60 * 24 * 7;
+
 export async function isAdminSignedIn(): Promise<boolean> {
   const jar = await cookies();
-  return jar.get(cookieName)?.value === "signed-in";
+  const token = jar.get(adminCookieName)?.value;
+  if (!token) {
+    return false;
+  }
+  return verifyAdminToken(token);
 }
 
 export async function signInAdmin(email: string, password: string): Promise<boolean> {
@@ -17,17 +23,19 @@ export async function signInAdmin(email: string, password: string): Promise<bool
     return false;
   }
   const jar = await cookies();
-  jar.set(cookieName, "signed-in", {
+  jar.set(adminCookieName, await createAdminToken(), {
     httpOnly: true,
     sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     path: "/",
+    maxAge: weekSeconds,
   });
   return true;
 }
 
 export async function signOutAdmin(): Promise<void> {
   const jar = await cookies();
-  jar.delete(cookieName);
+  jar.delete(adminCookieName);
 }
 
 export async function requireAdmin(): Promise<void> {

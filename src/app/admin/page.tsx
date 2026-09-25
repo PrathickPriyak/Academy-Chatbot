@@ -8,6 +8,7 @@ import { isAdminSignedIn } from "@/lib/admin-session";
 import { deleteCourse, setPublished } from "@/lib/courses/actions";
 import { formatPrice, levelLabel } from "@/lib/courses/present";
 import { listAllCourses } from "@/lib/courses/queries";
+import { getKnowledgeStats } from "@/lib/knowledge/stats";
 
 export const dynamic = "force-dynamic";
 
@@ -16,15 +17,27 @@ export default async function AdminDashboardPage() {
     redirect("/admin/login");
   }
 
-  const courses = await listAllCourses();
+  const [courses, stats] = await Promise.all([listAllCourses(), getKnowledgeStats()]);
   const published = courses.filter((course) => course.published).length;
+  const metrics = [
+    ["Total courses", stats.courses],
+    ["Total modules", stats.modules],
+    ["Total lessons", stats.lessons],
+    ["Total FAQs", stats.faqs],
+    ["Indexed documents", stats.indexedDocuments],
+    ["Total conversations", stats.conversations],
+    ["Fallback questions", stats.fallbackQuestions],
+  ] as const;
 
   return (
     <main className="min-h-screen">
       <header className="border-border border-b">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-          <p className="font-display text-lg tracking-tight">Course admin</p>
+          <p className="font-display text-lg tracking-tight">Knowledge dashboard</p>
           <div className="flex gap-2">
+            <Button asChild variant="outline">
+              <Link href="/admin/knowledge">Manage knowledge</Link>
+            </Button>
             <Button asChild>
               <Link href="/admin/courses/new">Create course</Link>
             </Button>
@@ -37,26 +50,32 @@ export default async function AdminDashboardPage() {
         </div>
       </header>
       <div className="mx-auto grid w-full max-w-6xl gap-4 px-4 py-8 sm:px-6">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {metrics.map(([label, value]) => (
+            <Card key={label}>
+              <CardHeader>
+                <CardDescription>{label}</CardDescription>
+                <CardTitle className="text-3xl">{value}</CardTitle>
+              </CardHeader>
+            </Card>
+          ))}
           <Card>
             <CardHeader>
-              <CardDescription>Courses</CardDescription>
-              <CardTitle className="text-3xl">{courses.length}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardDescription>Published</CardDescription>
-              <CardTitle className="text-3xl">{published}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardDescription>Drafts</CardDescription>
-              <CardTitle className="text-3xl">{courses.length - published}</CardTitle>
+              <CardDescription>Last knowledge update</CardDescription>
+              <CardTitle className="text-xl">
+                {stats.lastKnowledgeUpdate
+                  ? stats.lastKnowledgeUpdate.toLocaleString("en-IN", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })
+                  : "Not indexed yet"}
+              </CardTitle>
             </CardHeader>
           </Card>
         </div>
+        <p className="text-muted-foreground text-sm">
+          {published} published · {courses.length - published} drafts
+        </p>
         <div className="grid gap-3">
           {courses.map((course) => (
             <Card key={course.id}>
