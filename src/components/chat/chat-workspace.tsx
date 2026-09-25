@@ -1,17 +1,24 @@
 "use client";
 
-import { Menu, Plus, Send } from "lucide-react";
+import { Check, Copy, Menu, Plus, RefreshCw, Send, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "@/components/providers/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { askAssistant } from "@/lib/ai/ask";
-import type { AssistantMessage } from "@/lib/ai/types";
 import { cn } from "@/lib/utils";
 
-interface ChatMessage extends AssistantMessage {
+interface ChatSource {
+  title: string;
+  url: string;
+}
+
+interface ChatMessage {
   id: string;
+  role: "user" | "assistant";
+  content: string;
+  createdAt: string;
+  sources?: ChatSource[];
 }
 
 interface Conversation {
@@ -38,6 +45,7 @@ const starter: Conversation[] = [
         role: "assistant",
         content:
           "I answer questions about Infozub Digital Academy courses, curriculum, and enrollment. What would you like to know?",
+        createdAt: new Date().toISOString(),
       },
     ],
   },
@@ -55,6 +63,7 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
   const [historyOpen, setHistoryOpen] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
   const sentInitial = useRef(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const active = conversations.find((item) => item.id === activeId) ?? conversations[0];
 
@@ -65,44 +74,139 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
     });
   }, [active?.messages, typing]);
 
+  function updateActive(conversationId: string, messages: ChatMessage[], title?: string) {
+    setConversations((current) =>
+      current.map((item) =>
+        item.id === conversationId
+          ? { ...item, messages, title: title ?? item.title }
+          : item,
+      ),
+    );
+  }
+
+  async function streamReply(conversationId: string, history: ChatMessage[]) {
+    const assistantId = createId();
+    const pending: ChatMessage = {
+      id: assistantId,
+      role: "assistant",
+      content: "",
+      createdAt: new Date().toISOString(),
+      sources: [],
+    };
+    updateActive(conversationId, [...history, pending]);
+    setTyping(true);
+
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: history
+          .filter((message) => message.id !== "intro")
+          .map(({ role, content }) => ({ role, content })),
+      }),
+    });
+
+    if (!response.ok || !response.body) {
+      updateActive(conversationId, [...history, { ...pending, content: "NOT_FOUND" }]);
+      setTyping(false);
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let content = "";
+    let sources: ChatSource[] = [];
+
+    while (true) {
+      const step = await reader.read();
+      if (step.done) {
+        break;
+      }
+      buffer += decoder.decode(step.value, { stream: true });
+      const events = buffer.split("\n\n");
+      buffer = events.pop() ?? "";
+      for (const event of events) {
+        const line = event
+          .split("\n")
+          .filter((item) => item.startsWith("data: "))
+          .map((item) => item.slice(6))
+          .join("");
+        if (!line) {
+          continue;
+        }
+        const payload = JSON.parse(line) as {
+          type?: string;
+          text?: string;
+          sources?: ChatSource[];
+        };
+        if (payload.type === "sources" && payload.sources) {
+          sources = payload.sources.filter(
+            (source) => source.url.startsWith("http") && source.title.length > 0,
+          );
+        }
+        if (payload.type === "token" && payload.text) {
+          content += payload.text;
+          setTyping(false);
+          updateActive(conversationId, [...history, { ...pending, content, sources }]);
+        }
+      }
+    }
+
+    updateActive(conversationId, [
+      ...history,
+      { ...pending, content: content || "NOT_FOUND", sources },
+    ]);
+    setTyping(false);
+  }
+
   async function send(text: string) {
     const content = text.trim();
     if (!content || typing || !active) {
       return;
     }
 
-    const userMessage: ChatMessage = { id: createId(), role: "user", content };
+    const userMessage: ChatMessage = {
+      id: createId(),
+      role: "user",
+      content,
+      createdAt: new Date().toISOString(),
+    };
     const history = [...active.messages, userMessage];
     const title = active.messages.some((message) => message.role === "user")
       ? active.title
       : content.slice(0, 42);
 
     setDraft("");
-    setTyping(true);
-    setConversations((current) =>
-      current.map((item) =>
-        item.id === active.id ? { ...item, title, messages: history } : item,
-      ),
-    );
+    updateActive(active.id, history, title);
+    await streamReply(active.id, history);
+  }
 
-    const answer = await askAssistant(
-      history.map(({ role, content: message }) => ({ role, content: message })),
-    );
+  async function regenerate() {
+    if (!active || typing) {
+      return;
+    }
+    const history = [...active.messages];
+    const last = history[history.length - 1];
+    if (last?.role !== "assistant") {
+      return;
+    }
+    history.pop();
+    const previousUser = [...history]
+      .reverse()
+      .find((message) => message.role === "user");
+    if (!previousUser) {
+      return;
+    }
+    updateActive(active.id, history);
+    await streamReply(active.id, history);
+  }
 
-    setConversations((current) =>
-      current.map((item) =>
-        item.id === active.id
-          ? {
-              ...item,
-              messages: [
-                ...history,
-                { id: createId(), role: "assistant", content: answer },
-              ],
-            }
-          : item,
-      ),
-    );
-    setTyping(false);
+  function clearConversation() {
+    if (!active || typing) {
+      return;
+    }
+    updateActive(active.id, starter[0]?.messages ?? [], "New conversation");
   }
 
   useEffect(() => {
@@ -201,7 +305,18 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
               </p>
             </div>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={clearConversation}
+              disabled={typing}
+            >
+              <Trash2 />
+              Clear conversation
+            </Button>
+            <ThemeToggle />
+          </div>
         </header>
 
         <div
@@ -225,7 +340,70 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
                       : "border-border bg-card rounded-bl-md border shadow-xs",
                   )}
                 >
-                  {message.content}
+                  <p className="whitespace-pre-wrap">{message.content}</p>
+                  <p
+                    className={cn(
+                      "mt-2 text-[11px]",
+                      message.role === "user"
+                        ? "text-primary-foreground/80"
+                        : "text-muted-foreground",
+                    )}
+                  >
+                    {new Date(message.createdAt).toLocaleTimeString([], {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                  {message.role === "assistant" && message.id !== "intro" ? (
+                    <div className="mt-3 flex flex-col gap-2">
+                      {message.sources?.map((source) => (
+                        <div
+                          key={source.url}
+                          className="flex flex-wrap items-center gap-2"
+                        >
+                          <span className="text-muted-foreground text-xs">
+                            Source: {source.title}
+                          </span>
+                          <a
+                            href={source.url}
+                            className="text-primary text-xs font-semibold underline"
+                          >
+                            View Course
+                          </a>
+                        </div>
+                      ))}
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            void navigator.clipboard
+                              .writeText(message.content)
+                              .then(() => {
+                                setCopiedId(message.id);
+                                window.setTimeout(() => setCopiedId(null), 1500);
+                              });
+                          }}
+                        >
+                          {copiedId === message.id ? <Check /> : <Copy />}
+                          {copiedId === message.id ? "Copied" : "Copy answer"}
+                        </Button>
+                        {message.id === active?.messages.at(-1)?.id ? (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => void regenerate()}
+                            disabled={typing}
+                          >
+                            <RefreshCw />
+                            Regenerate answer
+                          </Button>
+                        ) : null}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             ))}
