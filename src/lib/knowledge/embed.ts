@@ -11,6 +11,7 @@ export async function embedText(text: string): Promise<number[]> {
   const response = await fetch(`${config.ollamaUrl}/api/embed`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    signal: AbortSignal.timeout(15_000),
     body: JSON.stringify({
       model: config.embedModel,
       input: text,

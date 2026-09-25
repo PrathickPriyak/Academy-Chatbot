@@ -106,7 +106,13 @@ export async function answerConversation(
     return { content: fallbackMessage, sources: [], fallback: true };
   }
 
-  const retrieved = await searchKnowledge(question, 8, reliableScore);
+  let retrieved;
+  try {
+    retrieved = await searchKnowledge(question, 8, reliableScore);
+  } catch (error) {
+    console.error("Knowledge search failed:", error instanceof Error ? error.message : "Unknown error");
+    return { content: fallbackMessage, sources: [], fallback: true };
+  }
   if (retrieved.length === 0) {
     return { content: fallbackMessage, sources: [], fallback: true };
   }
@@ -119,7 +125,9 @@ export async function answerConversation(
     .map((chunk, index) => `[${index + 1}] ${chunk.content}`)
     .join("\n");
   const provider = createAIProvider();
-  const response = await provider.complete({
+  let response;
+  try {
+    response = await provider.complete({
     messages: [
       {
         role: "system",
@@ -131,7 +139,11 @@ export async function answerConversation(
         content: `Knowledge:\n${knowledge}\n\nQuestion: ${question}`,
       },
     ],
-  });
+    });
+  } catch (error) {
+    console.error("AI request failed:", error instanceof Error ? error.message : "Unknown error");
+    return { content: fallbackMessage, sources: [], fallback: true };
+  }
 
   const answer = response.content.trim();
   if (answer === "NOT_FOUND" || !isGrounded(answer, chunks)) {

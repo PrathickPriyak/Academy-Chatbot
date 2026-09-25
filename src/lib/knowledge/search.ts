@@ -29,6 +29,7 @@ export async function searchKnowledge(
       1 - (embedding <=> ${vector}::vector) AS score
     FROM "KnowledgeChunk"
     WHERE embedding IS NOT NULL
+      AND (embedding <=> ${vector}::vector) <= ${1 - minimumScore}
     ORDER BY embedding <=> ${vector}::vector
     LIMIT ${limit}
   `);

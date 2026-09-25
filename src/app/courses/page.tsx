@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { SiteFooter } from "@/components/site/site-footer";
@@ -14,6 +16,11 @@ import { formatPrice, levelLabel } from "@/lib/courses/present";
 import { listPublishedCourses } from "@/lib/courses/queries";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Courses",
+  description: "Published Infozub Digital Academy programs, durations, and enrollment details.",
+};
 
 export default async function CoursesPage() {
   const courses = await listPublishedCourses();

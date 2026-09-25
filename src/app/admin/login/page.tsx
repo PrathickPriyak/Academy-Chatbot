@@ -47,9 +47,11 @@ export default async function AdminLoginPage({
             ) : null}
             <Button type="submit">Sign in</Button>
           </form>
-          <p className="text-muted-foreground mt-4 text-xs">
-            Preview: {demoAdmin.email} / {demoAdmin.password}
-          </p>
+          {process.env.NODE_ENV === "production" ? null : (
+            <p className="text-muted-foreground mt-4 text-xs">
+              Preview: {demoAdmin.email} / {demoAdmin.password}
+            </p>
+          )}
         </CardContent>
       </Card>
     </main>

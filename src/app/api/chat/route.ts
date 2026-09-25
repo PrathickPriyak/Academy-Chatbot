@@ -1,33 +1,43 @@
 import type { AssistantMessage } from "@/lib/ai/types";
 import { answerConversation } from "@/lib/knowledge/answer";
 import { recordConversationTurn } from "@/lib/knowledge/conversations";
+import { clientKey, rateLimit, tooManyRequests } from "@/lib/security/rate-limit";
+import { chatRequestSchema, readJson } from "@/lib/security/requests";
 
 export const runtime = "nodejs";
-
-interface ChatRequest {
-  messages?: AssistantMessage[];
-  conversationId?: string;
-}
-
-function isMessage(value: unknown): value is AssistantMessage {
-  if (typeof value !== "object" || value === null) {
-    return false;
-  }
-  const message = value as { role?: unknown; content?: unknown };
-  return (
-    (message.role === "user" || message.role === "assistant") &&
-    typeof message.content === "string"
-  );
-}
+export const dynamic = "force-dynamic";
 
 export async function POST(request: Request): Promise<Response> {
-  const body = (await request.json()) as ChatRequest;
-  const messages = (body.messages ?? []).filter(isMessage);
-  const result = await answerConversation(messages);
+  const limit = rateLimit(clientKey(request, "chat"), 20, 60_000);
+  if (!limit.ok) {
+    return tooManyRequests(limit.retryAfter);
+  }
+
+  let payload: unknown;
+  try {
+    payload = await readJson(request);
+  } catch {
+    return Response.json({ error: "Invalid chat request." }, { status: 400 });
+  }
+
+  const parsed = chatRequestSchema.safeParse(payload);
+  if (!parsed.success || !parsed.data.messages.some((message) => message.role === "user")) {
+    return Response.json({ error: "A user question is required." }, { status: 400 });
+  }
+
+  const messages: AssistantMessage[] = parsed.data.messages;
+  let result: Awaited<ReturnType<typeof answerConversation>>;
+  try {
+    result = await answerConversation(messages);
+  } catch (error) {
+    console.error("Chat failed:", error instanceof Error ? error.message : "Unknown error");
+    return Response.json({ error: "The assistant is unavailable." }, { status: 503 });
+  }
+
   const latestUser = [...messages].reverse().find((message) => message.role === "user");
   const conversationId = latestUser
     ? await recordConversationTurn({
-        conversationId: typeof body.conversationId === "string" ? body.conversationId : undefined,
+        conversationId: parsed.data.conversationId,
         title: latestUser.content,
         userContent: latestUser.content,
         assistantContent: result.content,
@@ -61,6 +71,7 @@ export async function POST(request: Request): Promise<Response> {
     headers: {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache, no-transform",
+      "X-Accel-Buffering": "no",
     },
   });
 }

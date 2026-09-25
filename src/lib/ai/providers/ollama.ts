@@ -14,6 +14,7 @@ export class OllamaProvider implements AIProvider {
     const response = await fetch(`${config.ollamaUrl}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(20_000),
       body: JSON.stringify({
         model: config.ollamaModel,
         stream: false,

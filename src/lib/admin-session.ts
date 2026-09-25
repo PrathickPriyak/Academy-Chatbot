@@ -1,11 +1,21 @@
 import { cookies } from "next/headers";
 
 import { adminCookieName, createAdminToken, verifyAdminToken } from "@/lib/admin-token";
+import { rateLimit } from "@/lib/security/rate-limit";
 
 export const demoAdmin = {
   email: "admin@infozub.academy",
   password: "academy-preview",
 };
+
+export function adminCredentials(): { email: string; password: string } | null {
+  const email = process.env.ADMIN_EMAIL ?? demoAdmin.email;
+  const password = process.env.ADMIN_PASSWORD ?? (process.env.NODE_ENV === "production" ? "" : demoAdmin.password);
+  if (!email || !password) {
+    return null;
+  }
+  return { email, password };
+}
 
 const weekSeconds = 60 * 60 * 24 * 7;
 
@@ -19,7 +29,12 @@ export async function isAdminSignedIn(): Promise<boolean> {
 }
 
 export async function signInAdmin(email: string, password: string): Promise<boolean> {
-  if (email !== demoAdmin.email || password !== demoAdmin.password) {
+  const attempts = rateLimit(`login:${email.toLowerCase()}`, 8, 10 * 60_000);
+  if (!attempts.ok) {
+    return false;
+  }
+  const credentials = adminCredentials();
+  if (!credentials || email !== credentials.email || password !== credentials.password) {
     return false;
   }
   const jar = await cookies();

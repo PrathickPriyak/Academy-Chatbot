@@ -2,6 +2,8 @@ import { z } from "zod";
 
 import { recordAnalyticsEvent } from "@/lib/analytics/events";
 import { db } from "@/lib/db";
+import { clientKey, rateLimit, tooManyRequests } from "@/lib/security/rate-limit";
+import { readJson } from "@/lib/security/requests";
 
 export const runtime = "nodejs";
 
@@ -11,7 +13,19 @@ const publicEventSchema = z.object({
 });
 
 export async function POST(request: Request): Promise<Response> {
-  const parsed = publicEventSchema.safeParse(await request.json());
+  const limit = rateLimit(clientKey(request, "analytics"), 60, 60_000);
+  if (!limit.ok) {
+    return tooManyRequests(limit.retryAfter);
+  }
+
+  let payload: unknown;
+  try {
+    payload = await readJson(request, 2_000);
+  } catch {
+    return Response.json({ error: "Invalid analytics event." }, { status: 400 });
+  }
+
+  const parsed = publicEventSchema.safeParse(payload);
   if (!parsed.success) {
     return Response.json({ error: "Invalid analytics event." }, { status: 400 });
   }
