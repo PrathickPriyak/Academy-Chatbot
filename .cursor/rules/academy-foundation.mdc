@@ -1,0 +1,16 @@
+---
+description: Infozub Digital Academy architecture and phase scope
+alwaysApply: true
+---
+
+# Infozub Digital Academy
+
+The current phase is the standalone Infozub AI Assistant frontend.
+
+- Keep styling on tokens in `src/app/globals.css` and `src/lib/design-system`.
+- Import shared components from `@/components/ui` and `@/components/layout`.
+- Use the `cn` helper in `src/lib/utils.ts` for class names.
+- Course content comes from Prisma. Do not hardcode course catalogs in components.
+- AI access goes through `createAiProvider()` in `src/lib/ai`. Do not call a model SDK from a screen.
+- Do not add a live model provider in this phase.
+- This app is independent of WordPress.

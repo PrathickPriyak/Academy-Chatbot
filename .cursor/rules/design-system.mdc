@@ -1,0 +1,13 @@
+---
+description: Design system and component conventions
+globs: ["src/**/*.tsx", "src/**/*.ts", "src/app/globals.css"]
+alwaysApply: false
+---
+
+# Design system
+
+- Colors, radius, and shadows come from CSS variables. Do not hardcode hex values in components.
+- Use `font-display` for headings and `font-sans` for interface text.
+- Extend variants with `class-variance-authority` on Button, Card, Badge, Input, Section, and Container.
+- Theme switching uses `next-themes` with the `class` attribute. Do not rely on `prefers-color-scheme` alone.
+- Interactive controls need visible focus rings and accessible names.
