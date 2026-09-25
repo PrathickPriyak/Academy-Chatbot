@@ -168,6 +168,19 @@ model ConversationMessage {
   @@index([fallback])
 }
 
+model AnalyticsEvent {
+  id             String   @id @default(cuid())
+  type           String
+  conversationId String?
+  question       String?
+  courseTitle    String?
+  createdAt      DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([question])
+  @@index([courseTitle])
+}
+
 model KnowledgeIndexRun {
   id         String    @id @default(cuid())
   status     String

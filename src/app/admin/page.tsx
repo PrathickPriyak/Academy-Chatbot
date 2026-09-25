@@ -3,7 +3,10 @@ import { redirect } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AnalyticsCharts } from "@/components/admin/analytics-charts";
 import { logoutAction } from "@/lib/admin-actions";
+import { deleteConversationAnalytics } from "@/lib/analytics/actions";
+import { getAnalyticsReport } from "@/lib/analytics/report";
 import { isAdminSignedIn } from "@/lib/admin-session";
 import { deleteCourse, setPublished } from "@/lib/courses/actions";
 import { formatPrice, levelLabel } from "@/lib/courses/present";
@@ -17,7 +20,11 @@ export default async function AdminDashboardPage() {
     redirect("/admin/login");
   }
 
-  const [courses, stats] = await Promise.all([listAllCourses(), getKnowledgeStats()]);
+  const [courses, stats, analytics] = await Promise.all([
+    listAllCourses(),
+    getKnowledgeStats(),
+    getAnalyticsReport(),
+  ]);
   const published = courses.filter((course) => course.published).length;
   const metrics = [
     ["Total courses", stats.courses],
@@ -76,6 +83,35 @@ export default async function AdminDashboardPage() {
         <p className="text-muted-foreground text-sm">
           {published} published · {courses.length - published} drafts
         </p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="font-display text-2xl tracking-tight">Chatbot analytics</h2>
+          <form action={deleteConversationAnalytics}>
+            <Button type="submit" variant="destructive">
+              Delete conversation analytics
+            </Button>
+          </form>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["Total conversations", analytics.conversations],
+            ["Questions today", analytics.questionsToday],
+            ["Fallback questions", analytics.fallbackQuestions],
+            ["Contact clicks", analytics.contactClicks],
+          ].map(([label, value]) => (
+            <Card key={label}>
+              <CardHeader>
+                <CardDescription>{label}</CardDescription>
+                <CardTitle className="text-3xl">{value}</CardTitle>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+        <AnalyticsCharts
+          questionsByDay={analytics.questionsByDay}
+          mostAsked={analytics.mostAsked}
+          mostDiscussed={analytics.mostDiscussed}
+          outcomes={analytics.outcomes}
+        />
         <div className="grid gap-3">
           {courses.map((course) => (
             <Card key={course.id}>

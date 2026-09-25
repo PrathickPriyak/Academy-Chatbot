@@ -60,6 +60,14 @@ function createId(): string {
   return Math.random().toString(36).slice(2, 10);
 }
 
+function trackAnalytics(type: "chat_started" | "course_clicked" | "contact_clicked", courseTitle?: string) {
+  void fetch("/api/analytics", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type, courseTitle }),
+  });
+}
+
 export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string }) {
   const [conversations, setConversations] = useState<Conversation[]>(starter);
   const [activeId, setActiveId] = useState(starter[0]?.id ?? "welcome");
@@ -71,6 +79,10 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const active = conversations.find((item) => item.id === activeId) ?? conversations[0];
+
+  useEffect(() => {
+    trackAnalytics("chat_started");
+  }, []);
 
   useEffect(() => {
     scroller.current?.scrollTo({
@@ -274,6 +286,7 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
     setConversations((current) => [next, ...current]);
     setActiveId(next.id);
     setHistoryOpen(false);
+    trackAnalytics("chat_started");
   }
 
   return (
@@ -405,6 +418,7 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
                       {message.fallback && contactUrl ? (
                         <a
                           href={contactUrl}
+                          onClick={() => trackAnalytics("contact_clicked")}
                           className="bg-primary text-primary-foreground inline-flex h-8 items-center rounded-md px-3 text-xs font-semibold"
                         >
                           Contact Us
@@ -420,6 +434,7 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
                           </span>
                           <a
                             href={source.url}
+                            onClick={() => trackAnalytics("course_clicked", source.title)}
                             className="text-primary text-xs font-semibold underline"
                           >
                             View Course

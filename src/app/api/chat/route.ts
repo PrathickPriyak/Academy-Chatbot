@@ -32,6 +32,7 @@ export async function POST(request: Request): Promise<Response> {
         userContent: latestUser.content,
         assistantContent: result.content,
         fallback: result.fallback,
+        courseTitles: result.fallback ? [] : result.sources.map((source) => source.title),
       })
     : null;
 
