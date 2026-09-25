@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "@/components/providers/theme-toggle";
+import { BrandLogo } from "@/components/site/brand-logo";
 import { Button } from "@/components/ui/button";
 import { fallbackMessage } from "@/lib/knowledge/fallback";
 import { cn } from "@/lib/utils";
@@ -384,8 +385,8 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
         )}
       >
         <div className="mb-5 flex items-center justify-between">
-          <Link href="/" className="font-display text-xl tracking-tight">
-            Infozub
+          <Link href="/" aria-label="Infozub home">
+            <BrandLogo className="h-8" />
           </Link>
           <Button variant="outline" size="icon" aria-label="New conversation" onClick={startNew}>
             <Plus />
@@ -460,7 +461,8 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
           <div className="mx-auto flex w-full max-w-3xl flex-col gap-5">
             {!hasUserMessage ? (
               <div className="message-enter px-1 py-8 text-center sm:py-16">
-                <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">Infozub course assistant</p>
+                <BrandLogo className="mx-auto h-12" />
+                <p className="text-primary mt-4 text-xs font-semibold tracking-[0.18em] uppercase">Infozub course assistant</p>
                 <h1 className="font-display mt-3 text-3xl tracking-tight text-balance sm:text-5xl">
                   Ask about a course
                 </h1>

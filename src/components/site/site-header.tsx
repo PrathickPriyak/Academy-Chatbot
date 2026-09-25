@@ -2,9 +2,11 @@
 
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { ThemeToggle } from "@/components/providers/theme-toggle";
+import { BrandLogo } from "@/components/site/brand-logo";
 import { Button } from "@/components/ui/button";
 
 const links = [
@@ -16,22 +18,28 @@ const links = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="border-border/80 bg-background/80 sticky top-0 z-40 border-b backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-3">
-          <span className="bg-primary font-display text-primary-foreground flex size-9 items-center justify-center rounded-lg text-sm font-semibold">
-            IZ
-          </span>
-          <span className="font-display text-lg tracking-tight">Infozub</span>
+        <Link href="/" className="focus-visible:ring-ring rounded-md focus-visible:ring-2 focus-visible:outline-none" aria-label="Infozub home">
+          <BrandLogo />
         </Link>
         <nav className="text-muted-foreground hidden items-center gap-6 text-sm font-medium md:flex">
-          {links.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-foreground">
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={active ? "text-foreground" : "hover:text-foreground"}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
         <div className="flex items-center gap-2">
           <ThemeToggle />

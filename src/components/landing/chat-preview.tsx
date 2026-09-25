@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+import { BrandLogo } from "@/components/site/brand-logo";
+
 export function ChatPreview({ titles }: { titles: string[] }) {
   const script = [
     { role: "user" as const, text: "What courses are available?" },
@@ -30,7 +32,7 @@ export function ChatPreview({ titles }: { titles: string[] }) {
   return (
     <div className="border-border bg-card rounded-2xl border p-4 shadow-lg">
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm font-semibold">Infozub AI Assistant</p>
+        <BrandLogo className="h-7" />
         <span className="bg-success/15 text-success rounded-full px-2 py-0.5 text-xs font-semibold">
           Knowledge only
         </span>
