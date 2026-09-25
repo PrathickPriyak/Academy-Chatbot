@@ -6,7 +6,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "@/components/providers/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { fallbackMessage } from "@/lib/knowledge/fallback";
 import { cn } from "@/lib/utils";
+
+const contactUrl = process.env.NEXT_PUBLIC_CONTACT_URL;
 
 interface ChatSource {
   title: string;
@@ -19,6 +22,7 @@ interface ChatMessage {
   content: string;
   createdAt: string;
   sources?: ChatSource[];
+  fallback?: boolean;
 }
 
 interface Conversation {
@@ -92,6 +96,7 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
       content: "",
       createdAt: new Date().toISOString(),
       sources: [],
+      fallback: false,
     };
     updateActive(conversationId, [...history, pending]);
     setTyping(true);
@@ -107,7 +112,10 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
     });
 
     if (!response.ok || !response.body) {
-      updateActive(conversationId, [...history, { ...pending, content: "NOT_FOUND" }]);
+      updateActive(conversationId, [
+        ...history,
+        { ...pending, content: fallbackMessage, fallback: true },
+      ]);
       setTyping(false);
       return;
     }
@@ -117,6 +125,7 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
     let buffer = "";
     let content = "";
     let sources: ChatSource[] = [];
+    let fallback = false;
 
     while (true) {
       const step = await reader.read();
@@ -139,23 +148,33 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
           type?: string;
           text?: string;
           sources?: ChatSource[];
+          fallback?: boolean;
         };
-        if (payload.type === "sources" && payload.sources) {
-          sources = payload.sources.filter(
+        if (payload.type === "sources") {
+          fallback = payload.fallback === true;
+          sources = (payload.sources ?? []).filter(
             (source) => source.url.startsWith("http") && source.title.length > 0,
           );
         }
         if (payload.type === "token" && payload.text) {
           content += payload.text;
           setTyping(false);
-          updateActive(conversationId, [...history, { ...pending, content, sources }]);
+          updateActive(conversationId, [
+            ...history,
+            { ...pending, content, sources, fallback },
+          ]);
         }
       }
     }
 
     updateActive(conversationId, [
       ...history,
-      { ...pending, content: content || "NOT_FOUND", sources },
+      {
+        ...pending,
+        content: content || fallbackMessage,
+        sources,
+        fallback: fallback || !content,
+      },
     ]);
     setTyping(false);
   }
@@ -356,6 +375,14 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
                   </p>
                   {message.role === "assistant" && message.id !== "intro" ? (
                     <div className="mt-3 flex flex-col gap-2">
+                      {message.fallback && contactUrl ? (
+                        <a
+                          href={contactUrl}
+                          className="bg-primary text-primary-foreground inline-flex h-8 items-center rounded-md px-3 text-xs font-semibold"
+                        >
+                          Contact Us
+                        </a>
+                      ) : null}
                       {message.sources?.map((source) => (
                         <div
                           key={source.url}

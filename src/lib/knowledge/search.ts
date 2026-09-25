@@ -18,6 +18,7 @@ const minimumScore = 0.35;
 export async function searchKnowledge(
   question: string,
   limit = 8,
+  minimumScore = 0.35,
 ): Promise<RetrievedChunk[]> {
   const vector = toVectorLiteral(await embedText(question));
   const rows = await db.$queryRaw<RetrievedChunk[]>(Prisma.sql`

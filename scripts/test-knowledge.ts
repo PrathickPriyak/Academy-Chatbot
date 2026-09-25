@@ -1,5 +1,6 @@
 import { listPublishedCourses } from "../src/lib/courses/queries";
 import { answerFromKnowledge } from "../src/lib/knowledge/answer";
+import { fallbackMessage } from "../src/lib/knowledge/fallback";
 
 const questions = [
   "What courses do you offer?",
@@ -39,7 +40,7 @@ async function main() {
     answers.set(question, answer);
     console.log("\nQ:", question);
     console.log("A:", answer);
-    if (answer === "NOT_FOUND") {
+    if (answer === fallbackMessage) {
       throw new Error(`Expected stored knowledge for: ${question}`);
     }
     const unexpected = digits(answer).filter(
@@ -82,8 +83,8 @@ async function main() {
   );
   console.log("\nQ: placement");
   console.log("A:", missing);
-  if (missing !== "NOT_FOUND") {
-    throw new Error("Unavailable information should return NOT_FOUND.");
+  if (missing !== fallbackMessage) {
+    throw new Error("Unavailable information should return the contact fallback.");
   }
 
   console.log("\nKnowledge checks passed.");

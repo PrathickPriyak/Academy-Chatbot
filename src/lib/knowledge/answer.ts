@@ -3,6 +3,7 @@ import type { AssistantMessage } from "@/lib/ai/types";
 import { db } from "@/lib/db";
 
 import { standaloneQuestion } from "./context";
+import { fallbackMessage, reliableScore } from "./fallback";
 import { searchKnowledge, type RetrievedChunk } from "./search";
 
 export interface AnswerSource {
@@ -13,9 +14,59 @@ export interface AnswerSource {
 export interface KnowledgeAnswer {
   content: string;
   sources: AnswerSource[];
+  fallback: boolean;
 }
 
 const blockedClaims = ["certificate", "placement", "job guarantee", "salary", "stipend"];
+
+const ignoredTerms = new Set([
+  "what",
+  "who",
+  "whom",
+  "the",
+  "is",
+  "are",
+  "was",
+  "were",
+  "do",
+  "does",
+  "did",
+  "you",
+  "your",
+  "this",
+  "that",
+  "its",
+  "for",
+  "and",
+  "with",
+  "from",
+  "about",
+  "please",
+  "can",
+  "how",
+  "where",
+  "when",
+  "which",
+  "won",
+  "provide",
+  "our",
+  "have",
+  "has",
+  "any",
+  "there",
+  "tell",
+  "give",
+]);
+
+function questionIsSupported(question: string, chunks: RetrievedChunk[]): boolean {
+  const terms = question.toLowerCase().match(/[a-z][a-z0-9/+-]{2,}/g) ?? [];
+  const meaningful = terms.filter((term) => !ignoredTerms.has(term));
+  if (meaningful.length === 0) {
+    return true;
+  }
+  const context = chunks.map((chunk) => chunk.content.toLowerCase()).join("\n");
+  return meaningful.some((term) => context.includes(term));
+}
 
 function isGrounded(answer: string, chunks: RetrievedChunk[]): boolean {
   const normalized = answer.trim();
@@ -52,12 +103,16 @@ export async function answerConversation(
 ): Promise<KnowledgeAnswer> {
   const question = await standaloneQuestion(messages);
   if (!question) {
-    return { content: "NOT_FOUND", sources: [] };
+    return { content: fallbackMessage, sources: [], fallback: true };
   }
 
-  const chunks = await searchKnowledge(question);
-  if (chunks.length === 0) {
-    return { content: "NOT_FOUND", sources: [] };
+  const retrieved = await searchKnowledge(question, 8, reliableScore);
+  if (retrieved.length === 0) {
+    return { content: fallbackMessage, sources: [], fallback: true };
+  }
+  const chunks = retrieved;
+  if (!questionIsSupported(question, chunks)) {
+    return { content: fallbackMessage, sources: [], fallback: true };
   }
 
   const knowledge = chunks
@@ -79,19 +134,19 @@ export async function answerConversation(
   });
 
   const answer = response.content.trim();
-  if (!isGrounded(answer, chunks)) {
-    return { content: "NOT_FOUND", sources: [] };
+  if (answer === "NOT_FOUND" || !isGrounded(answer, chunks)) {
+    return { content: fallbackMessage, sources: [], fallback: true };
   }
 
   const content = includeMissingCatalogTitles(question, answer, chunks);
-  return { content, sources: await sourcesFor(content, chunks) };
+  return { content, sources: await sourcesFor(content, chunks), fallback: false };
 }
 
 async function sourcesFor(
   answer: string,
   chunks: RetrievedChunk[],
 ): Promise<AnswerSource[]> {
-  if (answer.trim() === "NOT_FOUND") {
+  if (answer.trim() === fallbackMessage) {
     return [];
   }
 

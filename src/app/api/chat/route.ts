@@ -30,7 +30,7 @@ export async function POST(request: Request): Promise<Response> {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`));
       };
 
-      send({ type: "sources", sources: result.sources });
+      send({ type: "sources", sources: result.sources, fallback: result.fallback });
       const text = result.content;
       const size = 24;
       for (let index = 0; index < text.length; index += size) {
