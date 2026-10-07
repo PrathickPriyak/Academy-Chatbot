@@ -1,6 +1,6 @@
 import type { CourseLevel } from "@prisma/client";
 
-import catalog from "../../../prisma/infozub-catalog.json";
+import catalog from "@/data/infozub-catalog.json";
 
 import type { CourseRecord } from "./queries";
 
@@ -72,6 +72,6 @@ function toCourseRecord(course: CatalogCourse): CourseRecord {
 /** Published catalog when Postgres is unavailable (for example, first Vercel deploy). */
 export function listCatalogCoursesFallback(): CourseRecord[] {
   return catalog.courses
-    .map((course, index) => toCourseRecord(course, index))
+    .map((course) => toCourseRecord(course))
     .sort((left, right) => left.title.localeCompare(right.title));
 }
