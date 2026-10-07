@@ -2,16 +2,26 @@ import type { Prisma } from "@prisma/client";
 
 import { db } from "@/lib/db";
 
+import { listCatalogCoursesFallback } from "./catalog-fallback";
 import { courseInclude } from "./present";
 
 export type CourseRecord = Prisma.CourseGetPayload<{ include: typeof courseInclude }>;
 
 export async function listPublishedCourses(): Promise<CourseRecord[]> {
-  return db.course.findMany({
-    where: { published: true },
-    include: courseInclude,
-    orderBy: { title: "asc" },
-  });
+  if (!process.env.DATABASE_URL) {
+    return listCatalogCoursesFallback();
+  }
+
+  try {
+    return await db.course.findMany({
+      where: { published: true },
+      include: courseInclude,
+      orderBy: { title: "asc" },
+    });
+  } catch (error) {
+    console.error("Falling back to bundled catalog; database query failed.", error);
+    return listCatalogCoursesFallback();
+  }
 }
 
 export async function listAllCourses(): Promise<CourseRecord[]> {
