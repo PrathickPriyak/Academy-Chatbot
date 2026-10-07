@@ -2,6 +2,7 @@
 
 import { ArrowRight, Check, Copy, Menu, Plus, RefreshCw, Send, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "@/components/providers/theme-toggle";
@@ -78,6 +79,7 @@ function formatTime(value: string): string {
 }
 
 export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string }) {
+  const router = useRouter();
   const [conversations, setConversations] = useState<Conversation[]>(starter);
   const [activeId, setActiveId] = useState(starter[0]?.id ?? "welcome");
   const [draft, setDraft] = useState("");
@@ -277,6 +279,11 @@ export function ChatWorkspace({ initialQuestion }: { initialQuestion?: string })
       },
     ]);
     setTyping(false);
+    if (fallback || !content) {
+      window.setTimeout(() => {
+        router.push("/contact?from=assistant");
+      }, 700);
+    }
   }
 
   async function send(text: string) {

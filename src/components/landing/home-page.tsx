@@ -1,123 +1,232 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { BookOpen, MessagesSquare, ShieldCheck, Sparkles } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Search } from "lucide-react";
 import Link from "next/link";
+import { FormEvent, useMemo, useState } from "react";
 
-import { ChatPreview } from "@/components/landing/chat-preview";
+import { AssistantWidget } from "@/components/assistant/assistant-widget";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
 export interface CourseHighlight {
   slug: string;
   title: string;
   duration: string;
   shortDescription: string;
+  category: string;
+  priceLabel: string;
+  instructor: string;
+  enrollmentUrl: string;
 }
 
-const features = [
+const audiences = [
   {
-    title: "Course knowledge only",
-    description: "Answers stay inside published Infozub courses, policies, and enrollment pages.",
-    icon: ShieldCheck,
+    title: "Digital marketers",
+    text: "People who want a higher-paying role by learning advanced digital skills.",
   },
   {
-    title: "Quick replies",
-    description: "Prices, durations, and the course list come straight from the stored catalog.",
-    icon: Sparkles,
+    title: "Traditional marketers",
+    text: "People moving their career into digital marketing.",
   },
   {
-    title: "Follow-up questions",
-    description: "Ask about a course, then ask for its modules, price, or enrollment link.",
-    icon: MessagesSquare,
+    title: "Students and freshers",
+    text: "People starting a career in digital marketing.",
   },
   {
-    title: "Published syllabi",
-    description: "Each course card opens a conversation about that course’s modules and page.",
-    icon: BookOpen,
+    title: "Business owners",
+    text: "Owners who want leads, sales, and a better way to manage an agency.",
+  },
+  {
+    title: "Freelancers",
+    text: "Freelancers who want to offer broader digital services.",
+  },
+  {
+    title: "Anyone learning",
+    text: "Anyone who wants to learn digital marketing and stay current.",
   },
 ];
 
-const examples = [
-  "What courses are available?",
-  "Tell me about the Social Media Marketing course.",
-  "Who should enroll?",
-  "What is the refund policy?",
-  "Where is the Infozub office?",
+const highlights = [
+  "Updated strategies",
+  "Certificate on completion from INFOZUB",
+  "Hands-on learning",
+  "Community group",
+  "Step-by-step training",
+  "Learn on any device",
 ];
 
-const audiences = ["Digital marketers", "Students and freshers", "Business owners", "Freelancers"];
+const stories = [
+  {
+    name: "Menaga",
+    quote: "Mentors are passionate about teaching and making a difference for students.",
+  },
+  {
+    name: "Vignesh",
+    quote: "The course prepared me for the challenges of the real world.",
+  },
+  {
+    name: "Sathish",
+    quote: "Logesh Kumar was an impressive mentor in the Social Media Marketing workshop.",
+  },
+  {
+    name: "Subash",
+    quote: "The course covers pages, posting, connecting Instagram and Facebook, and running ads.",
+  },
+];
 
 export function HomePage({ courses }: { courses: CourseHighlight[] }) {
+  const reduce = useReducedMotion();
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(courses.map((course) => course.category)))],
+    [courses],
+  );
+  const visible = courses.filter((course) => {
+    const matchesCategory = category === "All" || course.category === category;
+    const haystack = `${course.title} ${course.shortDescription} ${course.category}`.toLowerCase();
+    return matchesCategory && haystack.includes(query.trim().toLowerCase());
+  });
+
+  function ask(event: FormEvent) {
+    event.preventDefault();
+    const question = query.trim();
+    if (!question) {
+      return;
+    }
+    window.location.assign(`/chat?q=${encodeURIComponent(question)}`);
+  }
+
+  const rise = reduce ? {} : { initial: { opacity: 0, y: 16 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.35 } };
+
   return (
     <div className="min-h-screen">
       <SiteHeader />
       <main>
-        <Section spacing="lg">
-          <Container className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        <Section spacing="lg" className="overflow-hidden">
+          <Container className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <Badge variant="accent">Infozub AI Assistant</Badge>
+              <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Infozub Digital Academy</p>
               <motion.h1
-                initial={{ opacity: 0, y: 12 }}
+                initial={reduce ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="font-display mt-5 text-4xl tracking-tight text-balance sm:text-6xl"
+                className="font-display mt-4 text-4xl tracking-tight text-balance sm:text-6xl"
               >
-                Ask Anything About Infozub Courses
+                Quality education for everyone
               </motion.h1>
               <p className="text-muted-foreground mt-5 max-w-xl text-base sm:text-lg">
-                Get instant answers about our courses, curriculum, enrollment and learning
-                programs.
+                Browse the published courses, then ask the assistant about curriculum, price, duration, or enrollment.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg">
-                  <Link href="/chat">Start Chatting</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link href="/courses">View courses</Link>
-                </Button>
+              <form className="border-border bg-card mt-8 flex items-center gap-2 rounded-2xl border p-2 shadow-md" onSubmit={ask}>
+                <Search className="text-muted-foreground ml-2 size-4" />
+                <label className="sr-only" htmlFor="home-search">
+                  Search or ask
+                </label>
+                <input
+                  id="home-search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search courses or ask a question"
+                  className="h-11 flex-1 bg-transparent text-sm outline-none"
+                />
+                <Button type="submit">Ask</Button>
+              </form>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {categories.map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setCategory(item)}
+                    className={
+                      category === item
+                        ? "bg-primary text-primary-foreground rounded-full px-3 py-1.5 text-xs font-semibold"
+                        : "border-border bg-card hover:bg-muted rounded-full border px-3 py-1.5 text-xs font-medium"
+                    }
+                  >
+                    {item}
+                  </button>
+                ))}
               </div>
             </div>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
+            <motion.aside
+              initial={reduce ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="from-primary/15 rounded-3xl bg-gradient-to-b to-transparent p-2"
+              className="border-border bg-card rounded-3xl border p-6 shadow-lg"
             >
-              <ChatPreview titles={courses.map((course) => course.title)} />
-            </motion.div>
+              <p className="text-sm font-semibold">Start with a question</p>
+              <div className="mt-4 grid gap-2">
+                {[
+                  "What courses are available?",
+                  "Who should enroll?",
+                  "What is the refund policy?",
+                ].map((question) => (
+                  <Link
+                    key={question}
+                    href={`/chat?q=${encodeURIComponent(question)}`}
+                    className="hover:border-primary/40 hover:bg-muted rounded-xl border border-transparent px-3 py-3 text-sm font-medium transition-colors"
+                  >
+                    {question}
+                  </Link>
+                ))}
+              </div>
+              <Button asChild className="mt-4 w-full" variant="outline">
+                <Link href="/chat">
+                  Open the full assistant
+                  <ArrowRight />
+                </Link>
+              </Button>
+            </motion.aside>
           </Container>
         </Section>
 
         <Section spacing="md" className="pt-0">
           <Container>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <h2 className="font-display text-3xl tracking-tight">Course highlights</h2>
-              <div className="flex flex-wrap gap-2">
-                {audiences.map((audience) => (
-                  <Link
-                    key={audience}
-                    href={`/chat?q=${encodeURIComponent("Who should enroll?")}`}
-                    className="bg-muted text-foreground rounded-full px-3 py-1 text-xs font-medium"
-                  >
-                    {audience}
-                  </Link>
-                ))}
-              </div>
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="font-display text-3xl tracking-tight">Courses</h2>
+              <Link href="/courses" className="text-primary text-sm font-semibold">
+                View all
+              </Link>
             </div>
-            <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {courses.map((course) => (
-                <Link key={course.slug} href={`/chat?q=${encodeURIComponent(`Tell me about the ${course.title}`)}`}>
-                  <Card variant="interactive" className="h-full">
-                    <CardHeader>
-                      <Badge variant="secondary">{course.duration}</Badge>
-                      <CardTitle className="mt-3">{course.title}</CardTitle>
-                      <CardDescription className="line-clamp-3">{course.shortDescription}</CardDescription>
-                    </CardHeader>
-                  </Card>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {visible.map((course, index) => (
+                <motion.article key={course.slug} {...rise} transition={{ delay: reduce ? 0 : index * 0.04 }} className="border-border bg-card hover:border-primary/40 flex h-full flex-col rounded-2xl border p-5 shadow-sm transition-colors">
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary">{course.category}</Badge>
+                    <Badge variant="outline">{course.priceLabel}</Badge>
+                  </div>
+                  <h3 className="mt-3 text-lg font-semibold">{course.title}</h3>
+                  <p className="text-muted-foreground mt-2 line-clamp-3 flex-1 text-sm">{course.shortDescription}</p>
+                  <p className="text-muted-foreground mt-3 text-xs">{course.instructor} · {course.duration}</p>
+                  <div className="mt-4 flex gap-3 text-sm font-semibold">
+                    <Link href={`/chat?q=${encodeURIComponent(`Tell me about the ${course.title}`)}`} className="text-primary">
+                      Ask
+                    </Link>
+                    <a href={course.enrollmentUrl} className="text-foreground">
+                      View course
+                    </a>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+            {visible.length === 0 ? (
+              <p className="text-muted-foreground mt-6 text-sm">No published course matches that search. Ask the assistant or contact the team.</p>
+            ) : null}
+          </Container>
+        </Section>
+
+        <Section spacing="md" className="border-border border-t">
+          <Container>
+            <h2 className="font-display text-3xl tracking-tight">Who the courses are for</h2>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {audiences.map((audience) => (
+                <Link key={audience.title} href={`/chat?q=${encodeURIComponent("Who should enroll?")}`} className="border-border bg-card hover:-translate-y-0.5 rounded-2xl border p-5 shadow-sm transition-transform">
+                  <h3 className="font-semibold">{audience.title}</h3>
+                  <p className="text-muted-foreground mt-2 text-sm">{audience.text}</p>
                 </Link>
               ))}
             </div>
@@ -126,43 +235,49 @@ export function HomePage({ courses }: { courses: CourseHighlight[] }) {
 
         <Section spacing="md" className="border-border border-t">
           <Container>
-            <h2 className="font-display text-3xl tracking-tight">
-              Built for clear answers
-            </h2>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {features.map((feature) => (
-                <Card key={feature.title} variant="outline">
-                  <CardHeader>
-                    <feature.icon className="text-primary size-5" />
-                    <CardTitle className="mt-3">{feature.title}</CardTitle>
-                    <CardDescription>{feature.description}</CardDescription>
-                  </CardHeader>
-                </Card>
+            <h2 className="font-display text-3xl tracking-tight">What the academy highlights</h2>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {highlights.map((item) => (
+                <div key={item} className="border-border bg-muted rounded-2xl border px-4 py-5 text-sm font-medium">
+                  {item}
+                </div>
               ))}
             </div>
           </Container>
         </Section>
 
         <Section spacing="md" className="border-border border-t">
-          <Container size="md">
-            <h2 className="font-display text-center text-3xl tracking-tight">
-              Example questions
-            </h2>
-            <div className="mt-6 grid gap-3">
-              {examples.map((question) => (
-                <Link
-                  key={question}
-                  href={`/chat?q=${encodeURIComponent(question)}`}
-                  className="border-border bg-card rounded-2xl border px-4 py-4 text-sm font-medium shadow-xs transition-shadow hover:shadow-md"
-                >
-                  {question}
-                </Link>
+          <Container>
+            <h2 className="font-display text-3xl tracking-tight">From learners</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {stories.map((story) => (
+                <blockquote key={story.name} className="border-border bg-card rounded-2xl border p-5">
+                  <p className="text-sm leading-6">“{story.quote}”</p>
+                  <footer className="mt-3 text-sm font-semibold">{story.name}</footer>
+                </blockquote>
               ))}
+            </div>
+          </Container>
+        </Section>
+
+        <Section spacing="md" className="pt-0">
+          <Container>
+            <div className="bg-primary text-primary-foreground flex flex-col items-start justify-between gap-4 rounded-3xl px-6 py-8 sm:flex-row sm:items-center">
+              <div>
+                <h2 className="font-display text-3xl">Not satisfied within 7 days?</h2>
+                <p className="mt-2 max-w-xl text-sm opacity-90">
+                  The academy page says there is a complete refund, no questions asked. The assistant sends unrelated questions to the contact page.
+                </p>
+              </div>
+              <Button asChild variant="accent" size="lg">
+                <Link href="/contact">Contact us</Link>
+              </Button>
             </div>
           </Container>
         </Section>
       </main>
       <SiteFooter />
+      <AssistantWidget />
     </div>
   );
 }

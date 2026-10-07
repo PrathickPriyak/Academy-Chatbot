@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { AssistantWidget } from "@/components/assistant/assistant-widget";
 import { CourseExplorer } from "@/components/courses/course-explorer";
 import { formatPrice, levelLabel } from "@/lib/courses/present";
 import { listPublishedCourses } from "@/lib/courses/queries";
@@ -59,6 +60,7 @@ export default async function CoursesPage() {
         </Section>
       </main>
       <SiteFooter />
+      <AssistantWidget />
     </div>
   );
 }
