@@ -1,7 +1,7 @@
 import { formatCoursePrice, listCategories, listCourses } from "@/data/catalog";
-import { site } from "@/data/site";
+import { refundSummary, site } from "@/data/site";
 
-import { retrieveKnowledgeScored, type KnowledgeChunk } from "./knowledge";
+import { retrieveKnowledgeScored, ungroundedTokens, type KnowledgeChunk } from "./knowledge";
 import { maybeRewriteWithProvider } from "./provider";
 
 export type ChatReply = {
@@ -28,6 +28,15 @@ function isLikelyOffTopic(question: string): boolean {
 
 function listCourseTitles(): string[] {
   return listCourses().map((course) => course.title);
+}
+
+function aboutChunks(chunks: KnowledgeChunk[]): KnowledgeChunk[] {
+  return chunks.filter(
+    (chunk) =>
+      chunk.id.startsWith("about") ||
+      chunk.id === "site-overview" ||
+      chunk.id.startsWith("platform-about"),
+  );
 }
 
 function composeFromChunks(question: string, chunks: KnowledgeChunk[]): string {
@@ -65,9 +74,22 @@ function composeFromChunks(question: string, chunks: KnowledgeChunk[]): string {
     return `You can contact Infozub Digital Academy at ${site.email} or ${site.phone}. Registered office: ${site.offices.registered.lines.join(", ")}. Corporate office: ${site.offices.corporate.lines.join(", ")}.`;
   }
 
-  if (/\b(about|academy|infozub)\b/.test(q) && !courseChunks.length) {
-    const about = chunks.find((chunk) => chunk.id.startsWith("about") || chunk.id === "site-overview");
-    if (about) return about.text;
+  if (/\brefund\b/.test(q)) {
+    const refund = chunks.find((chunk) => /refund/i.test(chunk.title) || /refund/i.test(chunk.text));
+    return refund?.text ?? refundSummary.body;
+  }
+
+  if (
+    /\b(about the academy|tell me about the academy|about infozub|mission|vision)\b/.test(q) ||
+    (/\b(academy|infozub)\b/.test(q) && /\b(about|mission|vision|story|background)\b/.test(q))
+  ) {
+    const about = aboutChunks(chunks);
+    if (about.length) {
+      return about
+        .slice(0, 2)
+        .map((chunk) => chunk.text)
+        .join(" ");
+    }
   }
 
   if (categoryChunks.length && !courseChunks.length) {
@@ -129,8 +151,28 @@ export async function answerQuestion(question: string): Promise<ChatReply> {
 
   const scored = retrieveKnowledgeScored(trimmed, 6);
   const topScore = scored[0]?.score ?? 0;
+  const chunks = scored.map((item) => item.chunk);
+  const intentTokens = new Set([
+    "refund",
+    "policy",
+    "contact",
+    "courses",
+    "course",
+    "academy",
+    "infozub",
+    "marketing",
+    "digital",
+    "instructor",
+    "price",
+    "pricing",
+    "duration",
+    "enroll",
+    "enrollment",
+  ]);
+  const missing = ungroundedTokens(trimmed, chunks).filter((token) => !intentTokens.has(token));
+  const hasSpecificUnknownTopic = missing.length >= 2;
 
-  if (!scored.length || topScore < MIN_RELEVANCE_SCORE) {
+  if (!scored.length || topScore < MIN_RELEVANCE_SCORE || hasSpecificUnknownTopic) {
     return baseReply({
       answer:
         "I don't have enough information to answer that accurately. Please contact our team for more details.",
@@ -142,7 +184,6 @@ export async function answerQuestion(question: string): Promise<ChatReply> {
     });
   }
 
-  const chunks = scored.map((item) => item.chunk);
   let answer = composeFromChunks(trimmed, chunks);
 
   if (answer.includes("I don't have enough information")) {

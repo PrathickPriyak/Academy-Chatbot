@@ -124,6 +124,52 @@ export function buildKnowledgeChunks(): KnowledgeChunk[] {
   return chunks;
 }
 
+const STOP_TOKENS = new Set([
+  "what",
+  "which",
+  "who",
+  "whom",
+  "whose",
+  "when",
+  "where",
+  "why",
+  "how",
+  "can",
+  "could",
+  "would",
+  "should",
+  "does",
+  "did",
+  "the",
+  "and",
+  "for",
+  "with",
+  "from",
+  "your",
+  "you",
+  "our",
+  "are",
+  "is",
+  "was",
+  "were",
+  "me",
+  "my",
+  "tell",
+  "show",
+  "please",
+  "about",
+  "into",
+  "any",
+  "some",
+  "have",
+  "has",
+  "this",
+  "that",
+  "them",
+  "they",
+  "their",
+]);
+
 function tokenize(value: string): string[] {
   return value
     .toLowerCase()
@@ -132,11 +178,22 @@ function tokenize(value: string): string[] {
     .filter((token) => token.length > 1);
 }
 
+function contentTokens(value: string): string[] {
+  return tokenize(value).filter((token) => !STOP_TOKENS.has(token));
+}
+
 export type ScoredChunk = { chunk: KnowledgeChunk; score: number };
 
 export function retrieveKnowledgeScored(question: string, limit = 6): ScoredChunk[] {
-  const tokens = tokenize(question);
+  const tokens = contentTokens(question);
   if (!tokens.length) return [];
+
+  const wantsAbout =
+    /\b(about the academy|about infozub|tell me about the academy|who is infozub)\b/i.test(question) ||
+    (/\b(academy|infozub)\b/i.test(question) && /\b(about|mission|vision|story|background)\b/i.test(question));
+  const wantsRefund = /\brefund\b/i.test(question);
+  const wantsContact = /\b(contact|email|phone|address|office)\b/i.test(question);
+  const wantsInstructor = /\b(instructor|teacher|founder|logesh|mentor)\b/i.test(question);
 
   return buildKnowledgeChunks()
     .map((chunk) => {
@@ -148,11 +205,23 @@ export function retrieveKnowledgeScored(question: string, limit = 6): ScoredChun
       if (tokens.some((token) => chunk.title.toLowerCase().includes(token))) score += 2;
       if (/\bai\b/i.test(question) && /ai|artificial/i.test(haystack)) score += 3;
       if (/\bmarketing\b/i.test(question) && /marketing/i.test(haystack)) score += 2;
+      if (wantsAbout && /^(about-|site-overview|platform-about)/.test(chunk.id)) score += 5;
+      if (wantsRefund && /refund/i.test(haystack)) score += 5;
+      if (wantsContact && chunk.id === "contact") score += 5;
+      if (wantsInstructor && chunk.id === "instructor") score += 5;
+      if (wantsAbout && chunk.id.startsWith("course-")) score -= 3;
+      if (wantsRefund && chunk.id.startsWith("course-")) score -= 3;
       return { chunk, score };
     })
     .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
+}
+
+/** Tokens in the question that do not appear in retrieved context (hallucination risk). */
+export function ungroundedTokens(question: string, chunks: KnowledgeChunk[]): string[] {
+  const haystack = chunks.map((chunk) => `${chunk.title} ${chunk.text}`).join(" ").toLowerCase();
+  return contentTokens(question).filter((token) => token.length > 3 && !haystack.includes(token));
 }
 
 export function retrieveKnowledge(question: string, limit = 6): KnowledgeChunk[] {
