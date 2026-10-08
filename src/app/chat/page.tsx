@@ -8,13 +8,14 @@ import { FormEvent, Suspense, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
-import { suggestionPrompts, welcomeMessage } from "@/lib/chat/answer";
+import { suggestionPrompts, welcomeMessage } from "@/lib/chat/prompts";
 
 type Message = {
   id: string;
   role: "user" | "assistant";
   content: string;
   contactSuggested?: boolean;
+  contactCtaLabel?: string;
   sources?: Array<{ title: string; href?: string }>;
 };
 
@@ -44,6 +45,7 @@ function ChatWorkspace() {
       const data = (await response.json()) as {
         answer?: string;
         contactSuggested?: boolean;
+        contactCtaLabel?: string;
         sources?: Array<{ title: string; href?: string }>;
         error?: string;
       };
@@ -55,6 +57,7 @@ function ChatWorkspace() {
           role: "assistant",
           content: data.answer!,
           contactSuggested: data.contactSuggested,
+          contactCtaLabel: data.contactCtaLabel,
           sources: data.sources,
         },
       ]);
@@ -113,7 +116,7 @@ function ChatWorkspace() {
                   {message.contactSuggested ? (
                     <div className="mt-3">
                       <Button asChild size="sm" variant="secondary">
-                        <Link href="/contact">Contact Us</Link>
+                        <Link href="/contact">{message.contactCtaLabel ?? "Contact Us"}</Link>
                       </Button>
                     </div>
                   ) : null}

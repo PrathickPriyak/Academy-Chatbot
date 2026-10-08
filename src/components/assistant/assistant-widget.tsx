@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { suggestionPrompts, welcomeMessage } from "@/lib/chat/answer";
+import { suggestionPrompts, welcomeMessage } from "@/lib/chat/prompts";
 import { duration, easeOutPremium } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -16,12 +16,14 @@ type Message = {
   role: "user" | "assistant";
   content: string;
   contactSuggested?: boolean;
+  contactCtaLabel?: string;
   sources?: Array<{ title: string; href?: string }>;
 };
 
 type ApiReply = {
   answer: string;
   contactSuggested?: boolean;
+  contactCtaLabel?: string;
   sources?: Array<{ title: string; href?: string }>;
   error?: string;
 };
@@ -70,6 +72,7 @@ export function AssistantWidget() {
           role: "assistant",
           content: data.answer,
           contactSuggested: data.contactSuggested,
+          contactCtaLabel: data.contactCtaLabel,
           sources: data.sources,
         },
       ]);
@@ -165,7 +168,7 @@ export function AssistantWidget() {
                       {message.contactSuggested ? (
                         <div className="mt-3">
                           <Button asChild size="sm" variant="secondary">
-                            <Link href="/contact">Contact Us</Link>
+                            <Link href="/contact">{message.contactCtaLabel ?? "Contact Us"}</Link>
                           </Button>
                         </div>
                       ) : null}

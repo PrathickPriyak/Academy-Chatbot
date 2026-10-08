@@ -33,8 +33,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Message must be between 1 and 1000 characters." }, { status: 400 });
     }
 
-    const reply = answerQuestion(message);
-    return NextResponse.json(reply);
+    const reply = await answerQuestion(message);
+    return NextResponse.json({
+      answer: reply.answer,
+      outOfScope: reply.outOfScope,
+      unknown: reply.unknown,
+      contactSuggested: reply.contactSuggested,
+      contactCtaLabel: reply.contactCtaLabel,
+      sources: reply.sources,
+    });
   } catch {
     return NextResponse.json({ error: "Unable to process that request right now." }, { status: 500 });
   }
