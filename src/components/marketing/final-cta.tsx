@@ -15,51 +15,45 @@ export function FinalCta() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <Section spacing="lg">
+    <Section spacing="md">
       <Container>
         <Reveal>
           <motion.div
-            className="border-border from-primary/90 to-primary relative overflow-hidden rounded-[2rem] bg-gradient-to-br px-6 py-12 text-primary-foreground shadow-hero sm:px-12 sm:py-16"
-            whileHover={reduceMotion ? undefined : { scale: 1.005 }}
-            transition={{ duration: duration.base, ease: easeOutPremium }}
+            className="border-border from-primary to-primary/90 relative overflow-hidden rounded-2xl bg-gradient-to-r px-5 py-6 text-primary-foreground shadow-lift sm:px-8 sm:py-7"
+            whileHover={reduceMotion ? undefined : { y: -2 }}
+            transition={{ duration: duration.fast, ease: easeOutPremium }}
           >
-            <div className="absolute -top-20 right-0 size-64 rounded-full bg-accent/25 blur-3xl" aria-hidden />
-            <motion.div
+            <div
+              className="absolute -top-16 right-0 size-40 rounded-full bg-accent/20 blur-3xl"
               aria-hidden
-              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-              animate={reduceMotion ? { x: "0%" } : { x: ["0%", "280%"] }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { duration: 4.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }
-              }
             />
-            <div className="relative mx-auto max-w-2xl text-center">
-              <h2 className="font-display text-3xl tracking-tight sm:text-4xl">Ready to start learning?</h2>
-              <p className="mt-4 text-base leading-relaxed text-primary-foreground/90">
-                Explore published courses from {site.name}, or talk with the team about the right program for your
-                goals.
-              </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button asChild size="lg" variant="secondary">
+            <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+              <div className="max-w-xl">
+                <h2 className="font-display text-2xl tracking-tight sm:text-3xl">Ready to start learning?</h2>
+                <p className="mt-2 text-sm leading-relaxed text-primary-foreground/88 sm:text-[15px]">
+                  Explore published courses from {site.name}, or talk with the team about the right program.
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-center">
+                <Button asChild size="default" variant="secondary">
                   <Link href="/courses">Explore Courses</Link>
                 </Button>
                 <Button
                   asChild
-                  size="lg"
+                  size="default"
                   variant="outline"
                   className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10"
                 >
                   <Link href="/contact">Contact Us</Link>
                 </Button>
               </div>
-              <p className="mt-8 text-sm text-primary-foreground/85">
-                {refundSummary.headline}{" "}
-                <Link href={refundSummary.href} className="underline underline-offset-4">
-                  Read refund policy
-                </Link>
-              </p>
             </div>
+            <p className="text-primary-foreground/75 relative mt-4 text-xs sm:mt-5">
+              {refundSummary.headline}{" "}
+              <Link href={refundSummary.href} className="underline underline-offset-4">
+                Read refund policy
+              </Link>
+            </p>
           </motion.div>
         </Reveal>
       </Container>
