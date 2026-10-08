@@ -31,7 +31,7 @@ export function CategoryGrid() {
             <RevealItem key={category.slug}>
               <Link
                 href={`/courses?category=${category.slug}`}
-                className="border-border bg-card hover:border-primary/40 group flex h-full flex-col rounded-2xl border p-6 shadow-soft transition-colors"
+                className="border-border bg-card hover:border-primary/40 hover:shadow-lift group flex h-full flex-col rounded-2xl border p-6 shadow-soft transition-all duration-200 hover:-translate-y-1"
               >
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="font-display text-2xl tracking-tight">{category.name}</h3>

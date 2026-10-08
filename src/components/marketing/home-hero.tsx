@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
 import { CourseSearch } from "@/components/site/course-search";
@@ -11,96 +12,88 @@ import { duration, easeOutPremium } from "@/lib/motion";
 
 export function HomeHero() {
   const reduceMotion = useReducedMotion();
-  const courseCount = listCourses().length;
+  const heroImage = listCourses()[0]?.thumbnail ?? "/infozub-logo.jpg";
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative isolate min-h-[calc(100svh-4.25rem)] overflow-hidden">
+      <Image
+        src={heroImage}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 60% at 70% 20%, rgb(13 115 119 / 0.18), transparent 60%), radial-gradient(ellipse 50% 40% at 10% 80%, rgb(201 162 39 / 0.1), transparent 55%)",
-        }}
+        className="absolute inset-0 bg-gradient-to-r from-[#071318]/92 via-[#0b1f2a]/78 to-[#0b1f2a]/35"
       />
-      <div className="relative mx-auto grid min-h-[calc(100svh-4.25rem)] max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:px-8 lg:py-20">
-        <div className="max-w-xl">
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-t from-[#071318]/70 via-transparent to-[#071318]/25"
+      />
+
+      <div className="relative mx-auto flex min-h-[calc(100svh-4.25rem)] max-w-6xl flex-col justify-end px-4 py-16 sm:px-6 sm:py-20 lg:justify-center lg:px-8 lg:py-24">
+        <div className="max-w-2xl text-white">
           <motion.p
-            className="text-primary mb-4 text-sm font-semibold tracking-[0.18em] uppercase"
+            className="mb-5 font-semibold tracking-[0.22em] text-[0.7rem] text-[#7edfd6] uppercase sm:text-xs"
             initial={reduceMotion ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, ease: easeOutPremium }}
           >
             {site.name}
           </motion.p>
+
           <motion.h1
-            className="font-display text-foreground text-4xl leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.5rem]"
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            className="font-display text-5xl leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl"
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.slow, ease: easeOutPremium, delay: 0.05 }}
           >
             {site.tagline}
           </motion.h1>
+
           <motion.p
-            className="text-muted-foreground mt-5 max-w-lg text-base leading-relaxed sm:text-lg"
+            className="mt-5 max-w-lg text-base leading-relaxed text-white/82 sm:text-lg"
             initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, ease: easeOutPremium, delay: 0.12 }}
           >
-            {site.description}
+            {site.description} Learn design, marketing, web, video, business, and career skills through published
+            Infozub programs.
           </motion.p>
+
           <motion.div
             className="mt-8 flex flex-wrap gap-3"
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, ease: easeOutPremium, delay: 0.18 }}
           >
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="bg-[#0d7377] text-white hover:bg-[#0d7377]/90">
               <Link href="/courses">Explore Courses</Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white/35 bg-white/5 text-white hover:bg-white/12 hover:text-white"
+            >
               <Link href="/contact">Contact Us</Link>
             </Button>
           </motion.div>
+
           <motion.div
-            className="mt-8"
+            className="mt-8 max-w-xl"
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, ease: easeOutPremium, delay: 0.24 }}
           >
-            <CourseSearch size="lg" />
+            <CourseSearch
+              size="lg"
+              className="[&_form]:border-white/20 [&_form]:bg-white/95 [&_form]:shadow-hero"
+            />
           </motion.div>
         </div>
-
-        <motion.div
-          className="relative"
-          initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: duration.slow, ease: easeOutPremium, delay: 0.15 }}
-        >
-          <div className="border-border from-card via-card to-secondary/40 relative overflow-hidden rounded-[2rem] border bg-gradient-to-br p-6 shadow-hero sm:p-8">
-            <div className="absolute -top-16 -right-10 size-48 rounded-full bg-primary/15 blur-3xl" aria-hidden />
-            <div className="absolute -bottom-20 -left-10 size-52 rounded-full bg-accent/20 blur-3xl" aria-hidden />
-            <div className="relative space-y-6">
-              <p className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
-                Digital skills that ship
-              </p>
-              <p className="font-display text-3xl tracking-tight sm:text-4xl">
-                Design, marketing, web, video, business, and career programs—built for practical outcomes.
-              </p>
-              <dl className="grid grid-cols-2 gap-4">
-                <div className="bg-background/70 rounded-2xl p-4">
-                  <dt className="text-muted-foreground text-xs font-semibold uppercase">Published courses</dt>
-                  <dd className="font-display mt-1 text-3xl">{courseCount}</dd>
-                </div>
-                <div className="bg-background/70 rounded-2xl p-4">
-                  <dt className="text-muted-foreground text-xs font-semibold uppercase">Access</dt>
-                  <dd className="font-display mt-1 text-2xl leading-tight">Self-paced</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

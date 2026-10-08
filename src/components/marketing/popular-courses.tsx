@@ -16,11 +16,11 @@ export function PopularCourses() {
       <Container>
         <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
-            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Courses</p>
-            <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">Start with these programs</h2>
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Popular courses</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">Explore the catalog</h2>
             <p className="text-muted-foreground mt-3 text-base leading-relaxed">
-              A selection of published Infozub Digital Academy courses across design, marketing, web, video, business,
-              and career skills.
+              Published Infozub Digital Academy courses across design, marketing, web, video, business, and career
+              skills—with instructor, level, duration, and price where available.
             </p>
           </div>
           <Button asChild variant="outline">
