@@ -1,6 +1,14 @@
-# App
+# Infozub Digital Academy (rebuild)
 
-Blank Next.js 15 App Router starter. Previous academy data and design were cleared.
+Next.js 15 App Router workspace for the premium Infozub Digital Academy rebuild.
+
+**Do not invent course facts.** Use the live site and archived content.
+
+## Planning docs (current phase)
+
+- Audit: [`docs/superpowers/audits/2026-10-08-infozub-rebuild-audit.md`](docs/superpowers/audits/2026-10-08-infozub-rebuild-audit.md)
+- Implementation plan: [`docs/superpowers/plans/2026-10-08-infozub-premium-rebuild.md`](docs/superpowers/plans/2026-10-08-infozub-premium-rebuild.md)
+- Preserved content: [`docs/content-archive/`](docs/content-archive/)
 
 ## Scripts
 
