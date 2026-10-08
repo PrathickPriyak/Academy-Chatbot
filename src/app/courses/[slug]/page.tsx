@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ModuleList } from "@/components/courses/module-list";
-import { Container } from "@/components/layout/container";
-import { Section } from "@/components/layout/section";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  catalog,
-  categoryNameForCourse,
-  formatCoursePrice,
-  getCourseBySlug,
-  levelLabel,
-  listCourses,
-} from "@/data/catalog";
+import { CourseDetailView } from "@/components/courses/course-detail-view";
+import { getCourseBySlug, listCourses } from "@/data/catalog";
 import { site } from "@/data/site";
+import {
+  courseFaqs,
+  courseMeta,
+  courseRequirements,
+  courseReviews,
+  learningOutcomesFromCourse,
+} from "@/lib/courses/presenters";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -31,10 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: course.title,
     description: course.shortDescription,
+    alternates: { canonical: `/courses/${course.slug}` },
     openGraph: {
       title: course.title,
       description: course.shortDescription,
       images: [{ url: course.thumbnail }],
+      type: "website",
     },
   };
 }
@@ -44,127 +40,27 @@ export default async function CourseDetailPage({ params }: Props) {
   const course = getCourseBySlug(slug);
   if (!course) notFound();
 
-  const category = categoryNameForCourse(course);
-  const price = formatCoursePrice(course);
+  const meta = courseMeta(course);
+  const outcomes = learningOutcomesFromCourse(course);
+  const requirements = courseRequirements(course);
+  const faqs = courseFaqs(course);
+  const reviews = courseReviews();
 
   return (
     <>
-      <Section spacing="md" className="border-border border-b bg-card/40">
-        <Container>
-          <div className="grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary">{category}</Badge>
-                <Badge variant="outline">{levelLabel(course.level)}</Badge>
-              </div>
-              <h1 className="font-display mt-4 text-4xl tracking-tight sm:text-5xl">{course.title}</h1>
-              <p className="text-muted-foreground mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">
-                {course.shortDescription}
-              </p>
-              <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <dt className="text-muted-foreground text-xs font-semibold uppercase">Instructor</dt>
-                  <dd className="mt-1 text-sm font-semibold">{catalog.instructor.name}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs font-semibold uppercase">Duration</dt>
-                  <dd className="mt-1 text-sm font-semibold">{course.duration}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs font-semibold uppercase">Price</dt>
-                  <dd className="mt-1 text-sm font-semibold">{price}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground text-xs font-semibold uppercase">Modules</dt>
-                  <dd className="mt-1 text-sm font-semibold">{course.modules.length}</dd>
-                </div>
-              </dl>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg">
-                  <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
-                    Enroll / View on Academy
-                  </a>
-                </Button>
-                <Button asChild variant="outline" size="lg">
-                  <Link href={`/chat?q=${encodeURIComponent(`Tell me about ${course.title}`)}`}>Ask Assistant</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="border-border relative aspect-[4/3] overflow-hidden rounded-[2rem] border shadow-lift">
-              <Image
-                src={course.thumbnail}
-                alt=""
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-              />
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section spacing="lg" className="pb-24 lg:pb-16">
-        <Container className="grid gap-12 lg:grid-cols-[1fr_18rem]">
-          <div className="space-y-12">
-            <section>
-              <h2 className="font-display text-3xl tracking-tight">About this course</h2>
-              <p className="text-muted-foreground mt-4 text-base leading-relaxed">{course.description}</p>
-            </section>
-
-            <section>
-              <h2 className="font-display text-3xl tracking-tight">Curriculum</h2>
-              <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
-                Modules published for this course. Expand each module for the description provided by Infozub Digital
-                Academy.
-              </p>
-              <div className="mt-6">
-                <ModuleList modules={course.modules} />
-              </div>
-            </section>
-
-            <section>
-              <h2 className="font-display text-3xl tracking-tight">Instructor</h2>
-              <div className="border-border bg-card mt-4 rounded-2xl border p-6 shadow-soft">
-                <h3 className="font-display text-2xl tracking-tight">{catalog.instructor.name}</h3>
-                <p className="text-muted-foreground mt-1 text-sm font-semibold">{catalog.instructor.title}</p>
-                <p className="text-muted-foreground mt-4 text-sm leading-relaxed">{catalog.instructor.bio}</p>
-              </div>
-            </section>
-          </div>
-
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="border-border bg-card hidden rounded-2xl border p-5 shadow-lift lg:block">
-              <p className="text-muted-foreground text-xs font-semibold uppercase">Investment</p>
-              <p className="font-display mt-2 text-3xl tracking-tight">{price}</p>
-              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{course.duration}</p>
-              <Button asChild className="mt-5 w-full" size="lg">
-                <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
-                  Continue to enrollment
-                </a>
-              </Button>
-              <Button asChild variant="outline" className="mt-2 w-full">
-                <Link href="/contact">Contact Infozub</Link>
-              </Button>
-            </div>
-          </aside>
-        </Container>
-      </Section>
-
-      <div className="border-border bg-card/95 fixed inset-x-0 bottom-0 z-40 border-t p-3 backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-6xl items-center gap-3">
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold">{course.title}</p>
-            <p className="text-muted-foreground text-xs">{price}</p>
-          </div>
-          <Button asChild>
-            <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
-              Enroll
-            </a>
-          </Button>
-        </div>
-      </div>
-
+      <CourseDetailView
+        course={course}
+        category={meta.category}
+        price={meta.price}
+        level={meta.level}
+        instructorName={meta.instructorName}
+        instructorTitle={meta.instructorTitle}
+        instructorBio={meta.instructorBio}
+        outcomes={outcomes}
+        requirements={requirements}
+        faqs={faqs}
+        reviews={reviews}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -179,6 +75,17 @@ export default async function CourseDetailPage({ params }: Props) {
               sameAs: site.url,
             },
             url: `${site.url}/courses/${course.slug}`,
+            educationalLevel: meta.level,
+            timeRequired: course.duration,
+            offers:
+              course.price > 0
+                ? {
+                    "@type": "Offer",
+                    price: course.price,
+                    priceCurrency: "INR",
+                    url: course.enrollmentUrl,
+                  }
+                : undefined,
           }),
         }}
       />

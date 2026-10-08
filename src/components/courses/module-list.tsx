@@ -4,51 +4,88 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import type { CatalogModule } from "@/data/catalog";
 import { cn } from "@/lib/utils";
 
 export function ModuleList({ modules }: { modules: CatalogModule[] }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndexes, setOpenIndexes] = useState<Set<number>>(new Set([0]));
   const reduceMotion = useReducedMotion();
 
+  function toggle(index: number) {
+    setOpenIndexes((current) => {
+      const next = new Set(current);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  }
+
+  function expandAll() {
+    setOpenIndexes(new Set(modules.map((_, index) => index)));
+  }
+
+  function collapseAll() {
+    setOpenIndexes(new Set());
+  }
+
   return (
-    <ul className="space-y-3">
-      {modules.map((module, index) => {
-        const open = openIndex === index;
-        return (
-          <li key={`${module.title}-${index}`} className="border-border bg-card overflow-hidden rounded-2xl border">
-            <button
-              type="button"
-              className="flex w-full min-h-14 items-center justify-between gap-3 px-5 py-4 text-left"
-              aria-expanded={open}
-              onClick={() => setOpenIndex(open ? null : index)}
-            >
-              <span>
-                <span className="text-primary block text-xs font-semibold tracking-wide uppercase">
-                  Module {String(index + 1).padStart(2, "0")}
+    <div>
+      <div className="mb-4 flex flex-wrap gap-2">
+        <Button type="button" variant="outline" size="sm" onClick={expandAll}>
+          Expand all
+        </Button>
+        <Button type="button" variant="ghost" size="sm" onClick={collapseAll}>
+          Collapse all
+        </Button>
+      </div>
+      <ul className="space-y-3">
+        {modules.map((module, index) => {
+          const open = openIndexes.has(index);
+          const panelId = `module-panel-${index}`;
+          return (
+            <li key={`${module.title}-${index}`} className="border-border bg-card overflow-hidden rounded-2xl border">
+              <button
+                type="button"
+                className="flex w-full min-h-14 items-center justify-between gap-3 px-5 py-4 text-left"
+                aria-expanded={open}
+                aria-controls={panelId}
+                onClick={() => toggle(index)}
+              >
+                <span>
+                  <span className="text-primary block text-xs font-semibold tracking-wide uppercase">
+                    Module {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="font-display mt-1 block text-lg tracking-tight">
+                    {module.title.replace(/^Module\s+\d+:\s*/i, "")}
+                  </span>
                 </span>
-                <span className="font-display mt-1 block text-lg tracking-tight">{module.title}</span>
-              </span>
-              <ChevronDown className={cn("size-5 shrink-0 transition-transform", open && "rotate-180")} />
-            </button>
-            <AnimatePresence initial={false}>
-              {open ? (
-                <motion.div
-                  initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-                  transition={{ duration: 0.22 }}
-                  className="overflow-hidden"
-                >
-                  <p className="text-muted-foreground border-border border-t px-5 py-4 text-sm leading-relaxed">
-                    {module.description}
-                  </p>
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
-          </li>
-        );
-      })}
-    </ul>
+                <ChevronDown className={cn("size-5 shrink-0 transition-transform", open && "rotate-180")} />
+              </button>
+              <AnimatePresence initial={false}>
+                {open ? (
+                  <motion.div
+                    id={panelId}
+                    initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="border-border space-y-3 border-t px-5 py-4">
+                      <p className="text-muted-foreground text-sm leading-relaxed">{module.description}</p>
+                      <p className="text-muted-foreground text-xs">
+                        Published as a module overview. Individual lesson titles are not listed separately in the
+                        archived catalog.
+                      </p>
+                    </div>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
