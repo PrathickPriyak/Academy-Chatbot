@@ -1,21 +1,146 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --font-sans: var(--font-sora);
+  --font-display: var(--font-newsreader);
+  --font-family-display: var(--font-newsreader);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    Segoe UI,
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-  margin: 0;
+:root {
+  /* Deep Harbor — cool mist, ink, teal; gold used sparingly */
+  --background: #f3f7f8;
+  --foreground: #0b1f2a;
+  --card: #ffffff;
+  --card-foreground: #0b1f2a;
+  --primary: #0d7377;
+  --primary-foreground: #f4fffe;
+  --secondary: #e4eef0;
+  --secondary-foreground: #16323c;
+  --muted: #e8f0f2;
+  --muted-foreground: #5a6f78;
+  --accent: #c9a227;
+  --accent-foreground: #1a1504;
+  --destructive: #c0392b;
+  --destructive-foreground: #fff8f7;
+  --success: #1f7a4d;
+  --warning: #b7791f;
+  --border: #d3e0e4;
+  --ring: #0d7377;
+  --radius: 0.875rem;
+
+  --shadow-xs: 0 1px 2px rgb(11 31 42 / 0.05);
+  --shadow-sm: 0 1px 2px rgb(11 31 42 / 0.06), 0 2px 6px rgb(11 31 42 / 0.05);
+  --shadow-md: 0 10px 28px rgb(11 31 42 / 0.08);
+  --shadow-lg: 0 20px 48px rgb(11 31 42 / 0.12);
+
+  --surface-grid:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgb(13 115 119 / 0.12), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 0%, rgb(201 162 39 / 0.08), transparent 50%),
+    linear-gradient(180deg, #f7fbfc 0%, #f3f7f8 45%, #eef4f6 100%);
+}
+
+.dark {
+  --background: #071318;
+  --foreground: #eef5f7;
+  --card: #0f1e24;
+  --card-foreground: #eef5f7;
+  --primary: #2ec4b6;
+  --primary-foreground: #04201d;
+  --secondary: #1a2c33;
+  --secondary-foreground: #d7e6ea;
+  --muted: #15252c;
+  --muted-foreground: #9fb3bb;
+  --accent: #e0b84a;
+  --accent-foreground: #1a1504;
+  --destructive: #e06a5c;
+  --destructive-foreground: #1a0806;
+  --success: #3daf74;
+  --warning: #d4a017;
+  --border: #243840;
+  --ring: #2ec4b6;
+
+  --surface-grid:
+    radial-gradient(ellipse 70% 45% at 15% -5%, rgb(46 196 182 / 0.14), transparent 55%),
+    radial-gradient(ellipse 50% 35% at 90% 5%, rgb(224 184 74 / 0.08), transparent 50%),
+    linear-gradient(180deg, #0a161c 0%, #071318 100%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image: var(--surface-grid);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 28%, white);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-sm);
+}
+
+@utility shadow-lift {
+  box-shadow: var(--shadow-md);
+}
+
+@utility shadow-hero {
+  box-shadow: var(--shadow-lg);
 }
