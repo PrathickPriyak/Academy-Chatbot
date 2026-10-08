@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { searchCatalog, type SearchHit } from "@/data/catalog";
+import { duration, easeOutPremium, listItemFade } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 export function CourseSearch({
@@ -128,18 +129,26 @@ export function CourseSearch({
           <motion.div
             id={listId}
             role="listbox"
-            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: 4 }}
-            transition={{ duration: 0.16 }}
-            className="border-border bg-card absolute top-[calc(100%+0.5rem)] right-0 left-0 z-50 overflow-hidden rounded-2xl border shadow-lift"
+            initial={reduceMotion ? false : { opacity: 0, y: 6, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: 4, scale: 0.99 }}
+            transition={{ duration: duration.fast, ease: easeOutPremium }}
+            className="border-border bg-card absolute top-[calc(100%+0.5rem)] right-0 left-0 z-50 overflow-hidden rounded-2xl border shadow-lift origin-top"
           >
             {hits.length === 0 ? (
               <p className="text-muted-foreground px-4 py-4 text-sm">
                 No courses or categories match “{query.trim()}”. Try another skill or browse all courses.
               </p>
             ) : (
-              <ul className="max-h-80 overflow-auto py-1">
+              <motion.ul
+                className="max-h-80 overflow-auto py-1"
+                initial={reduceMotion ? false : "hidden"}
+                animate="visible"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.03 } },
+                }}
+              >
                 {hits.map((hit, index) => (
                   <SuggestionRow
                     key={`${hit.kind}-${hit.label}`}
@@ -147,9 +156,10 @@ export function CourseSearch({
                     hit={hit}
                     active={index === activeIndex}
                     onSelect={() => go(hit.href)}
+                    animate={!reduceMotion}
                   />
                 ))}
-              </ul>
+              </motion.ul>
             )}
             <div className="border-border border-t px-3 py-2">
               <Link
@@ -176,15 +186,22 @@ function SuggestionRow({
   active,
   onSelect,
   id,
+  animate,
 }: {
   hit: SearchHit;
   active: boolean;
   onSelect: () => void;
   id: string;
+  animate: boolean;
 }) {
   const Icon = hit.kind === "category" ? FolderOpen : BookOpen;
   return (
-    <li role="option" id={id} aria-selected={active}>
+    <motion.li
+      role="option"
+      id={id}
+      aria-selected={active}
+      variants={animate ? listItemFade : undefined}
+    >
       <button
         type="button"
         className={cn(
@@ -202,6 +219,6 @@ function SuggestionRow({
           </span>
         </span>
       </button>
-    </li>
+    </motion.li>
   );
 }

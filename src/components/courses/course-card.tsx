@@ -2,10 +2,10 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Clock3 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import { HoverMedia } from "@/components/ui/hover-media";
 import {
   catalog,
   categoryNameForCourse,
@@ -13,6 +13,7 @@ import {
   levelLabel,
   type CatalogCourse,
 } from "@/data/catalog";
+import { hoverLift, transitionFast } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 export function CourseCard({
@@ -31,27 +32,26 @@ export function CourseCard({
   return (
     <motion.article
       className={cn(
-        "border-border bg-card group relative flex h-full flex-col overflow-hidden rounded-2xl border shadow-soft",
+        "border-border bg-card group relative flex h-full flex-col overflow-hidden rounded-2xl border shadow-soft will-change-transform",
         className,
       )}
-      whileHover={reduceMotion ? undefined : { y: -4, boxShadow: "var(--shadow-md)" }}
-      transition={{ duration: 0.2 }}
+      whileHover={hoverLift(reduceMotion, 4)}
+      transition={transitionFast}
     >
       <Link href={`/courses/${course.slug}`} className="flex h-full flex-col outline-none">
-        <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-          <Image
-            src={course.thumbnail}
-            alt=""
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-          />
+        <HoverMedia
+          src={course.thumbnail}
+          alt=""
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="aspect-[16/10] bg-muted"
+        >
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
           <div className="absolute top-3 left-3 flex flex-wrap gap-2">
             <Badge variant="secondary">{category}</Badge>
             {featured ? <Badge variant="accent">Featured</Badge> : null}
           </div>
-        </div>
+        </HoverMedia>
 
         <div className="flex flex-1 flex-col gap-3 p-5">
           <div className="space-y-2">
@@ -78,7 +78,7 @@ export function CourseCard({
             <span className="text-foreground text-sm font-semibold">{price}</span>
             <span className="text-primary inline-flex items-center gap-1 text-sm font-semibold opacity-90 transition-opacity group-hover:opacity-100">
               View course
-              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="size-4 transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
             </span>
           </div>
         </div>

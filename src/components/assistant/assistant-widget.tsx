@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { LoadingDots } from "@/components/ui/loading-dots";
 import { suggestionPrompts, welcomeMessage } from "@/lib/chat/prompts";
 import { duration, easeOutPremium } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -139,9 +140,12 @@ export function AssistantWidget() {
 
               <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
                 {messages.map((message) => (
-                  <div
+                  <motion.div
                     key={message.id}
                     className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}
+                    initial={reduceMotion ? false : { opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: duration.fast, ease: easeOutPremium }}
                   >
                     <div
                       className={cn(
@@ -173,31 +177,41 @@ export function AssistantWidget() {
                         </div>
                       ) : null}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
                 {loading ? (
-                  <p className="text-muted-foreground text-sm" aria-live="polite">
-                    Assistant is typing…
+                  <p className="text-muted-foreground flex items-center gap-2 text-sm" aria-live="polite">
+                    Assistant is typing
+                    <LoadingDots label="Assistant is typing" />
                   </p>
                 ) : null}
                 {error ? (
-                  <p className="text-destructive text-sm" role="alert">
+                  <motion.p
+                    className="text-destructive text-sm"
+                    role="alert"
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
                     {error}
-                  </p>
+                  </motion.p>
                 ) : null}
               </div>
 
               {messages.length <= 1 ? (
                 <div className="border-border flex flex-wrap gap-2 border-t px-4 py-3">
-                  {suggestionPrompts.map((prompt) => (
-                    <button
+                  {suggestionPrompts.map((prompt, index) => (
+                    <motion.button
                       key={prompt}
                       type="button"
-                      className="border-border hover:bg-muted rounded-full border px-3 py-1.5 text-left text-xs font-medium"
+                      className="border-border hover:bg-muted rounded-full border px-3 py-1.5 text-left text-xs font-medium transition-colors"
                       onClick={() => void ask(prompt)}
+                      initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.04, duration: duration.fast, ease: easeOutPremium }}
+                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
                     >
                       {prompt}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               ) : null}
@@ -228,24 +242,30 @@ export function AssistantWidget() {
           ) : null}
         </AnimatePresence>
 
-        <Button
-          type="button"
-          size="lg"
-          className="rounded-full shadow-hero"
-          aria-expanded={open && !minimized}
-          aria-controls={panelId}
-          onClick={() => {
-            if (open && minimized) {
-              setMinimized(false);
-              return;
-            }
-            setOpen((value) => !value);
-            setMinimized(false);
-          }}
+        <motion.div
+          initial={false}
+          animate={reduceMotion ? undefined : { scale: open && !minimized ? 0.98 : 1 }}
+          transition={{ duration: duration.fast, ease: easeOutPremium }}
         >
-          <MessageCircle />
-          {open && !minimized ? "Close chat" : minimized ? "Open chat" : "Ask Infozub"}
-        </Button>
+          <Button
+            type="button"
+            size="lg"
+            className="rounded-full shadow-hero"
+            aria-expanded={open && !minimized}
+            aria-controls={panelId}
+            onClick={() => {
+              if (open && minimized) {
+                setMinimized(false);
+                return;
+              }
+              setOpen((value) => !value);
+              setMinimized(false);
+            }}
+          >
+            <MessageCircle />
+            {open && !minimized ? "Close chat" : minimized ? "Open chat" : "Ask Infozub"}
+          </Button>
+        </motion.div>
       </div>
     </div>
   );

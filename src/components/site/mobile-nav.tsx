@@ -85,11 +85,25 @@ export function MobileNav({
               <CourseSearch onNavigate={onClose} className="mb-6" />
 
               <nav aria-label="Primary">
-                <ul className="flex flex-col gap-1">
+                <motion.ul
+                  className="flex flex-col gap-1"
+                  initial={reduceMotion ? false : "hidden"}
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.04, delayChildren: 0.05 } },
+                  }}
+                >
                   {navLinks.map((link) => {
                     const active = isActive(link.href);
                     return (
-                      <li key={link.href}>
+                      <motion.li
+                        key={link.href}
+                        variants={{
+                          hidden: { opacity: 0, x: 12 },
+                          visible: { opacity: 1, x: 0, transition: { duration: duration.fast, ease: easeOutPremium } },
+                        }}
+                      >
                         <Link
                           href={link.href}
                           className={cn(
@@ -103,10 +117,10 @@ export function MobileNav({
                         >
                           {link.label}
                         </Link>
-                      </li>
+                      </motion.li>
                     );
                   })}
-                </ul>
+                </motion.ul>
               </nav>
 
               <div className="mt-6">
@@ -118,7 +132,7 @@ export function MobileNav({
                     <li key={category.slug}>
                       <Link
                         href={`/courses?category=${category.slug}`}
-                        className="text-foreground hover:bg-muted flex min-h-11 items-center rounded-xl px-3 text-sm font-medium"
+                        className="text-foreground hover:bg-muted flex min-h-11 items-center rounded-xl px-3 text-sm font-medium transition-colors"
                         onClick={onClose}
                       >
                         {category.name}

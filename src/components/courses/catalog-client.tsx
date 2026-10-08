@@ -12,6 +12,7 @@ import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
+import { LoadingDots } from "@/components/ui/loading-dots";
 import {
   catalog,
   countActiveFilters,
@@ -243,8 +244,15 @@ export function CatalogClient() {
               instructor, skill, or topic — then open a course for modules and enrollment.
             </p>
           </div>
-          <p className="text-muted-foreground text-sm font-medium" aria-live="polite">
-            {pending ? "Updating…" : `${courses.length} course${courses.length === 1 ? "" : "s"}`}
+          <p className="text-muted-foreground flex items-center gap-2 text-sm font-medium" aria-live="polite">
+            {pending ? (
+              <>
+                Updating
+                <LoadingDots label="Updating results" />
+              </>
+            ) : (
+              `${courses.length} course${courses.length === 1 ? "" : "s"}`
+            )}
           </p>
         </div>
 
@@ -362,11 +370,26 @@ export function CatalogClient() {
                 }
               />
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                {courses.map((course) => (
-                  <CourseCard key={course.slug} course={course} />
-                ))}
-              </div>
+              <motion.div
+                className={cn("grid gap-6 sm:grid-cols-2 xl:grid-cols-3", pending && "opacity-70")}
+                layout={!reduceMotion}
+                transition={{ duration: motionDuration.fast, ease: easeOutPremium }}
+              >
+                <AnimatePresence mode="popLayout">
+                  {courses.map((course) => (
+                    <motion.div
+                      key={course.slug}
+                      layout={!reduceMotion}
+                      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={reduceMotion ? undefined : { opacity: 0, scale: 0.98 }}
+                      transition={{ duration: motionDuration.fast, ease: easeOutPremium }}
+                    >
+                      <CourseCard course={course} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
             )}
 
             <p className="text-muted-foreground mt-8 text-sm">
@@ -440,16 +463,17 @@ function FilterChip({
   onClick: () => void;
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
+      whileTap={{ scale: 0.97 }}
       className={cn(
-        "inline-flex min-h-10 shrink-0 items-center rounded-xl px-3 text-sm font-semibold transition-colors",
-        active ? "bg-primary text-primary-foreground" : "bg-muted text-foreground hover:bg-muted/80",
+        "relative inline-flex min-h-10 shrink-0 items-center rounded-xl px-3 text-sm font-semibold transition-colors",
+        active ? "bg-primary text-primary-foreground shadow-soft" : "bg-muted text-foreground hover:bg-muted/80",
       )}
     >
       {label}
-    </button>
+    </motion.button>
   );
 }
 

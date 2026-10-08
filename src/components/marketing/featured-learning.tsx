@@ -2,13 +2,13 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { HoverMedia } from "@/components/ui/hover-media";
 import {
   catalog,
   categoryNameForCourse,
@@ -52,15 +52,13 @@ export function FeaturedLearning() {
             transition={{ duration: 0.2 }}
           >
             <Link href={`/courses/${primary.slug}`} className="grid h-full md:grid-cols-[1.1fr_0.9fr]">
-              <div className="relative min-h-64 md:min-h-full">
-                <Image
-                  src={primary.thumbnail}
-                  alt=""
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
+              <HoverMedia
+                src={primary.thumbnail}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="min-h-64 md:min-h-full"
+              />
               <div className="flex flex-col justify-between gap-6 p-6 sm:p-8">
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-2">
@@ -93,15 +91,13 @@ export function FeaturedLearning() {
                 transition={{ duration: 0.2 }}
               >
                 <Link href={`/courses/${course.slug}`} className="flex h-full flex-col sm:flex-row">
-                  <div className="relative aspect-[16/10] w-full shrink-0 sm:aspect-auto sm:w-40">
-                    <Image
-                      src={course.thumbnail}
-                      alt=""
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                      sizes="160px"
-                    />
-                  </div>
+                  <HoverMedia
+                    src={course.thumbnail}
+                    alt=""
+                    fill
+                    sizes="160px"
+                    className="aspect-[16/10] w-full shrink-0 sm:aspect-auto sm:min-h-full sm:w-40"
+                  />
                   <div className="flex flex-1 flex-col justify-between gap-3 p-5">
                     <div>
                       <Badge variant="secondary" className="mb-2">

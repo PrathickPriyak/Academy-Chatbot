@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import type { CatalogModule } from "@/data/catalog";
-import { cn } from "@/lib/utils";
+import { duration, easeOutPremium } from "@/lib/motion";
 
 export function ModuleList({ modules }: { modules: CatalogModule[] }) {
   const [openIndexes, setOpenIndexes] = useState<Set<number>>(new Set([0]));
@@ -44,10 +44,13 @@ export function ModuleList({ modules }: { modules: CatalogModule[] }) {
           const open = openIndexes.has(index);
           const panelId = `module-panel-${index}`;
           return (
-            <li key={`${module.title}-${index}`} className="border-border bg-card overflow-hidden rounded-2xl border">
+            <li
+              key={`${module.title}-${index}`}
+              className="border-border bg-card overflow-hidden rounded-2xl border transition-shadow duration-200 hover:shadow-soft"
+            >
               <button
                 type="button"
-                className="flex w-full min-h-14 items-center justify-between gap-3 px-5 py-4 text-left"
+                className="flex w-full min-h-14 items-center justify-between gap-3 px-5 py-4 text-left transition-colors hover:bg-muted/40"
                 aria-expanded={open}
                 aria-controls={panelId}
                 onClick={() => toggle(index)}
@@ -60,7 +63,13 @@ export function ModuleList({ modules }: { modules: CatalogModule[] }) {
                     {module.title.replace(/^Module\s+\d+:\s*/i, "")}
                   </span>
                 </span>
-                <ChevronDown className={cn("size-5 shrink-0 transition-transform", open && "rotate-180")} />
+                <motion.span
+                  animate={{ rotate: open ? 180 : 0 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: duration.fast, ease: easeOutPremium }}
+                  className="inline-flex"
+                >
+                  <ChevronDown className="size-5 shrink-0" />
+                </motion.span>
               </button>
               <AnimatePresence initial={false}>
                 {open ? (
@@ -69,7 +78,7 @@ export function ModuleList({ modules }: { modules: CatalogModule[] }) {
                     initial={reduceMotion ? false : { height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-                    transition={{ duration: 0.22 }}
+                    transition={reduceMotion ? { duration: 0 } : { duration: duration.base, ease: easeOutPremium }}
                     className="overflow-hidden"
                   >
                     <div className="border-border space-y-3 border-t px-5 py-4">
