@@ -318,7 +318,7 @@ export function CatalogClient() {
                 {courses.map((course, index) => (
                   <motion.div
                     key={course.slug}
-                    initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
                       duration: motionDuration.fast,

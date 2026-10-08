@@ -94,14 +94,12 @@ export const listItemFade: Variants = {
 };
 
 export function revealProps(reduceMotion: boolean | null) {
-  if (reduceMotion) {
-    return {};
-  }
   return {
     variants: fadeUp,
     initial: "hidden" as const,
     whileInView: "visible" as const,
     viewport: { once: true, margin: "-40px" as const },
+    transition: reduceMotion ? { duration: 0 } : transitionBase,
   };
 }
 

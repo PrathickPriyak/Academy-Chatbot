@@ -36,10 +36,10 @@ export function Testimonials() {
           <AnimatePresence mode="wait">
             <motion.blockquote
               key={item.name}
-              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
-              transition={{ duration: 0.22 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: reduceMotion ? 0 : 0.22 }}
               className="text-center"
               aria-live="polite"
             >

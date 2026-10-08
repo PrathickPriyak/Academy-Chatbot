@@ -24,14 +24,16 @@ export function FinalCta() {
             transition={{ duration: duration.base, ease: easeOutPremium }}
           >
             <div className="absolute -top-20 right-0 size-64 rounded-full bg-accent/25 blur-3xl" aria-hidden />
-            {!reduceMotion ? (
-              <motion.div
-                aria-hidden
-                className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                animate={{ x: ["0%", "280%"] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
-              />
-            ) : null}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              animate={reduceMotion ? { x: "0%" } : { x: ["0%", "280%"] }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 4.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }
+              }
+            />
             <div className="relative mx-auto max-w-2xl text-center">
               <h2 className="font-display text-3xl tracking-tight sm:text-4xl">Ready to start learning?</h2>
               <p className="mt-4 text-base leading-relaxed text-primary-foreground/90">

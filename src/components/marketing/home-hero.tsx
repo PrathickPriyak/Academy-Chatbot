@@ -13,6 +13,11 @@ import { duration, easeOutPremium } from "@/lib/motion";
 export function HomeHero() {
   const reduceMotion = useReducedMotion();
   const heroImage = listCourses()[0]?.thumbnail ?? "/infozub-logo.jpg";
+  const t = (ms: number, delay = 0) => ({
+    duration: reduceMotion ? 0 : ms,
+    ease: easeOutPremium,
+    delay: reduceMotion ? 0 : delay,
+  });
 
   return (
     <section className="relative isolate min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-4.25rem)]">
@@ -34,27 +39,27 @@ export function HomeHero() {
         <div className="max-w-2xl text-white">
           <motion.p
             className="mb-4 font-semibold tracking-[0.22em] text-[0.7rem] text-[#7edfd6] uppercase sm:mb-5 sm:text-xs"
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.base, ease: easeOutPremium }}
+            transition={t(duration.base)}
           >
             {site.name}
           </motion.p>
 
           <motion.h1
             className="font-display text-4xl leading-[1.02] tracking-tight sm:text-5xl sm:leading-[0.98] lg:text-7xl"
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.slow, ease: easeOutPremium, delay: 0.05 }}
+            transition={t(duration.slow, 0.05)}
           >
             {site.tagline}
           </motion.h1>
 
           <motion.p
             className="mt-4 max-w-lg text-base leading-relaxed text-white/90 sm:mt-5 sm:text-lg"
-            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.base, ease: easeOutPremium, delay: 0.12 }}
+            transition={t(duration.base, 0.12)}
           >
             {site.description} Learn design, marketing, web, video, business, and career skills through published
             Infozub programs.
@@ -62,9 +67,9 @@ export function HomeHero() {
 
           <motion.div
             className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap"
-            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.base, ease: easeOutPremium, delay: 0.18 }}
+            transition={t(duration.base, 0.18)}
           >
             <Button asChild size="lg" className="w-full bg-[#0d7377] text-white hover:bg-[#0d7377]/90 sm:w-auto">
               <Link href="/courses">Explore Courses</Link>
@@ -81,9 +86,9 @@ export function HomeHero() {
 
           <motion.div
             className="relative z-20 mt-7 max-w-xl sm:mt-8"
-            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.base, ease: easeOutPremium, delay: 0.24 }}
+            transition={t(duration.base, 0.24)}
           >
             <CourseSearch
               size="lg"

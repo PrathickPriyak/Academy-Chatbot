@@ -17,10 +17,6 @@ export function Reveal({
 }) {
   const reduceMotion = useReducedMotion();
 
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
     <motion.div
       className={className}
@@ -28,7 +24,7 @@ export function Reveal({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-40px", amount: 0.2 }}
-      transition={{ delay }}
+      transition={{ delay, duration: reduceMotion ? 0 : undefined }}
     >
       {children}
     </motion.div>
@@ -44,10 +40,6 @@ export function RevealStagger({
 }) {
   const reduceMotion = useReducedMotion();
 
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
     <motion.div
       className={cn(className)}
@@ -55,6 +47,7 @@ export function RevealStagger({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-40px", amount: 0.15 }}
+      transition={{ duration: reduceMotion ? 0 : undefined }}
     >
       {children}
     </motion.div>
@@ -68,12 +61,6 @@ export function RevealItem({
   children: ReactNode;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion();
-
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
     <motion.div className={className} variants={fadeUp}>
       {children}

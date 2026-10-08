@@ -84,9 +84,9 @@ export function CourseDetailView({
 
           <div className="grid items-start gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: duration.base, ease: easeOutPremium }}
+              transition={{ duration: reduceMotion ? 0 : duration.base, ease: easeOutPremium }}
             >
               <div className="flex flex-wrap gap-2">
                 <Badge variant="secondary">{category}</Badge>
@@ -126,9 +126,13 @@ export function CourseDetailView({
 
             <motion.div
               className="border-border relative aspect-[4/3] overflow-hidden rounded-[2rem] border shadow-hero"
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: duration.slow, ease: easeOutPremium, delay: 0.08 }}
+              transition={{
+                duration: reduceMotion ? 0 : duration.slow,
+                ease: easeOutPremium,
+                delay: reduceMotion ? 0 : 0.08,
+              }}
             >
               <Image
                 src={course.thumbnail}

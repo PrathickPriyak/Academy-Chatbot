@@ -20,7 +20,9 @@ function AnimatedValue({
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const reduceMotion = useReducedMotion();
-  const [display, setDisplay] = useState(reduceMotion ? value : 0);
+  // Always start at 0 so SSR and the first client paint match (prefers-reduced-motion
+  // is only known after hydration and must not change the initial text node).
+  const [display, setDisplay] = useState(0);
 
   useEffect(() => {
     if (!inView) return;
