@@ -27,7 +27,13 @@ export function InstructorSpotlight() {
         <Reveal className="border-border bg-card mx-auto mt-10 max-w-4xl overflow-hidden rounded-[2rem] border shadow-lift">
           <div className="grid md:grid-cols-[0.85fr_1.15fr]">
             <div className="relative min-h-72 md:min-h-full">
-              <Image src={portrait} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 40vw" />
+              <Image
+                src={portrait}
+                alt={`${founder.name}, ${founder.title}`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 to-transparent md:bg-gradient-to-r" />
             </div>
             <div className="flex flex-col justify-center gap-5 p-6 sm:p-8">

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { CourseDetailView } from "@/components/courses/course-detail-view";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getCourseBySlug, listCourses } from "@/data/catalog";
-import { site } from "@/data/site";
 import {
   courseFaqs,
   courseMeta,
@@ -11,6 +11,7 @@ import {
   courseReviews,
   learningOutcomesFromCourse,
 } from "@/lib/courses/presenters";
+import { courseJsonLd, defaultOgImage } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const course = getCourseBySlug(slug);
   if (!course) return { title: "Course not found" };
+  const image = { url: course.thumbnail, alt: course.title };
   return {
     title: course.title,
     description: course.shortDescription,
@@ -29,8 +31,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: course.title,
       description: course.shortDescription,
-      images: [{ url: course.thumbnail }],
+      url: `/courses/${course.slug}`,
+      images: [image],
       type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: course.title,
+      description: course.shortDescription,
+      images: [course.thumbnail || defaultOgImage.url],
     },
   };
 }
@@ -61,33 +70,12 @@ export default async function CourseDetailPage({ params }: Props) {
         faqs={faqs}
         reviews={reviews}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Course",
-            name: course.title,
-            description: course.shortDescription,
-            provider: {
-              "@type": "Organization",
-              name: site.name,
-              sameAs: site.url,
-            },
-            url: `${site.url}/courses/${course.slug}`,
-            educationalLevel: meta.level,
-            timeRequired: course.duration,
-            offers:
-              course.price > 0
-                ? {
-                    "@type": "Offer",
-                    price: course.price,
-                    priceCurrency: "INR",
-                    url: course.enrollmentUrl,
-                  }
-                : undefined,
-          }),
-        }}
+      <JsonLd
+        data={courseJsonLd(course, {
+          category: meta.category,
+          level: meta.level,
+          faqs,
+        })}
       />
     </>
   );

@@ -10,6 +10,7 @@ import { refundSummary, site } from "@/data/site";
 export const metadata: Metadata = {
   title: "Refund Policy",
   description: refundSummary.body,
+  alternates: { canonical: "/refund" },
 };
 
 export default function RefundPage() {

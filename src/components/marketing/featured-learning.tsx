@@ -54,7 +54,7 @@ export function FeaturedLearning() {
             <Link href={`/courses/${primary.slug}`} className="grid h-full md:grid-cols-[1.1fr_0.9fr]">
               <HoverMedia
                 src={primary.thumbnail}
-                alt=""
+                alt={`${primary.title} course thumbnail`}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="min-h-64 md:min-h-full"
@@ -93,7 +93,7 @@ export function FeaturedLearning() {
                 <Link href={`/courses/${course.slug}`} className="flex h-full flex-col sm:flex-row">
                   <HoverMedia
                     src={course.thumbnail}
-                    alt=""
+                    alt={`${course.title} course thumbnail`}
                     fill
                     sizes="160px"
                     className="aspect-[16/10] w-full shrink-0 sm:aspect-auto sm:min-h-full sm:w-40"

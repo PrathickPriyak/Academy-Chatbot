@@ -32,7 +32,7 @@ export function CourseCard({
   return (
     <motion.article
       className={cn(
-        "border-border bg-card group relative flex h-full flex-col overflow-hidden rounded-2xl border shadow-soft will-change-transform",
+        "border-border bg-card group relative flex h-full flex-col overflow-hidden rounded-2xl border shadow-soft",
         className,
       )}
       whileHover={hoverLift(reduceMotion, 4)}
@@ -41,7 +41,7 @@ export function CourseCard({
       <Link href={`/courses/${course.slug}`} className="flex h-full flex-col outline-none">
         <HoverMedia
           src={course.thumbnail}
-          alt=""
+          alt={`${course.title} course thumbnail`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="aspect-[16/10] bg-muted"

@@ -129,7 +129,7 @@ export function CourseDetailView({
             >
               <Image
                 src={course.thumbnail}
-                alt=""
+                alt={`${course.title} course thumbnail`}
                 fill
                 priority
                 className="object-cover"
@@ -205,7 +205,13 @@ export function CourseDetailView({
                 <div className="border-border bg-card mt-5 overflow-hidden rounded-[1.75rem] border shadow-soft">
                   <div className="grid sm:grid-cols-[8rem_1fr]">
                     <div className="relative min-h-40 bg-muted sm:min-h-full">
-                      <Image src={course.thumbnail} alt="" fill className="object-cover" sizes="160px" />
+                      <Image
+                        src={course.thumbnail}
+                        alt={`${course.title} course thumbnail`}
+                        fill
+                        className="object-cover"
+                        sizes="160px"
+                      />
                     </div>
                     <div className="p-6">
                       <h3 className="font-display text-2xl tracking-tight">{instructorName}</h3>

@@ -16,6 +16,7 @@ export function BrandLogo({ className, priority = false }: { className?: string;
         alt="Infozub"
         width={148}
         height={40}
+        sizes="148px"
         priority={priority}
         className="h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02] sm:h-10"
       />

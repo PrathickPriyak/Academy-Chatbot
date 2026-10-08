@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
-import { AssistantWidget } from "@/components/assistant/assistant-widget";
-import { PageTransition } from "@/components/motion/page-transition";
+import { LazyAssistantWidget } from "@/components/assistant/lazy-assistant-widget";
 
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
@@ -17,10 +16,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
       </a>
       <SiteHeader />
       <main id="main-content" className="flex-1">
-        <PageTransition>{children}</PageTransition>
+        {children}
       </main>
       <SiteFooter />
-      <AssistantWidget />
+      <LazyAssistantWidget />
     </div>
   );
 }

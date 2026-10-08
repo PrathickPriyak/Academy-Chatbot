@@ -381,26 +381,22 @@ export function CatalogClient() {
                 }
               />
             ) : (
-              <motion.div
-                className={cn("grid gap-6 sm:grid-cols-2 xl:grid-cols-3", pending && "opacity-70")}
-                layout={!reduceMotion}
-                transition={{ duration: motionDuration.fast, ease: easeOutPremium }}
-              >
-                <AnimatePresence mode="popLayout">
-                  {courses.map((course) => (
-                    <motion.div
-                      key={course.slug}
-                      layout={!reduceMotion}
-                      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduceMotion ? undefined : { opacity: 0, scale: 0.98 }}
-                      transition={{ duration: motionDuration.fast, ease: easeOutPremium }}
-                    >
-                      <CourseCard course={course} />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </motion.div>
+              <div className={cn("grid gap-6 sm:grid-cols-2 xl:grid-cols-3", pending && "opacity-80")}>
+                {courses.map((course, index) => (
+                  <motion.div
+                    key={course.slug}
+                    initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: motionDuration.fast,
+                      ease: easeOutPremium,
+                      delay: Math.min(index, 8) * 0.02,
+                    }}
+                  >
+                    <CourseCard course={course} />
+                  </motion.div>
+                ))}
+              </div>
             )}
 
             <p className="text-muted-foreground mt-8 text-sm">

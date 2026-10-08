@@ -12,6 +12,16 @@ export const metadata: Metadata = {
   title: "Contact",
   description: `Contact ${site.name} at ${site.email} or ${site.phone}. Offices in Palladam and Tiruppur.`,
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: `Contact · ${site.name}`,
+    description: `Contact ${site.name} at ${site.email} or ${site.phone}. Offices in Palladam and Tiruppur.`,
+    url: "/contact",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Contact · ${site.name}`,
+    description: `Contact ${site.name} at ${site.email} or ${site.phone}. Offices in Palladam and Tiruppur.`,
+  },
 };
 
 export default function ContactPage() {

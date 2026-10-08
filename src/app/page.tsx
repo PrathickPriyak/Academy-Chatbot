@@ -1,24 +1,52 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import { AudienceGrid } from "@/components/marketing/audience-grid";
 import { CategoryGrid } from "@/components/marketing/category-grid";
 import { FeaturedLearning } from "@/components/marketing/featured-learning";
-import { FinalCta } from "@/components/marketing/final-cta";
 import { HomeHero } from "@/components/marketing/home-hero";
-import { InstructorSpotlight } from "@/components/marketing/instructor-spotlight";
 import { PopularCourses } from "@/components/marketing/popular-courses";
 import { StatsBand } from "@/components/marketing/stats-band";
-import { Testimonials } from "@/components/marketing/testimonials";
 import { WhyInfozub } from "@/components/marketing/why-infozub";
+import { JsonLd } from "@/components/seo/json-ld";
+import { listCategories, listCourses } from "@/data/catalog";
 import { site } from "@/data/site";
+import { defaultOgImage, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+
+const InstructorSpotlight = dynamic(() =>
+  import("@/components/marketing/instructor-spotlight").then((mod) => ({
+    default: mod.InstructorSpotlight,
+  })),
+);
+const Testimonials = dynamic(() =>
+  import("@/components/marketing/testimonials").then((mod) => ({
+    default: mod.Testimonials,
+  })),
+);
+const FinalCta = dynamic(() =>
+  import("@/components/marketing/final-cta").then((mod) => ({
+    default: mod.FinalCta,
+  })),
+);
+
+const title = `${site.name} · ${site.tagline}`;
+const description = `${site.description} Browse ${listCourses().length} published courses across ${listCategories().length} skill categories.`;
 
 export const metadata: Metadata = {
-  title: { absolute: `${site.name} · ${site.tagline}` },
-  description: site.description,
+  title: { absolute: title },
+  description,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: `${site.name} · ${site.tagline}`,
-    description: site.description,
+    title,
+    description,
     url: site.url,
+    images: [defaultOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [defaultOgImage.url],
   },
 };
 
@@ -35,21 +63,8 @@ export default function HomePage() {
       <InstructorSpotlight />
       <Testimonials />
       <FinalCta />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "EducationalOrganization",
-            name: site.name,
-            url: site.url,
-            email: site.email,
-            telephone: site.phone,
-            description: site.description,
-            slogan: site.tagline,
-          }),
-        }}
-      />
+      <JsonLd data={organizationJsonLd()} />
+      <JsonLd data={websiteJsonLd()} />
     </>
   );
 }

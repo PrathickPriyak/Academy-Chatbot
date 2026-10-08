@@ -1,6 +1,3 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLAttributes } from "react";
 
 import { cn } from "@/lib/utils";
@@ -10,26 +7,15 @@ export function Card({
   interactive = false,
   ...props
 }: HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {
-  const reduceMotion = useReducedMotion();
-
-  if (!interactive) {
-    return (
-      <div
-        className={cn("border-border bg-card text-card-foreground rounded-2xl border shadow-soft", className)}
-        {...props}
-      />
-    );
-  }
-
   return (
-    <motion.div
+    <div
       className={cn(
-        "border-border bg-card text-card-foreground rounded-2xl border shadow-soft transition-colors",
+        "border-border bg-card text-card-foreground rounded-2xl border shadow-soft",
+        interactive &&
+          "transition-[transform,box-shadow] duration-200 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lift",
         className,
       )}
-      whileHover={reduceMotion ? undefined : { y: -4, boxShadow: "var(--shadow-md)" }}
-      transition={{ duration: 0.2 }}
-      {...(props as React.ComponentPropsWithoutRef<typeof motion.div>)}
+      {...props}
     />
   );
 }
