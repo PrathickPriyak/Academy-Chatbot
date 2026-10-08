@@ -76,10 +76,10 @@ export function SiteHeader() {
                       <button
                         type="button"
                         className={cn(
-                          "inline-flex h-10 items-center gap-1 rounded-xl px-2.5 text-sm font-semibold transition-colors xl:px-3",
+                          "inline-flex h-10 items-center gap-1 rounded-lg px-2.5 text-sm font-semibold transition-colors xl:px-3",
                           isActive(link.href)
-                            ? "bg-primary/10 text-primary"
-                            : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                            ? "text-primary"
+                            : "text-muted-foreground hover:bg-muted/70 hover:text-foreground",
                         )}
                       >
                         Categories
@@ -109,10 +109,10 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "relative inline-flex h-10 items-center rounded-xl px-2.5 text-sm font-semibold transition-colors xl:px-3",
+                    "relative inline-flex h-10 items-center rounded-lg px-2.5 text-sm font-semibold transition-colors xl:px-3",
                     active
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                      ? "text-primary"
+                      : "text-muted-foreground hover:bg-muted/70 hover:text-foreground",
                   )}
                   aria-current={active ? "page" : undefined}
                 >
@@ -120,7 +120,7 @@ export function SiteHeader() {
                   {active ? (
                     <motion.span
                       layoutId={reduceMotion ? undefined : "nav-active"}
-                      className="bg-primary absolute inset-x-2.5 -bottom-px h-0.5 rounded-full xl:inset-x-3"
+                      className="bg-primary absolute inset-x-2.5 -bottom-[0.7rem] h-[2px] rounded-full sm:-bottom-[0.85rem] xl:inset-x-3"
                       transition={{ duration: 0.2 }}
                     />
                   ) : null}

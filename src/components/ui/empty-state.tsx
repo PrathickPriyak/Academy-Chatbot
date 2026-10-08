@@ -17,12 +17,15 @@ export function EmptyState({
     <div
       role="status"
       className={cn(
-        "border-border bg-card flex flex-col items-start gap-3 rounded-2xl border border-dashed px-6 py-10 text-left shadow-soft",
+        "bg-muted/45 flex flex-col items-start gap-4 rounded-[1.5rem] px-7 py-12 text-left ring-1 ring-border/70",
         className,
       )}
     >
-      <h2 className="font-display text-xl tracking-tight">{title}</h2>
-      {description ? <p className="text-muted-foreground max-w-md text-sm leading-relaxed">{description}</p> : null}
+      <div className="space-y-2">
+        <p className="text-primary text-xs font-semibold tracking-[0.16em] uppercase">No matches</p>
+        <h2 className="font-display text-2xl tracking-tight">{title}</h2>
+        {description ? <p className="text-muted-foreground max-w-md text-sm leading-relaxed">{description}</p> : null}
+      </div>
       {action}
     </div>
   );

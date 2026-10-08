@@ -76,12 +76,15 @@ export default function AboutPage() {
             <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Academy introduction</p>
             <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">Built for practical digital skills</h2>
           </Reveal>
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            {aboutContent.introduction.map((paragraph) => (
+          <div className="mt-10 grid gap-8 lg:grid-cols-3 lg:gap-10">
+            {aboutContent.introduction.map((paragraph, index) => (
               <Reveal key={paragraph}>
-                <p className="border-border bg-card h-full rounded-2xl border p-6 text-sm leading-relaxed shadow-soft">
-                  {paragraph}
-                </p>
+                <div className="border-border/70 h-full border-t pt-5">
+                  <p className="text-primary mb-3 text-xs font-semibold tracking-[0.16em] uppercase">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <p className="text-foreground text-sm leading-relaxed sm:text-[0.95rem]">{paragraph}</p>
+                </div>
               </Reveal>
             ))}
           </div>

@@ -21,7 +21,6 @@ export function HomeHero() {
 
   return (
     <section className="relative isolate min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-4.25rem)]">
-      {/* Clip media only so search suggestions can escape the hero */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <Image
           src={heroImage}
@@ -29,35 +28,35 @@ export function HomeHero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center scale-[1.02]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#071318]/92 via-[#0b1f2a]/78 to-[#0b1f2a]/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#071318]/70 via-transparent to-[#071318]/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#061116]/94 via-[#0b1f2a]/82 to-[#0b1f2a]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#061116]/78 via-transparent to-[#061116]/30" />
       </div>
 
       <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-end px-4 py-12 sm:min-h-[calc(100svh-4.25rem)] sm:px-6 sm:py-20 lg:justify-center lg:px-8 lg:py-24">
         <div className="max-w-2xl text-white">
-          <motion.p
-            className="mb-4 font-semibold tracking-[0.22em] text-[0.7rem] text-[#7edfd6] uppercase sm:mb-5 sm:text-xs"
-            initial={{ opacity: 0, y: 10 }}
+          <motion.h1
+            className="font-display text-[2.65rem] leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={t(duration.base)}
+            transition={t(duration.slow)}
           >
             {site.name}
-          </motion.p>
-
-          <motion.h1
-            className="font-display text-4xl leading-[1.02] tracking-tight sm:text-5xl sm:leading-[0.98] lg:text-7xl"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={t(duration.slow, 0.05)}
-          >
-            {site.tagline}
           </motion.h1>
 
           <motion.p
+            className="mt-4 text-xl font-medium tracking-tight text-[#9ee8e1] sm:mt-5 sm:text-2xl"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={t(duration.base, 0.06)}
+          >
+            {site.tagline}
+          </motion.p>
+
+          <motion.p
             className="mt-4 max-w-lg text-base leading-relaxed text-white/90 sm:mt-5 sm:text-lg"
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={t(duration.base, 0.12)}
           >
@@ -66,7 +65,7 @@ export function HomeHero() {
           </motion.p>
 
           <motion.div
-            className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap"
+            className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={t(duration.base, 0.18)}
@@ -78,21 +77,21 @@ export function HomeHero() {
               asChild
               size="lg"
               variant="outline"
-              className="w-full border-white/35 bg-white/5 text-white hover:bg-white/12 hover:text-white sm:w-auto"
+              className="w-full border-white/40 bg-white/5 text-white hover:bg-white/12 hover:text-white sm:w-auto"
             >
               <Link href="/contact">Contact Us</Link>
             </Button>
           </motion.div>
 
           <motion.div
-            className="relative z-20 mt-7 max-w-xl sm:mt-8"
+            className="relative z-20 mt-8 max-w-xl"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={t(duration.base, 0.24)}
           >
             <CourseSearch
               size="lg"
-              className="[&_form]:border-white/20 [&_form]:bg-white/95 [&_form]:shadow-hero"
+              className="[&_form]:border-white/25 [&_form]:bg-white [&_form]:shadow-hero"
             />
           </motion.div>
         </div>

@@ -134,7 +134,7 @@ export function MobileNav({
                           className={cn(
                             "flex min-h-12 items-center rounded-xl px-3 text-base font-semibold transition-colors",
                             active
-                              ? "bg-primary/10 text-primary"
+                              ? "bg-primary/10 text-primary ring-1 ring-primary/15"
                               : "text-foreground hover:bg-muted",
                           )}
                           aria-current={active ? "page" : undefined}

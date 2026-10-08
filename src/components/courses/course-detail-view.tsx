@@ -75,9 +75,14 @@ export function CourseDetailView({
                   {category}
                 </Link>
               </li>
-              <li aria-hidden>/</li>
-              <li className="text-foreground font-medium" aria-current="page">
-                {course.title}
+              <li aria-hidden className="hidden sm:inline">
+                /
+              </li>
+              <li className="text-foreground max-w-[18rem] truncate font-medium" aria-current="page">
+                <span className="sr-only">{course.title}</span>
+                <span className="hidden sm:inline" aria-hidden>
+                  {course.title}
+                </span>
               </li>
             </ol>
           </nav>
@@ -99,7 +104,7 @@ export function CourseDetailView({
                 {course.shortDescription}
               </p>
 
-              <dl className="mt-8 grid gap-4 sm:grid-cols-2">
+              <dl className="border-border/80 mt-8 grid gap-x-6 gap-y-4 border-y py-5 sm:grid-cols-2">
                 <MetaItem icon={<UserRound className="size-4" aria-hidden />} label="Instructor" value={instructorName} />
                 <MetaItem icon={<Clock3 className="size-4" aria-hidden />} label="Duration" value={course.duration} />
                 <MetaItem icon={<Layers3 className="size-4" aria-hidden />} label="Modules" value={String(course.modules.length)} />
@@ -110,7 +115,7 @@ export function CourseDetailView({
                 Course ratings and student counts are not published in the archived catalog, so they are not shown here.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <div className="mt-8 flex flex-col gap-3 pr-14 sm:flex-row sm:flex-wrap sm:pr-0">
                 <Button asChild size="lg" className="w-full whitespace-normal sm:w-auto sm:whitespace-nowrap">
                   <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
                     <span className="sm:hidden">Enroll on Academy</span>
@@ -125,7 +130,7 @@ export function CourseDetailView({
             </motion.div>
 
             <motion.div
-              className="border-border relative aspect-[4/3] overflow-hidden rounded-[2rem] border shadow-hero"
+              className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] shadow-hero ring-1 ring-border/70"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
@@ -291,11 +296,11 @@ export function CourseDetailView({
           </div>
 
           <aside className="hidden lg:block">
-            <div className="border-border bg-card sticky top-24 rounded-[1.75rem] border p-5 shadow-lift">
-              <p className="text-muted-foreground text-xs font-semibold uppercase">Investment</p>
+            <div className="bg-card sticky top-24 rounded-[1.5rem] p-6 shadow-[0_1px_2px_rgb(11_31_42/0.04),0_14px_36px_rgb(11_31_42/0.08)] ring-1 ring-border/80">
+              <p className="text-muted-foreground text-[0.7rem] font-semibold tracking-wide uppercase">Investment</p>
               <p className="font-display mt-2 text-3xl tracking-tight">{price}</p>
               <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{course.duration}</p>
-              <ul className="text-muted-foreground mt-4 space-y-2 text-sm">
+              <ul className="text-muted-foreground mt-5 space-y-2.5 border-t border-border/70 pt-4 text-sm">
                 <li>{level} level</li>
                 <li>{course.modules.length} published modules</li>
                 <li>Instructor: {instructorName}</li>
@@ -320,11 +325,11 @@ export function CourseDetailView({
         </Container>
       </Section>
 
-      <div className="border-border bg-card/95 fixed inset-x-0 bottom-0 z-40 border-t px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
+      <div className="border-border/80 bg-card/96 fixed inset-x-0 bottom-0 z-40 border-t px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgb(11_31_42/0.06)] backdrop-blur-md lg:hidden">
         <div className="mx-auto flex max-w-6xl items-center gap-3">
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold">{course.title}</p>
-            <p className="text-muted-foreground text-xs">{price}</p>
+            <p className="truncate text-sm font-semibold tracking-tight">{course.title}</p>
+            <p className="text-primary text-xs font-semibold">{price}</p>
           </div>
           <Button asChild className="shrink-0">
             <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
@@ -348,12 +353,12 @@ function MetaItem({
   value: string;
 }) {
   return (
-    <div className="border-border bg-card/80 rounded-2xl border px-4 py-3">
-      <dt className="text-muted-foreground flex items-center gap-2 text-xs font-semibold uppercase">
+    <div className="min-w-0">
+      <dt className="text-muted-foreground flex items-center gap-2 text-[0.7rem] font-semibold tracking-wide uppercase">
         {icon}
         {label}
       </dt>
-      <dd className="mt-1 text-sm font-semibold">{value}</dd>
+      <dd className="mt-1 text-sm font-semibold tracking-tight">{value}</dd>
     </div>
   );
 }

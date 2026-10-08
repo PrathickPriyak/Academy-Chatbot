@@ -106,7 +106,7 @@ function ChatWorkspace() {
           </p>
         </div>
 
-        <div className="border-border bg-card mt-6 flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border shadow-soft sm:mt-8">
+        <div className="bg-card mt-6 flex min-h-[min(32rem,70dvh)] flex-1 flex-col overflow-hidden rounded-[1.5rem] shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 sm:mt-8">
           <div
             ref={listRef}
             role="log"
@@ -162,7 +162,7 @@ function ChatWorkspace() {
           </div>
 
           <div
-            className="border-border flex max-h-32 shrink-0 flex-wrap gap-2 overflow-y-auto border-t px-3 py-3 sm:px-4"
+            className="border-border/80 flex max-h-32 shrink-0 flex-wrap gap-2 overflow-y-auto border-t bg-muted/30 px-3 py-3 sm:px-4"
             role="group"
             aria-label="Suggested questions"
           >
@@ -170,7 +170,7 @@ function ChatWorkspace() {
               <button
                 key={prompt}
                 type="button"
-                className="border-border hover:bg-muted inline-flex min-h-11 items-center rounded-full border px-3.5 py-2 text-xs font-medium"
+                className="border-border/80 bg-card hover:border-primary/30 hover:bg-primary/5 inline-flex min-h-11 items-center rounded-xl border px-3.5 py-2 text-xs font-medium transition-colors"
                 onClick={() => void ask(prompt)}
               >
                 {prompt}

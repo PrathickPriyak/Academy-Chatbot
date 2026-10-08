@@ -166,13 +166,13 @@ export function AssistantWidget() {
               exit={reduceMotion ? undefined : { opacity: 0, y: 12, scale: 0.98 }}
               transition={{ duration: duration.base, ease: easeOutPremium }}
               className={cn(
-                "border-border bg-card flex w-full flex-col overflow-hidden rounded-3xl border shadow-hero",
+                "bg-card flex w-full flex-col overflow-hidden rounded-[1.5rem] shadow-hero ring-1 ring-border/80",
                 onCourseDetail
                   ? "h-[min(30rem,calc(100dvh-12.5rem))]"
                   : "h-[min(32rem,calc(100dvh-9.5rem))]",
               )}
             >
-              <header className="border-border flex items-center justify-between gap-2 border-b px-4 py-3">
+              <header className="border-border/80 from-primary/[0.06] flex items-center justify-between gap-2 border-b bg-gradient-to-r to-transparent px-4 py-3">
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold">Academy Assistant</p>
                   <p className="text-muted-foreground truncate text-xs">Grounded in published Infozub content</p>
@@ -271,7 +271,7 @@ export function AssistantWidget() {
 
               {messages.length <= 1 ? (
                 <div
-                  className="border-border flex max-h-28 flex-wrap gap-2 overflow-y-auto border-t px-4 py-3"
+                  className="border-border/80 flex max-h-28 flex-wrap gap-2 overflow-y-auto border-t bg-muted/30 px-4 py-3"
                   role="group"
                   aria-label="Suggested questions"
                 >
@@ -279,11 +279,15 @@ export function AssistantWidget() {
                     <motion.button
                       key={prompt}
                       type="button"
-                      className="border-border hover:bg-muted inline-flex min-h-11 items-center rounded-full border px-3.5 py-2 text-left text-xs font-medium transition-colors"
+                      className="border-border/80 bg-card hover:border-primary/30 hover:bg-primary/5 inline-flex min-h-11 items-center rounded-xl border px-3.5 py-2 text-left text-xs font-medium transition-colors"
                       onClick={() => void ask(prompt)}
-                      initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.04, duration: duration.fast, ease: easeOutPremium }}
+                      transition={{
+                        delay: reduceMotion ? 0 : index * 0.04,
+                        duration: reduceMotion ? 0 : duration.fast,
+                        ease: easeOutPremium,
+                      }}
                       whileTap={reduceMotion ? undefined : { scale: 0.97 }}
                     >
                       {prompt}
@@ -333,10 +337,15 @@ export function AssistantWidget() {
             ref={launcherRef}
             type="button"
             size="lg"
-            className="min-h-12 rounded-full shadow-hero"
+            className={cn(
+              "min-h-12 shadow-hero",
+              onCourseDetail ? "max-lg:size-12 max-lg:rounded-2xl max-lg:px-0" : "rounded-full",
+              !onCourseDetail && "rounded-full",
+            )}
             aria-expanded={panelOpen}
             aria-controls={panelId}
             aria-haspopup="dialog"
+            aria-label={panelOpen ? "Close chat" : minimized ? "Open chat" : "Ask Infozub"}
             onClick={() => {
               if (open && minimized) {
                 setMinimized(false);
@@ -351,7 +360,7 @@ export function AssistantWidget() {
             }}
           >
             <MessageCircle aria-hidden />
-            <span className="max-w-[10rem] truncate sm:max-w-none">
+            <span className={cn("max-w-[10rem] truncate sm:max-w-none", onCourseDetail && "max-lg:sr-only")}>
               {panelOpen ? "Close chat" : minimized ? "Open chat" : "Ask Infozub"}
             </span>
           </Button>

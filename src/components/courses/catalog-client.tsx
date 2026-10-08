@@ -150,8 +150,8 @@ export function CatalogClient() {
       <Container>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Catalog</p>
-            <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-5xl">Courses</h1>
+            <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
+            <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-[3.25rem]">Courses</h1>
             <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
               Browse all {catalog.courses.length} published Infozub Digital Academy courses. Search by name, category,
               instructor, skill, or topic — then open a course for modules and enrollment.
@@ -169,9 +169,9 @@ export function CatalogClient() {
           </p>
         </div>
 
-        <div className="relative mt-8">
+        <div id="categories" className="scroll-mt-28">
+        <div className="relative mt-8 lg:hidden">
           <div
-            id="categories"
             role="group"
             aria-label="Filter by category"
             className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -297,7 +297,7 @@ export function CatalogClient() {
         ) : null}
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[17rem_1fr]">
-          <aside className="border-border bg-card sticky top-24 hidden h-fit rounded-2xl border p-5 shadow-soft lg:block">
+          <aside className="bg-card sticky top-24 hidden h-fit rounded-[1.35rem] p-5 ring-1 ring-border/80 shadow-[0_1px_2px_rgb(11_31_42/0.04),0_10px_28px_rgb(11_31_42/0.05)] lg:block">
             <h2 className="mb-4 text-sm font-semibold tracking-wide uppercase">Filters</h2>
             <FilterPanel {...filterPanelProps} sortId="catalog-sort-desktop" />
           </aside>
@@ -344,6 +344,7 @@ export function CatalogClient() {
               .
             </p>
           </div>
+        </div>
         </div>
       </Container>
 
@@ -588,7 +589,9 @@ function FilterChip({
       whileTap={reduceMotion ? undefined : { scale: 0.97 }}
       className={cn(
         "relative inline-flex min-h-11 shrink-0 items-center rounded-xl px-3.5 text-sm font-semibold transition-colors",
-        active ? "bg-primary text-primary-foreground shadow-soft" : "bg-muted text-foreground hover:bg-muted/80",
+        active
+          ? "bg-primary text-primary-foreground shadow-soft"
+          : "bg-secondary/80 text-foreground hover:bg-secondary",
       )}
     >
       {label}
@@ -601,7 +604,7 @@ function ActiveChip({ label, onClear }: { label: string; onClear: () => void }) 
     <button
       type="button"
       onClick={onClear}
-      className="border-border bg-card inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3.5 text-xs font-semibold"
+      className="border-border/80 bg-card inline-flex min-h-11 items-center gap-1.5 rounded-xl border px-3.5 text-xs font-semibold"
     >
       <span className="max-w-[14rem] truncate">{label}</span>
       <X className="size-3.5" aria-hidden />

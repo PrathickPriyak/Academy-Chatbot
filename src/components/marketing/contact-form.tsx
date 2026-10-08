@@ -92,7 +92,7 @@ export function ContactForm() {
   if (status === "success") {
     return (
       <div
-        className="border-border bg-card rounded-2xl border p-6 shadow-soft sm:p-8"
+        className="bg-card rounded-[1.5rem] p-6 shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 sm:p-8"
         role="status"
         aria-live="polite"
       >
@@ -116,7 +116,7 @@ export function ContactForm() {
     <form
       ref={formRef}
       onSubmit={onSubmit}
-      className="border-border bg-card space-y-5 rounded-2xl border p-6 shadow-soft sm:p-8"
+      className="bg-card space-y-5 rounded-[1.5rem] p-6 shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 sm:p-8"
       noValidate
     >
       <div>
