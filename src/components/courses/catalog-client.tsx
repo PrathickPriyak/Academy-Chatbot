@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Filter, Search, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
@@ -11,12 +12,12 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
-import { HoverMedia } from "@/components/ui/hover-media";
 import { Input } from "@/components/ui/input";
 import { LoadingDots } from "@/components/ui/loading-dots";
 import {
   catalog,
   countActiveFilters,
+  durationLabel,
   filterCourses,
   listCategories,
   listCourses,
@@ -26,6 +27,7 @@ import {
   type CourseSort,
   type PriceFilter,
 } from "@/data/catalog";
+import { academyMedia } from "@/data/media";
 import { useChromeOverlayLock } from "@/hooks/use-chrome-overlay-lock";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
 import { duration as motionDuration, easeOutPremium } from "@/lib/motion";
@@ -75,6 +77,7 @@ export function CatalogClient() {
   const levels = listLevels();
   const durations = listDurations();
   const instructors = listInstructors();
+  const previewCourses = listCourses().slice(0, 5);
 
   const courses = useMemo(
     () =>
@@ -145,233 +148,247 @@ export function CatalogClient() {
     updateParams,
     resetFilters,
     reduceMotion: !!reduceMotion,
+    sortId: "catalog-sort",
   };
-
-  const mosaic = listCourses().slice(0, 4);
 
   return (
     <Section spacing="md">
       <Container>
-        <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
-            <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-[3.25rem]">Courses</h1>
-            <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
-              Browse all {catalog.courses.length} published Infozub Digital Academy courses. Search by name, category,
-              instructor, skill, or topic — then open a course for modules and enrollment.
-            </p>
-            <p className="text-muted-foreground mt-4 flex items-center gap-2 text-sm font-medium" aria-live="polite">
-              {pending ? (
-                <>
-                  Updating
-                  <LoadingDots label="Updating results" />
-                </>
-              ) : (
-                `${courses.length} course${courses.length === 1 ? "" : "s"}`
-              )}
-            </p>
-          </div>
-          <div className="hidden gap-2 sm:grid sm:grid-cols-2" aria-hidden>
-            {mosaic.map((course, index) => (
-              <motion.div
-                key={course.slug}
-                className="overflow-hidden rounded-2xl ring-1 ring-border/70"
-                initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: reduceMotion ? 0 : motionDuration.base,
-                  delay: reduceMotion ? 0 : index * 0.05,
-                  ease: easeOutPremium,
-                }}
-              >
-                <HoverMedia
-                  src={course.thumbnail}
-                  alt=""
-                  fill
-                  sizes="220px"
-                  className="aspect-[16/9]"
-                />
-              </motion.div>
-            ))}
+        <div className="relative overflow-hidden rounded-[1.75rem] bg-[#0b1f2a] text-white shadow-hero ring-1 ring-border/40">
+          <Image
+            src={academyMedia.brandMark}
+            alt=""
+            fill
+            priority
+            className="object-cover opacity-35"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#061116]/95 via-[#0b1f2a]/88 to-[#0b1f2a]/55" />
+          <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:p-10">
+            <div>
+              <p className="text-[#9ee8e1] text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
+              <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-5xl">Courses</h1>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
+                Browse all {catalog.courses.length} published Infozub Digital Academy courses. Filter by skill area,
+                level, and access — then open a course for modules and enrollment.
+              </p>
+              <p className="mt-4 flex items-center gap-2 text-sm font-medium text-white/75" aria-live="polite">
+                {pending ? (
+                  <>
+                    Updating
+                    <LoadingDots label="Updating results" />
+                  </>
+                ) : (
+                  `${courses.length} course${courses.length === 1 ? "" : "s"} shown`
+                )}
+              </p>
+            </div>
+            <div className="hidden gap-2 sm:flex" aria-hidden>
+              {previewCourses.map((course, index) => (
+                <motion.div
+                  key={course.slug}
+                  className="relative aspect-[4/5] flex-1 overflow-hidden rounded-xl ring-1 ring-white/15"
+                  initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: reduceMotion ? 0 : motionDuration.base,
+                    delay: reduceMotion ? 0 : index * 0.04,
+                    ease: easeOutPremium,
+                  }}
+                >
+                  <Image src={course.thumbnail} alt="" fill className="object-cover" sizes="120px" />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
 
         <div id="categories" className="scroll-mt-28">
-        <div className="relative mt-8 lg:hidden">
-          <div
-            role="group"
-            aria-label="Filter by category"
-            className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            <FilterChip
-              active={category === "all"}
-              onClick={() => updateParams({ category: "all" })}
-              label="All"
-              reduceMotion={!!reduceMotion}
-            />
-            {categories.map((item) => (
+          <div className="relative mt-6 lg:hidden">
+            <div
+              role="group"
+              aria-label="Filter by category"
+              className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
               <FilterChip
-                key={item.slug}
-                active={category === item.slug}
-                onClick={() => updateParams({ category: item.slug })}
-                label={item.name}
+                active={category === "all"}
+                onClick={() => updateParams({ category: "all" })}
+                label="All"
                 reduceMotion={!!reduceMotion}
               />
-            ))}
-          </div>
-          <div
-            aria-hidden
-            className="from-background pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l to-transparent sm:hidden"
-          />
-        </div>
-
-        <div className="mt-6 flex flex-col gap-3 lg:flex-row">
-          <form
-            className="relative flex-1"
-            role="search"
-            onSubmit={(event) => {
-              event.preventDefault();
-              updateParams({ q: searchDraft.trim() || null });
-            }}
-          >
-            <Search
-              className="text-muted-foreground pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
-              aria-hidden
-            />
-            <Input
-              name="q"
-              value={searchDraft}
-              onChange={(event) => setSearchDraft(event.target.value)}
-              placeholder="Search courses, skills and topics..."
-              aria-label="Search courses"
-              className="pl-10"
-            />
-          </form>
-          <div className="flex gap-2">
-            <label className="sr-only" htmlFor="catalog-sort-top">
-              Sort courses
-            </label>
-            <select
-              id="catalog-sort-top"
-              className="border-border bg-card focus-visible:ring-ring hidden h-11 min-w-48 rounded-xl border px-3 text-sm outline-none focus-visible:ring-2 md:block"
-              value={sort}
-              onChange={(event) => updateParams({ sort: event.target.value })}
-            >
-              {sorts.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
-                </option>
+              {categories.map((item) => (
+                <FilterChip
+                  key={item.slug}
+                  active={category === item.slug}
+                  onClick={() => updateParams({ category: item.slug })}
+                  label={item.name}
+                  reduceMotion={!!reduceMotion}
+                />
               ))}
-            </select>
-            <Button
-              type="button"
-              variant="outline"
-              className="lg:hidden"
-              aria-expanded={filtersOpen}
-              aria-controls="catalog-filters-dialog"
-              onClick={() => setFiltersOpen(true)}
-            >
-              <Filter aria-hidden />
-              Filters
-              {activeFilterCount > 0 ? (
-                <span className="bg-primary text-primary-foreground ml-1 inline-flex size-5 items-center justify-center rounded-full text-[11px]">
-                  <span className="sr-only">{activeFilterCount} active, </span>
-                  {activeFilterCount}
-                </span>
-              ) : null}
-            </Button>
+            </div>
           </div>
-        </div>
 
-        {activeFilterCount > 0 ? (
-          <div className="mt-4 flex flex-wrap items-center gap-2" aria-label="Active filters">
-            <span className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">Active</span>
-            {query ? (
-              <ActiveChip label={`Search: ${query}`} onClear={() => updateParams({ q: null })} />
-            ) : null}
-            {category !== "all" ? (
-              <ActiveChip
-                label={categories.find((item) => item.slug === category)?.name ?? category}
-                onClear={() => updateParams({ category: "all" })}
-              />
-            ) : null}
-            {level !== "all" ? (
-              <ActiveChip
-                label={level.charAt(0) + level.slice(1).toLowerCase()}
-                onClear={() => updateParams({ level: "all" })}
-              />
-            ) : null}
-            {price !== "all" ? (
-              <ActiveChip
-                label={price === "priced" ? "Published price" : "See course page"}
-                onClear={() => updateParams({ price: "all" })}
-              />
-            ) : null}
-            {durationFilter !== "all" ? (
-              <ActiveChip label={durationFilter} onClear={() => updateParams({ duration: "all" })} />
-            ) : null}
-            {instructor !== "all" ? (
-              <ActiveChip label={instructor} onClear={() => updateParams({ instructor: "all" })} />
-            ) : null}
-            <button
-              type="button"
-              className="text-primary inline-flex min-h-11 items-center text-sm font-semibold underline-offset-4 hover:underline"
-              onClick={resetFilters}
+          <div className="mt-5 flex flex-col gap-3 lg:flex-row">
+            <form
+              className="relative flex-1"
+              role="search"
+              onSubmit={(event) => {
+                event.preventDefault();
+                updateParams({ q: searchDraft.trim() || null });
+              }}
             >
-              Clear all
-            </button>
-          </div>
-        ) : null}
-
-        <div className="mt-10 grid gap-8 lg:grid-cols-[17rem_1fr]">
-          <aside className="bg-card sticky top-24 hidden h-fit rounded-[1.35rem] p-5 ring-1 ring-border/80 shadow-[0_1px_2px_rgb(11_31_42/0.04),0_10px_28px_rgb(11_31_42/0.05)] lg:block">
-            <h2 className="mb-4 text-sm font-semibold tracking-wide uppercase">Filters</h2>
-            <FilterPanel {...filterPanelProps} sortId="catalog-sort-desktop" />
-          </aside>
-
-          <div>
-            {courses.length === 0 ? (
-              <EmptyState
-                title="No courses found for your search."
-                description="Try another keyword, clear filters, or browse the full catalog."
-                action={
-                  <Button type="button" onClick={resetFilters}>
-                    Reset filters
-                  </Button>
-                }
+              <Search
+                className="text-muted-foreground pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+                aria-hidden
               />
-            ) : (
-              <div className={cn("grid gap-6 sm:grid-cols-2 xl:grid-cols-3", pending && "opacity-80")}>
-                {courses.map((course, index) => (
-                  <motion.div
-                    key={course.slug}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: motionDuration.fast,
-                      ease: easeOutPremium,
-                      delay: Math.min(index, 8) * 0.02,
-                    }}
-                  >
-                    <CourseCard course={course} />
-                  </motion.div>
+              <Input
+                name="q"
+                value={searchDraft}
+                onChange={(event) => setSearchDraft(event.target.value)}
+                placeholder="Search courses, skills and topics..."
+                aria-label="Search courses"
+                className="pl-10"
+              />
+            </form>
+            <div className="flex gap-2">
+              <label className="sr-only" htmlFor="catalog-sort-top">
+                Sort courses
+              </label>
+              <select
+                id="catalog-sort-top"
+                className="border-border bg-card focus-visible:ring-ring hidden h-11 min-w-44 rounded-xl border px-3 text-sm outline-none focus-visible:ring-2 md:block"
+                value={sort}
+                onChange={(event) => updateParams({ sort: event.target.value })}
+              >
+                {sorts.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
                 ))}
-              </div>
-            )}
-
-            <p className="text-muted-foreground mt-8 text-sm">
-              Looking for help choosing a program?{" "}
-              <Link href="/chat" className="text-primary font-semibold underline-offset-4 hover:underline">
-                Ask the Academy Assistant
-              </Link>{" "}
-              or{" "}
-              <Link href="/contact" className="text-primary font-semibold underline-offset-4 hover:underline">
-                contact Infozub
-              </Link>
-              .
-            </p>
+              </select>
+              <Button
+                type="button"
+                variant="outline"
+                className="lg:hidden"
+                aria-expanded={filtersOpen}
+                aria-controls="catalog-filters-dialog"
+                onClick={() => setFiltersOpen(true)}
+              >
+                <Filter aria-hidden />
+                Filters
+                {activeFilterCount > 0 ? (
+                  <span className="bg-primary text-primary-foreground ml-1 inline-flex size-5 items-center justify-center rounded-full text-[11px]">
+                    <span className="sr-only">{activeFilterCount} active, </span>
+                    {activeFilterCount}
+                  </span>
+                ) : null}
+              </Button>
+            </div>
           </div>
-        </div>
+
+          {activeFilterCount > 0 ? (
+            <div className="mt-4 flex flex-wrap items-center gap-2" aria-label="Active filters">
+              <span className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">Active</span>
+              {query ? (
+                <ActiveChip label={`Search: ${query}`} onClear={() => updateParams({ q: null })} />
+              ) : null}
+              {category !== "all" ? (
+                <ActiveChip
+                  label={categories.find((item) => item.slug === category)?.name ?? category}
+                  onClear={() => updateParams({ category: "all" })}
+                />
+              ) : null}
+              {level !== "all" ? (
+                <ActiveChip
+                  label={level.charAt(0) + level.slice(1).toLowerCase()}
+                  onClear={() => updateParams({ level: "all" })}
+                />
+              ) : null}
+              {price !== "all" ? (
+                <ActiveChip
+                  label={price === "priced" ? "Priced" : "On request"}
+                  onClear={() => updateParams({ price: "all" })}
+                />
+              ) : null}
+              {durationFilter !== "all" ? (
+                <ActiveChip
+                  label={durationLabel(durationFilter)}
+                  onClear={() => updateParams({ duration: "all" })}
+                />
+              ) : null}
+              {instructor !== "all" ? (
+                <ActiveChip label={instructor} onClear={() => updateParams({ instructor: "all" })} />
+              ) : null}
+              <button
+                type="button"
+                className="text-primary inline-flex min-h-11 items-center text-sm font-semibold underline-offset-4 hover:underline"
+                onClick={resetFilters}
+              >
+                Clear all
+              </button>
+            </div>
+          ) : null}
+
+          <div className="mt-8 grid gap-6 lg:grid-cols-[15.5rem_1fr] xl:gap-8">
+            <aside className="bg-card/80 sticky top-24 hidden h-fit rounded-2xl p-4 ring-1 ring-border/70 backdrop-blur-sm lg:block">
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <h2 className="text-xs font-semibold tracking-[0.14em] uppercase">Filters</h2>
+                {activeFilterCount > 0 ? (
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="text-primary text-xs font-semibold underline-offset-2 hover:underline"
+                  >
+                    Reset
+                  </button>
+                ) : null}
+              </div>
+              <FilterPanel {...filterPanelProps} sortId="catalog-sort-desktop" />
+            </aside>
+
+            <div>
+              {courses.length === 0 ? (
+                <EmptyState
+                  title="No courses found for your search."
+                  description="Try another keyword, clear filters, or browse the full catalog."
+                  action={
+                    <Button type="button" onClick={resetFilters}>
+                      Reset filters
+                    </Button>
+                  }
+                />
+              ) : (
+                <div className={cn("grid gap-4 sm:grid-cols-2 xl:grid-cols-3", pending && "opacity-80")}>
+                  {courses.map((course, index) => (
+                    <motion.div
+                      key={course.slug}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: motionDuration.fast,
+                        ease: easeOutPremium,
+                        delay: Math.min(index, 8) * 0.02,
+                      }}
+                    >
+                      <CourseCard course={course} />
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              <p className="text-muted-foreground mt-8 text-sm">
+                Looking for help choosing a program?{" "}
+                <Link href="/chat" className="text-primary font-semibold underline-offset-4 hover:underline">
+                  Ask the Academy Assistant
+                </Link>{" "}
+                or{" "}
+                <Link href="/contact" className="text-primary font-semibold underline-offset-4 hover:underline">
+                  contact Infozub
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
         </div>
       </Container>
 
@@ -459,114 +476,109 @@ function FilterPanel({
   sortId: string;
 }) {
   return (
-    <div className="space-y-6">
-      <fieldset>
-        <legend className="text-foreground mb-2 text-sm font-semibold">Category</legend>
-        <div className="flex flex-wrap gap-2">
+    <div className="space-y-5">
+      <FilterGroup legend="Category">
+        <FilterChip
+          active={category === "all"}
+          onClick={() => updateParams({ category: "all" })}
+          label="All"
+          reduceMotion={reduceMotion}
+          block
+        />
+        {categories.map((item) => (
           <FilterChip
-            active={category === "all"}
-            onClick={() => updateParams({ category: "all" })}
-            label="All"
+            key={item.slug}
+            active={category === item.slug}
+            onClick={() => updateParams({ category: item.slug })}
+            label={item.name}
             reduceMotion={reduceMotion}
+            block
           />
-          {categories.map((item) => (
-            <FilterChip
-              key={item.slug}
-              active={category === item.slug}
-              onClick={() => updateParams({ category: item.slug })}
-              label={item.name}
-              reduceMotion={reduceMotion}
-            />
-          ))}
-        </div>
-      </fieldset>
+        ))}
+      </FilterGroup>
 
-      <fieldset>
-        <legend className="text-foreground mb-2 text-sm font-semibold">Level</legend>
-        <div className="flex flex-wrap gap-2">
+      <FilterGroup legend="Level">
+        <FilterChip
+          active={level === "all"}
+          onClick={() => updateParams({ level: "all" })}
+          label="All levels"
+          reduceMotion={reduceMotion}
+          block
+        />
+        {levels.map((value) => (
           <FilterChip
-            active={level === "all"}
-            onClick={() => updateParams({ level: "all" })}
-            label="All levels"
+            key={value}
+            active={level === value}
+            onClick={() => updateParams({ level: value })}
+            label={value.charAt(0) + value.slice(1).toLowerCase()}
             reduceMotion={reduceMotion}
+            block
           />
-          {levels.map((value) => (
-            <FilterChip
-              key={value}
-              active={level === value}
-              onClick={() => updateParams({ level: value })}
-              label={value.charAt(0) + value.slice(1).toLowerCase()}
-              reduceMotion={reduceMotion}
-            />
-          ))}
-        </div>
-      </fieldset>
+        ))}
+      </FilterGroup>
 
-      <fieldset>
-        <legend className="text-foreground mb-2 text-sm font-semibold">Price</legend>
-        <div className="flex flex-wrap gap-2">
-          <FilterChip
-            active={price === "all"}
-            onClick={() => updateParams({ price: "all" })}
-            label="All"
-            reduceMotion={reduceMotion}
-          />
-          <FilterChip
-            active={price === "priced"}
-            onClick={() => updateParams({ price: "priced" })}
-            label="Published price"
-            reduceMotion={reduceMotion}
-          />
-          <FilterChip
-            active={price === "request"}
-            onClick={() => updateParams({ price: "request" })}
-            label="See course page"
-            reduceMotion={reduceMotion}
-          />
-        </div>
-      </fieldset>
+      <FilterGroup legend="Price">
+        <FilterChip
+          active={price === "all"}
+          onClick={() => updateParams({ price: "all" })}
+          label="All"
+          reduceMotion={reduceMotion}
+          block
+        />
+        <FilterChip
+          active={price === "priced"}
+          onClick={() => updateParams({ price: "priced" })}
+          label="Priced"
+          reduceMotion={reduceMotion}
+          block
+        />
+        <FilterChip
+          active={price === "request"}
+          onClick={() => updateParams({ price: "request" })}
+          label="On request"
+          reduceMotion={reduceMotion}
+          block
+        />
+      </FilterGroup>
 
-      <fieldset>
-        <legend className="text-foreground mb-2 text-sm font-semibold">Duration</legend>
-        <div className="flex flex-wrap gap-2">
-          <FilterChip
-            active={durationFilter === "all"}
-            onClick={() => updateParams({ duration: "all" })}
-            label="All"
-            reduceMotion={reduceMotion}
-          />
+      <div>
+        <label htmlFor={`${sortId}-duration`} className="text-foreground mb-2 block text-sm font-semibold">
+          Duration
+        </label>
+        <select
+          id={`${sortId}-duration`}
+          className="border-border bg-background focus-visible:ring-ring h-10 w-full rounded-lg border px-3 text-sm outline-none focus-visible:ring-2"
+          value={durationFilter}
+          onChange={(event) => updateParams({ duration: event.target.value })}
+        >
+          <option value="all">All durations</option>
           {durations.map((value) => (
-            <FilterChip
-              key={value}
-              active={durationFilter === value}
-              onClick={() => updateParams({ duration: value })}
-              label={value}
-              reduceMotion={reduceMotion}
-            />
+            <option key={value} value={value}>
+              {durationLabel(value)}
+            </option>
           ))}
-        </div>
-      </fieldset>
+        </select>
+      </div>
 
-      <fieldset>
-        <legend className="text-foreground mb-2 text-sm font-semibold">Instructor</legend>
-        <div className="flex flex-wrap gap-2">
+      <FilterGroup legend="Instructor">
+        <FilterChip
+          active={instructor === "all"}
+          onClick={() => updateParams({ instructor: "all" })}
+          label="All"
+          reduceMotion={reduceMotion}
+          block
+        />
+        {instructors.map((name) => (
           <FilterChip
-            active={instructor === "all"}
-            onClick={() => updateParams({ instructor: "all" })}
-            label="All"
+            key={name}
+            active={instructor === name}
+            onClick={() => updateParams({ instructor: name })}
+            label={name}
             reduceMotion={reduceMotion}
+            block
           />
-          {instructors.map((name) => (
-            <FilterChip
-              key={name}
-              active={instructor === name}
-              onClick={() => updateParams({ instructor: name })}
-              label={name}
-              reduceMotion={reduceMotion}
-            />
-          ))}
-        </div>
-      </fieldset>
+        ))}
+      </FilterGroup>
 
       <div>
         <label htmlFor={sortId} className="text-foreground mb-2 block text-sm font-semibold">
@@ -574,7 +586,7 @@ function FilterPanel({
         </label>
         <select
           id={sortId}
-          className="border-border bg-card focus-visible:ring-ring h-11 w-full rounded-xl border px-3 text-sm outline-none focus-visible:ring-2"
+          className="border-border bg-background focus-visible:ring-ring h-10 w-full rounded-lg border px-3 text-sm outline-none focus-visible:ring-2"
           value={sort}
           onChange={(event) => updateParams({ sort: event.target.value })}
         >
@@ -584,16 +596,21 @@ function FilterPanel({
             </option>
           ))}
         </select>
-        <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
-          Rating and newest sorts are unavailable — those fields are not published in the catalog. Popular ranks
-          published-price courses first, then curriculum depth.
-        </p>
       </div>
 
-      <Button type="button" variant="outline" className="w-full" onClick={resetFilters}>
+      <Button type="button" variant="outline" size="sm" className="w-full lg:hidden" onClick={resetFilters}>
         Reset filters
       </Button>
     </div>
+  );
+}
+
+function FilterGroup({ legend, children }: { legend: string; children: React.ReactNode }) {
+  return (
+    <fieldset>
+      <legend className="text-foreground mb-2 text-sm font-semibold">{legend}</legend>
+      <div className="grid gap-1.5">{children}</div>
+    </fieldset>
   );
 }
 
@@ -602,23 +619,26 @@ function FilterChip({
   active,
   onClick,
   reduceMotion,
+  block = false,
 }: {
   label: string;
   active: boolean;
   onClick: () => void;
   reduceMotion: boolean;
+  block?: boolean;
 }) {
   return (
     <motion.button
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
       className={cn(
-        "relative inline-flex min-h-11 shrink-0 items-center rounded-xl px-3.5 text-sm font-semibold transition-colors",
+        "inline-flex min-h-10 items-center rounded-lg px-3 text-sm font-medium transition-colors",
+        block ? "w-full justify-start" : "shrink-0",
         active
-          ? "bg-primary text-primary-foreground shadow-soft"
-          : "bg-secondary/80 text-foreground hover:bg-secondary",
+          ? "bg-primary text-primary-foreground shadow-xs"
+          : "bg-secondary/70 text-foreground hover:bg-secondary",
       )}
     >
       {label}
@@ -631,9 +651,9 @@ function ActiveChip({ label, onClear }: { label: string; onClear: () => void }) 
     <button
       type="button"
       onClick={onClear}
-      className="border-border/80 bg-card inline-flex min-h-11 items-center gap-1.5 rounded-xl border px-3.5 text-xs font-semibold"
+      className="border-border/80 bg-card inline-flex min-h-9 items-center gap-1.5 rounded-lg border px-3 text-xs font-semibold"
     >
-      <span className="max-w-[14rem] truncate">{label}</span>
+      <span className="max-w-[12rem] truncate">{label}</span>
       <X className="size-3.5" aria-hidden />
       <span className="sr-only">Remove {label}</span>
     </button>

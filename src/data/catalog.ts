@@ -39,7 +39,7 @@ export function formatCoursePrice(course: CatalogCourse): string {
       maximumFractionDigits: 0,
     }).format(course.price);
   }
-  return "See course page";
+  return "On request";
 }
 
 export function levelLabel(level: string): string {
@@ -47,6 +47,15 @@ export function levelLabel(level: string): string {
   if (level === "INTERMEDIATE") return "Intermediate";
   if (level === "ADVANCED") return "Advanced";
   return level;
+}
+
+/** Short labels for filters and card meta — values stay the published duration strings. */
+export function durationLabel(duration: string): string {
+  const value = duration.toLowerCase();
+  if (value.includes("lifetime")) return "Lifetime access";
+  if (value.includes("12 months") || value.includes("15+")) return "12 months access";
+  if (value.length > 28) return `${duration.slice(0, 26).trim()}…`;
+  return duration;
 }
 
 export function listLevels(): string[] {
