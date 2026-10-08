@@ -78,7 +78,10 @@ export function CourseCard({
             <span className="text-foreground text-sm font-semibold">{price}</span>
             <span className="text-primary inline-flex items-center gap-1 text-sm font-semibold opacity-90 transition-opacity group-hover:opacity-100">
               View course
-              <ArrowUpRight className="size-4 transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
+              <ArrowUpRight
+                className="size-4 transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
+                aria-hidden
+              />
             </span>
           </div>
         </div>

@@ -103,6 +103,7 @@ export default function ContactPage() {
                       className="text-foreground font-semibold underline-offset-4 hover:underline"
                     >
                       infozub.com
+                      <span className="sr-only"> (opens in a new tab)</span>
                     </a>
                     {" · "}
                     <a
@@ -112,6 +113,7 @@ export default function ContactPage() {
                       className="text-foreground font-semibold underline-offset-4 hover:underline"
                     >
                       Learning platform
+                      <span className="sr-only"> (opens in a new tab)</span>
                     </a>
                   </p>
                   <ul className="mt-4 flex flex-wrap gap-3">
@@ -124,6 +126,7 @@ export default function ContactPage() {
                           className="border-border hover:border-primary/40 inline-flex min-h-11 items-center rounded-xl border px-3.5 text-sm font-semibold transition-colors"
                         >
                           {item.label}
+                          <span className="sr-only"> (opens in a new tab)</span>
                         </a>
                       </li>
                     ))}

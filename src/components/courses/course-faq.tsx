@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 import type { CourseFaq } from "@/lib/courses/presenters";
 import { duration, easeOutPremium } from "@/lib/motion";
@@ -10,11 +10,14 @@ import { duration, easeOutPremium } from "@/lib/motion";
 export function CourseFaqList({ faqs }: { faqs: CourseFaq[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const reduceMotion = useReducedMotion();
+  const baseId = useId();
 
   return (
     <ul className="space-y-3">
       {faqs.map((faq, index) => {
         const open = openIndex === index;
+        const panelId = `${baseId}-panel-${index}`;
+        const buttonId = `${baseId}-button-${index}`;
         return (
           <li
             key={faq.question}
@@ -22,8 +25,10 @@ export function CourseFaqList({ faqs }: { faqs: CourseFaq[] }) {
           >
             <button
               type="button"
+              id={buttonId}
               className="flex w-full min-h-14 items-center justify-between gap-3 px-5 py-4 text-left transition-colors hover:bg-muted/40"
               aria-expanded={open}
+              aria-controls={panelId}
               onClick={() => setOpenIndex(open ? null : index)}
             >
               <span className="font-semibold">{faq.question}</span>
@@ -31,6 +36,7 @@ export function CourseFaqList({ faqs }: { faqs: CourseFaq[] }) {
                 animate={{ rotate: open ? 180 : 0 }}
                 transition={reduceMotion ? { duration: 0 } : { duration: duration.fast, ease: easeOutPremium }}
                 className="inline-flex"
+                aria-hidden
               >
                 <ChevronDown className="size-5 shrink-0" />
               </motion.span>
@@ -38,6 +44,9 @@ export function CourseFaqList({ faqs }: { faqs: CourseFaq[] }) {
             <AnimatePresence initial={false}>
               {open ? (
                 <motion.div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
                   initial={reduceMotion ? false : { height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}

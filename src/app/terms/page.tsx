@@ -36,6 +36,7 @@ export default function TermsPage() {
             Learning access after purchase is delivered through{" "}
             <a href={site.lms} target="_blank" rel="noreferrer" className="underline underline-offset-4">
               {site.lms}
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
             .
           </p>
@@ -49,6 +50,7 @@ export default function TermsPage() {
             className="underline underline-offset-4"
           >
             academy.infozub.com/terms
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
           .
         </p>

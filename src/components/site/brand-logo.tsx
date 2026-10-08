@@ -13,7 +13,7 @@ export function BrandLogo({ className, priority = false }: { className?: string;
     >
       <Image
         src="/infozub-logo.jpg"
-        alt="Infozub"
+        alt=""
         width={148}
         height={40}
         sizes="148px"

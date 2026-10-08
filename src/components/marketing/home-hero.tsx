@@ -51,7 +51,7 @@ export function HomeHero() {
           </motion.h1>
 
           <motion.p
-            className="mt-4 max-w-lg text-base leading-relaxed text-white/82 sm:mt-5 sm:text-lg"
+            className="mt-4 max-w-lg text-base leading-relaxed text-white/90 sm:mt-5 sm:text-lg"
             initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, ease: easeOutPremium, delay: 0.12 }}

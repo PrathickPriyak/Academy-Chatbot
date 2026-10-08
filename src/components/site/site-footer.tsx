@@ -33,6 +33,7 @@ export function SiteFooter() {
                   className="text-muted-foreground hover:text-primary inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-medium underline-offset-4 hover:underline"
                 >
                   {item.label}
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               ))}
             </div>
@@ -67,6 +68,7 @@ export function SiteFooter() {
                   className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center text-sm font-medium transition-colors"
                 >
                   Learning platform
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>
             </ul>
@@ -130,6 +132,7 @@ export function SiteFooter() {
             © {year} {site.name}. Part of{" "}
             <a href={site.companySite} target="_blank" rel="noreferrer" className="hover:text-foreground underline-offset-4 hover:underline">
               INFOZUB
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
             .
           </p>

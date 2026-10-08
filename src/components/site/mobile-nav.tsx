@@ -4,15 +4,15 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import { listCategories } from "@/data/catalog";
 import { navLinks, site } from "@/data/site";
+import { useChromeOverlayLock } from "@/hooks/use-chrome-overlay-lock";
+import { useFocusTrap } from "@/hooks/use-focus-trap";
 import { duration, easeOutPremium } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-
-import { useChromeOverlayLock } from "@/hooks/use-chrome-overlay-lock";
 
 import { BrandLogo } from "./brand-logo";
 import { CourseSearch } from "./course-search";
@@ -28,7 +28,12 @@ export function MobileNav({
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
   const categories = listCategories();
+  const panelRef = useRef<HTMLElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const titleId = useId();
   useChromeOverlayLock(open);
+  const handleClose = useCallback(() => onClose(), [onClose]);
+  useFocusTrap(open, panelRef, { onEscape: handleClose, initialFocusRef: closeRef });
 
   useEffect(() => {
     if (!open) return;
@@ -59,7 +64,8 @@ export function MobileNav({
         <>
           <motion.button
             type="button"
-            aria-label="Close menu"
+            tabIndex={-1}
+            aria-hidden="true"
             className="fixed inset-0 z-[60] bg-foreground/35 backdrop-blur-[2px] lg:hidden"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -68,9 +74,11 @@ export function MobileNav({
             onClick={onClose}
           />
           <motion.aside
+            ref={panelRef}
+            id="mobile-nav"
             role="dialog"
             aria-modal="true"
-            aria-label="Mobile navigation"
+            aria-labelledby={titleId}
             className="border-border bg-card fixed inset-y-0 right-0 z-[70] flex w-[min(100vw,22rem)] flex-col border-l shadow-hero lg:hidden"
             initial={reduceMotion ? false : { x: "100%" }}
             animate={{ x: 0 }}
@@ -79,7 +87,17 @@ export function MobileNav({
           >
             <div className="border-border flex items-center justify-between gap-3 border-b px-4 py-3">
               <BrandLogo />
-              <Button type="button" variant="ghost" size="icon" aria-label="Close menu" onClick={onClose}>
+              <p id={titleId} className="sr-only">
+                Mobile navigation
+              </p>
+              <Button
+                ref={closeRef}
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label="Close menu"
+                onClick={onClose}
+              >
                 <X />
               </Button>
             </div>
@@ -104,7 +122,11 @@ export function MobileNav({
                         key={link.href}
                         variants={{
                           hidden: { opacity: 0, x: 12 },
-                          visible: { opacity: 1, x: 0, transition: { duration: duration.fast, ease: easeOutPremium } },
+                          visible: {
+                            opacity: 1,
+                            x: 0,
+                            transition: { duration: duration.fast, ease: easeOutPremium },
+                          },
                         }}
                       >
                         <Link
@@ -163,11 +185,11 @@ export function MobileNav({
               </div>
               <a
                 href={site.lms}
-                className="text-muted-foreground hover:text-foreground block text-center text-sm font-medium underline-offset-4 hover:underline"
+                className="text-muted-foreground hover:text-foreground inline-flex min-h-11 w-full items-center justify-center text-center text-sm font-medium underline-offset-4 hover:underline"
                 target="_blank"
                 rel="noreferrer"
               >
-                Open LMS
+                Open LMS <span className="sr-only">(opens in a new tab)</span>
               </a>
             </div>
           </motion.aside>

@@ -141,6 +141,7 @@ export function SiteHeader() {
               className="lg:hidden"
               aria-label={mobileSearchOpen ? "Hide search" : "Open search"}
               aria-expanded={mobileSearchOpen}
+              aria-controls="mobile-search-panel"
               onClick={() => setMobileSearchOpen((value) => !value)}
             >
               <Search />
@@ -182,6 +183,7 @@ export function SiteHeader() {
               animate={{ opacity: 1, y: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
               transition={{ duration: 0.18 }}
+              id="mobile-search-panel"
               className="border-border relative z-[60] border-t lg:hidden"
             >
               <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6">

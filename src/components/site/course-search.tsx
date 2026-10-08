@@ -30,6 +30,7 @@ export function CourseSearch({
   const [activeIndex, setActiveIndex] = useState(0);
 
   const hits = useMemo(() => searchCatalog(query, 8), [query]);
+  const popupOpen = open && Boolean(query.trim());
 
   useEffect(() => {
     setActiveIndex(0);
@@ -76,12 +77,13 @@ export function CourseSearch({
           autoFocus={autoFocus}
           autoComplete="off"
           role="combobox"
-          aria-expanded={open && hits.length > 0}
+          aria-expanded={popupOpen}
           aria-controls={listId}
+          aria-haspopup="listbox"
           aria-autocomplete="list"
-          aria-activedescendant={hits[activeIndex] ? `${listId}-${activeIndex}` : undefined}
+          aria-activedescendant={popupOpen && hits[activeIndex] ? `${listId}-${activeIndex}` : undefined}
           placeholder="Search courses, skills and topics..."
-          className="placeholder:text-muted-foreground h-full min-w-0 flex-1 bg-transparent text-sm outline-none"
+          className="placeholder:text-muted-foreground h-full min-w-0 flex-1 bg-transparent text-base outline-none sm:text-sm"
           onChange={(event) => {
             setQuery(event.target.value);
             setOpen(true);
@@ -91,6 +93,11 @@ export function CourseSearch({
             window.setTimeout(() => setOpen(false), 120);
           }}
           onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              setOpen(false);
+              return;
+            }
             if (!hits.length) return;
             if (event.key === "ArrowDown") {
               event.preventDefault();
@@ -101,10 +108,6 @@ export function CourseSearch({
               event.preventDefault();
               setOpen(true);
               setActiveIndex((index) => (index - 1 + hits.length) % hits.length);
-            }
-            if (event.key === "Escape") {
-              setOpen(false);
-              inputRef.current?.blur();
             }
           }}
         />
@@ -125,10 +128,8 @@ export function CourseSearch({
       </form>
 
       <AnimatePresence>
-        {open && query.trim() ? (
+        {popupOpen ? (
           <motion.div
-            id={listId}
-            role="listbox"
             initial={reduceMotion ? false : { opacity: 0, y: 6, scale: 0.99 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: 4, scale: 0.99 }}
@@ -136,11 +137,14 @@ export function CourseSearch({
             className="border-border bg-card absolute top-[calc(100%+0.5rem)] right-0 left-0 z-50 overflow-hidden rounded-2xl border shadow-lift origin-top"
           >
             {hits.length === 0 ? (
-              <p className="text-muted-foreground px-4 py-4 text-sm">
+              <p className="text-muted-foreground px-4 py-4 text-sm" role="status">
                 No courses or categories match “{query.trim()}”. Try another skill or browse all courses.
               </p>
             ) : (
               <motion.ul
+                id={listId}
+                role="listbox"
+                aria-label="Search suggestions"
                 className="max-h-80 overflow-auto py-1"
                 initial={reduceMotion ? false : "hidden"}
                 animate="visible"
@@ -164,7 +168,7 @@ export function CourseSearch({
             <div className="border-border border-t px-3 py-2">
               <Link
                 href={query.trim() ? `/courses?q=${encodeURIComponent(query.trim())}` : "/courses"}
-                className="text-primary hover:bg-muted block rounded-lg px-2 py-2 text-sm font-semibold"
+                className="text-primary hover:bg-muted flex min-h-11 items-center rounded-lg px-2 py-2 text-sm font-semibold"
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => {
                   setOpen(false);
@@ -196,20 +200,20 @@ function SuggestionRow({
 }) {
   const Icon = hit.kind === "category" ? FolderOpen : BookOpen;
   return (
-    <motion.li
-      role="option"
-      id={id}
-      aria-selected={active}
-      variants={animate ? listItemFade : undefined}
-    >
-      <button
-        type="button"
+    <motion.li role="presentation" variants={animate ? listItemFade : undefined}>
+      <div
+        id={id}
+        role="option"
+        aria-selected={active}
+        tabIndex={-1}
         className={cn(
-          "flex w-full items-start gap-3 px-4 py-3 text-left transition-colors",
+          "flex w-full cursor-pointer items-start gap-3 px-4 py-3 text-left transition-colors",
           active ? "bg-muted" : "hover:bg-muted/70",
         )}
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={onSelect}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          onSelect();
+        }}
       >
         <Icon className="text-primary mt-0.5 size-4 shrink-0" aria-hidden />
         <span className="min-w-0">
@@ -218,7 +222,7 @@ function SuggestionRow({
             {hit.kind === "category" ? "Category" : hit.course.shortDescription}
           </span>
         </span>
-      </button>
+      </div>
     </motion.li>
   );
 }

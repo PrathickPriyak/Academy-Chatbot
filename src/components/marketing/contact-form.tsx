@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useId, useRef, useState, type FormEvent, type ReactElement } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,15 +10,10 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-type FieldErrors = Partial<Record<"name" | "email" | "phone" | "subject" | "message", string>>;
+type FieldKey = "name" | "email" | "phone" | "subject" | "message";
+type FieldErrors = Partial<Record<FieldKey, string>>;
 
-function validate(fields: {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-}): FieldErrors {
+function validate(fields: Record<FieldKey, string>): FieldErrors {
   const errors: FieldErrors = {};
   if (fields.name.length < 2) errors.name = "Please enter your full name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) errors.email = "Please enter a valid email address.";
@@ -31,6 +26,8 @@ function validate(fields: {
 }
 
 export function ContactForm() {
+  const formId = useId();
+  const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -54,6 +51,13 @@ export function ContactForm() {
     if (Object.keys(nextErrors).length > 0) {
       setStatus("error");
       setError("Please fix the highlighted fields and try again.");
+      const order: FieldKey[] = ["name", "email", "phone", "subject", "message"];
+      const firstInvalid = order.find((key) => nextErrors[key]);
+      if (firstInvalid) {
+        window.requestAnimationFrame(() => {
+          form.querySelector<HTMLElement>(`#${formId}-${firstInvalid}`)?.focus();
+        });
+      }
       return;
     }
 
@@ -110,6 +114,7 @@ export function ContactForm() {
 
   return (
     <form
+      ref={formRef}
       onSubmit={onSubmit}
       className="border-border bg-card space-y-5 rounded-2xl border p-6 shadow-soft sm:p-8"
       noValidate
@@ -124,23 +129,33 @@ export function ContactForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field
-          id="name"
+          id={`${formId}-name`}
           label="Name"
           error={fieldErrors.name}
-          input={<Input id="name" name="name" autoComplete="name" required aria-invalid={Boolean(fieldErrors.name)} />}
+          control={
+            <Input
+              id={`${formId}-name`}
+              name="name"
+              autoComplete="name"
+              required
+              aria-invalid={Boolean(fieldErrors.name)}
+              aria-describedby={fieldErrors.name ? `${formId}-name-error` : undefined}
+            />
+          }
         />
         <Field
-          id="email"
+          id={`${formId}-email`}
           label="Email"
           error={fieldErrors.email}
-          input={
+          control={
             <Input
-              id="email"
+              id={`${formId}-email`}
               name="email"
               type="email"
               autoComplete="email"
               required
               aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby={fieldErrors.email ? `${formId}-email-error` : undefined}
             />
           }
         />
@@ -148,40 +163,55 @@ export function ContactForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field
-          id="phone"
+          id={`${formId}-phone`}
           label="Phone"
+          optional
           error={fieldErrors.phone}
-          input={
+          control={
             <Input
-              id="phone"
+              id={`${formId}-phone`}
               name="phone"
               type="tel"
               autoComplete="tel"
               aria-invalid={Boolean(fieldErrors.phone)}
+              aria-describedby={fieldErrors.phone ? `${formId}-phone-error` : undefined}
             />
           }
         />
         <Field
-          id="subject"
+          id={`${formId}-subject`}
           label="Subject"
           error={fieldErrors.subject}
-          input={
-            <Input id="subject" name="subject" required aria-invalid={Boolean(fieldErrors.subject)} />
+          control={
+            <Input
+              id={`${formId}-subject`}
+              name="subject"
+              required
+              aria-invalid={Boolean(fieldErrors.subject)}
+              aria-describedby={fieldErrors.subject ? `${formId}-subject-error` : undefined}
+            />
           }
         />
       </div>
 
       <Field
-        id="message"
+        id={`${formId}-message`}
         label="Message"
         error={fieldErrors.message}
-        input={
-          <Textarea id="message" name="message" rows={5} required aria-invalid={Boolean(fieldErrors.message)} />
+        control={
+          <Textarea
+            id={`${formId}-message`}
+            name="message"
+            rows={5}
+            required
+            aria-invalid={Boolean(fieldErrors.message)}
+            aria-describedby={fieldErrors.message ? `${formId}-message-error` : undefined}
+          />
         }
       />
 
       {error ? (
-        <p className="bg-destructive/10 text-destructive rounded-xl px-3 py-2 text-sm" role="alert">
+        <p id={`${formId}-form-error`} className="bg-destructive/10 text-destructive rounded-xl px-3 py-2 text-sm" role="alert">
           {error}
         </p>
       ) : null}
@@ -197,19 +227,22 @@ function Field({
   id,
   label,
   error,
-  input,
+  optional,
+  control,
 }: {
   id: string;
   label: string;
   error?: string;
-  input: ReactNode;
+  optional?: boolean;
+  control: ReactElement;
 }) {
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-semibold">
         {label}
+        {optional ? <span className="text-muted-foreground font-medium"> (optional)</span> : null}
       </label>
-      <div className={cn(error && "[&_input]:border-destructive [&_textarea]:border-destructive")}>{input}</div>
+      <div className={cn(error && "[&_input]:border-destructive [&_textarea]:border-destructive")}>{control}</div>
       {error ? (
         <p id={`${id}-error`} className="text-destructive mt-1.5 text-xs" role="alert">
           {error}

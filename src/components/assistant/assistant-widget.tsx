@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MessageCircle, Minimize2, Send, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FormEvent, useEffect, useId, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { LoadingDots } from "@/components/ui/loading-dots";
@@ -33,6 +33,7 @@ export function AssistantWidget() {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
   const panelId = useId();
+  const inputId = `${panelId}-input`;
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [input, setInput] = useState("");
@@ -43,11 +44,28 @@ export function AssistantWidget() {
     { id: "welcome", role: "assistant", content: welcomeMessage },
   ]);
   const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const panelOpen = open && !minimized;
   const onCourseDetail = /^\/courses\/[^/]+$/.test(pathname);
 
+  const closePanel = useCallback(() => {
+    setOpen(false);
+    setMinimized(false);
+    requestAnimationFrame(() => launcherRef.current?.focus());
+  }, []);
+
+  const minimizePanel = useCallback(() => {
+    setMinimized(true);
+    requestAnimationFrame(() => launcherRef.current?.focus());
+  }, []);
+
   useEffect(() => {
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages, loading, open]);
+    listRef.current?.scrollTo({
+      top: listRef.current.scrollHeight,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [messages, loading, open, reduceMotion]);
 
   useEffect(() => {
     const sync = () => setOverlayOpen(document.body.classList.contains("chrome-overlay-open"));
@@ -61,6 +79,24 @@ export function AssistantWidget() {
     setOpen(false);
     setMinimized(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!panelOpen) return;
+    const frame = requestAnimationFrame(() => inputRef.current?.focus());
+    return () => cancelAnimationFrame(frame);
+  }, [panelOpen]);
+
+  useEffect(() => {
+    if (!panelOpen) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closePanel();
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [panelOpen, closePanel]);
 
   async function ask(question: string) {
     const trimmed = question.trim();
@@ -96,6 +132,7 @@ export function AssistantWidget() {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setLoading(false);
+      requestAnimationFrame(() => inputRef.current?.focus());
     }
   }
 
@@ -118,7 +155,7 @@ export function AssistantWidget() {
     >
       <div className="pointer-events-auto flex w-full max-w-[min(100%,24rem)] flex-col items-end gap-3 sm:w-auto">
         <AnimatePresence>
-          {open && !minimized ? (
+          {panelOpen ? (
             <motion.section
               id={panelId}
               role="dialog"
@@ -147,9 +184,9 @@ export function AssistantWidget() {
                     size="icon"
                     aria-label="Minimize chat"
                     className="size-11"
-                    onClick={() => setMinimized(true)}
+                    onClick={minimizePanel}
                   >
-                    <Minimize2 />
+                    <Minimize2 aria-hidden />
                   </Button>
                   <Button
                     type="button"
@@ -157,14 +194,22 @@ export function AssistantWidget() {
                     size="icon"
                     aria-label="Close chat"
                     className="size-11"
-                    onClick={() => setOpen(false)}
+                    onClick={closePanel}
                   >
-                    <X />
+                    <X aria-hidden />
                   </Button>
                 </div>
               </header>
 
-              <div ref={listRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4">
+              <div
+                ref={listRef}
+                role="log"
+                aria-live="polite"
+                aria-relevant="additions"
+                aria-busy={loading}
+                aria-label="Chat messages"
+                className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4"
+              >
                 {messages.map((message) => (
                   <motion.div
                     key={message.id}
@@ -181,6 +226,7 @@ export function AssistantWidget() {
                           : "bg-muted text-foreground",
                       )}
                     >
+                      <p className="sr-only">{message.role === "user" ? "You said:" : "Assistant said:"}</p>
                       <p className="whitespace-pre-wrap">{message.content}</p>
                       {message.sources?.length ? (
                         <ul className="mt-2 space-y-1">
@@ -206,7 +252,7 @@ export function AssistantWidget() {
                   </motion.div>
                 ))}
                 {loading ? (
-                  <p className="text-muted-foreground flex items-center gap-2 text-sm" aria-live="polite">
+                  <p className="text-muted-foreground flex items-center gap-2 text-sm" role="status">
                     Assistant is typing
                     <LoadingDots label="Assistant is typing" />
                   </p>
@@ -224,7 +270,11 @@ export function AssistantWidget() {
               </div>
 
               {messages.length <= 1 ? (
-                <div className="border-border flex max-h-28 flex-wrap gap-2 overflow-y-auto border-t px-4 py-3">
+                <div
+                  className="border-border flex max-h-28 flex-wrap gap-2 overflow-y-auto border-t px-4 py-3"
+                  role="group"
+                  aria-label="Suggested questions"
+                >
                   {suggestionPrompts.map((prompt, index) => (
                     <motion.button
                       key={prompt}
@@ -243,16 +293,18 @@ export function AssistantWidget() {
               ) : null}
 
               <form onSubmit={onSubmit} className="border-border flex items-end gap-2 border-t p-3">
-                <label htmlFor={`${panelId}-input`} className="sr-only">
+                <label htmlFor={inputId} className="sr-only">
                   Message the assistant
                 </label>
                 <textarea
-                  id={`${panelId}-input`}
+                  ref={inputRef}
+                  id={inputId}
                   value={input}
                   rows={2}
                   onChange={(event) => setInput(event.target.value)}
                   placeholder="Ask about courses, pricing, contact…"
-                  className="border-border bg-background max-h-28 min-h-11 flex-1 resize-none rounded-xl border px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-describedby={`${panelId}-hint`}
+                  className="border-border bg-background focus-visible:ring-ring max-h-28 min-h-11 flex-1 resize-none rounded-xl border px-3 py-2 text-sm outline-none focus-visible:ring-2"
                   onKeyDown={(event) => {
                     if (event.key === "Enter" && !event.shiftKey) {
                       event.preventDefault();
@@ -260,8 +312,11 @@ export function AssistantWidget() {
                     }
                   }}
                 />
+                <p id={`${panelId}-hint`} className="sr-only">
+                  Press Enter to send. Shift Enter for a new line. Escape closes the chat.
+                </p>
                 <Button type="submit" size="icon" aria-label="Send message" disabled={loading || !input.trim()}>
-                  <Send />
+                  <Send aria-hidden />
                 </Button>
               </form>
             </motion.section>
@@ -270,28 +325,34 @@ export function AssistantWidget() {
 
         <motion.div
           initial={false}
-          animate={reduceMotion ? undefined : { scale: open && !minimized ? 0.98 : 1 }}
+          animate={reduceMotion ? undefined : { scale: panelOpen ? 0.98 : 1 }}
           transition={{ duration: duration.fast, ease: easeOutPremium }}
           className="shrink-0"
         >
           <Button
+            ref={launcherRef}
             type="button"
             size="lg"
             className="min-h-12 rounded-full shadow-hero"
-            aria-expanded={open && !minimized}
+            aria-expanded={panelOpen}
             aria-controls={panelId}
+            aria-haspopup="dialog"
             onClick={() => {
               if (open && minimized) {
                 setMinimized(false);
                 return;
               }
-              setOpen((value) => !value);
+              if (panelOpen) {
+                closePanel();
+                return;
+              }
+              setOpen(true);
               setMinimized(false);
             }}
           >
-            <MessageCircle />
+            <MessageCircle aria-hidden />
             <span className="max-w-[10rem] truncate sm:max-w-none">
-              {open && !minimized ? "Close chat" : minimized ? "Open chat" : "Ask Infozub"}
+              {panelOpen ? "Close chat" : minimized ? "Open chat" : "Ask Infozub"}
             </span>
           </Button>
         </motion.div>

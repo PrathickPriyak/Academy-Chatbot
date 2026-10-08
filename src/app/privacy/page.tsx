@@ -49,6 +49,7 @@ export default function PrivacyPage() {
             className="underline underline-offset-4"
           >
             academy.infozub.com/privacy
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
           .
         </p>

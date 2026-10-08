@@ -15,12 +15,13 @@ export function EmptyState({
 }) {
   return (
     <div
+      role="status"
       className={cn(
         "border-border bg-card flex flex-col items-start gap-3 rounded-2xl border border-dashed px-6 py-10 text-left shadow-soft",
         className,
       )}
     >
-      <h3 className="font-display text-xl tracking-tight">{title}</h3>
+      <h2 className="font-display text-xl tracking-tight">{title}</h2>
       {description ? <p className="text-muted-foreground max-w-md text-sm leading-relaxed">{description}</p> : null}
       {action}
     </div>

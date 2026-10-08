@@ -68,13 +68,14 @@ export function ModuleList({ modules }: { modules: CatalogModule[] }) {
                   transition={reduceMotion ? { duration: 0 } : { duration: duration.fast, ease: easeOutPremium }}
                   className="inline-flex"
                 >
-                  <ChevronDown className="size-5 shrink-0" />
+                  <ChevronDown className="size-5 shrink-0" aria-hidden />
                 </motion.span>
               </button>
               <AnimatePresence initial={false}>
                 {open ? (
                   <motion.div
                     id={panelId}
+                    role="region"
                     initial={reduceMotion ? false : { height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}

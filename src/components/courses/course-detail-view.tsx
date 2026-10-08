@@ -76,7 +76,9 @@ export function CourseDetailView({
                 </Link>
               </li>
               <li aria-hidden>/</li>
-              <li className="text-foreground font-medium">{course.title}</li>
+              <li className="text-foreground font-medium" aria-current="page">
+                {course.title}
+              </li>
             </ol>
           </nav>
 
@@ -98,10 +100,10 @@ export function CourseDetailView({
               </p>
 
               <dl className="mt-8 grid gap-4 sm:grid-cols-2">
-                <MetaItem icon={<UserRound className="size-4" />} label="Instructor" value={instructorName} />
-                <MetaItem icon={<Clock3 className="size-4" />} label="Duration" value={course.duration} />
-                <MetaItem icon={<Layers3 className="size-4" />} label="Modules" value={String(course.modules.length)} />
-                <MetaItem icon={<CheckCircle2 className="size-4" />} label="Level" value={level} />
+                <MetaItem icon={<UserRound className="size-4" aria-hidden />} label="Instructor" value={instructorName} />
+                <MetaItem icon={<Clock3 className="size-4" aria-hidden />} label="Duration" value={course.duration} />
+                <MetaItem icon={<Layers3 className="size-4" aria-hidden />} label="Modules" value={String(course.modules.length)} />
+                <MetaItem icon={<CheckCircle2 className="size-4" aria-hidden />} label="Level" value={level} />
               </dl>
 
               <p className="text-muted-foreground mt-4 text-xs leading-relaxed">
@@ -113,6 +115,7 @@ export function CourseDetailView({
                   <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
                     <span className="sm:hidden">Enroll on Academy</span>
                     <span className="hidden sm:inline">Enroll / View on Academy</span>
+                    <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
@@ -207,7 +210,7 @@ export function CourseDetailView({
                     <div className="relative min-h-40 bg-muted sm:min-h-full">
                       <Image
                         src={course.thumbnail}
-                        alt={`${course.title} course thumbnail`}
+                        alt=""
                         fill
                         className="object-cover"
                         sizes="160px"
@@ -267,6 +270,7 @@ export function CourseDetailView({
                   <Button asChild size="lg" variant="secondary">
                     <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
                       Enroll now
+                      <span className="sr-only"> (opens in a new tab)</span>
                     </a>
                   </Button>
                   <Button
@@ -295,6 +299,7 @@ export function CourseDetailView({
               <Button asChild className="mt-5 w-full" size="lg">
                 <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
                   Continue to enrollment
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </Button>
               <Button asChild variant="outline" className="mt-2 w-full">
@@ -320,6 +325,7 @@ export function CourseDetailView({
           <Button asChild className="shrink-0">
             <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
               Enroll
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </Button>
         </div>

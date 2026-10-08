@@ -41,6 +41,7 @@ export function Testimonials() {
               exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
               transition={{ duration: 0.22 }}
               className="text-center"
+              aria-live="polite"
             >
               <p className="font-display text-xl leading-relaxed tracking-tight sm:text-2xl">“{item.quote}”</p>
               <footer className="text-muted-foreground mt-6 text-sm font-semibold">{item.name}</footer>
@@ -51,17 +52,23 @@ export function Testimonials() {
             <Button type="button" variant="outline" size="icon" aria-label="Previous testimonial" onClick={prev}>
               <ChevronLeft />
             </Button>
-            <div className="flex gap-2" role="tablist" aria-label="Testimonial slides">
+            <div className="flex gap-1" role="group" aria-label="Choose testimonial">
               {testimonials.map((testimonial, i) => (
                 <button
                   key={testimonial.name}
                   type="button"
-                  role="tab"
-                  aria-selected={i === index}
+                  aria-current={i === index ? "true" : undefined}
                   aria-label={`Show testimonial from ${testimonial.name}`}
-                  className={`size-2.5 rounded-full transition-colors ${i === index ? "bg-primary" : "bg-border"}`}
+                  className={`inline-flex size-11 items-center justify-center rounded-full transition-colors ${
+                    i === index ? "text-primary" : "text-border"
+                  }`}
                   onClick={() => setIndex(i)}
-                />
+                >
+                  <span
+                    className={`size-2.5 rounded-full ${i === index ? "bg-primary" : "bg-border"}`}
+                    aria-hidden
+                  />
+                </button>
               ))}
             </div>
             <Button type="button" variant="outline" size="icon" aria-label="Next testimonial" onClick={next}>
