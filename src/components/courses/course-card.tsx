@@ -44,7 +44,7 @@ export function CourseCard({
           alt={`${course.title} course thumbnail`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="aspect-[16/10] bg-muted"
+          className="aspect-[16/9] bg-muted"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f2a]/45 via-[#0b1f2a]/10 to-transparent" />
           <div className="absolute top-3 left-3 flex flex-wrap gap-2">

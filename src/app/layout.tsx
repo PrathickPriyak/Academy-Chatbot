@@ -46,8 +46,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: [{ url: "/infozub-logo.jpg", type: "image/jpeg" }],
-    apple: [{ url: "/infozub-logo.jpg" }],
+    icon: [{ url: "/infozub-logo.png", type: "image/png" }],
+    apple: [{ url: "/infozub-logo.png" }],
   },
   openGraph: {
     title: site.name,

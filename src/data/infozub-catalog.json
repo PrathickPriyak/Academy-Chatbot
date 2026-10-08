@@ -739,12 +739,28 @@
     "highlights": [],
     "audiences": [
       {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_students.jpg",
-        "title": "Students / Freshers"
+        "title": "Digital marketers",
+        "src": "https://academy.infozub.com/wp-content/uploads/2026/04/Google-ads_IDA.png"
       },
       {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_freelancers.jpg",
-        "title": "Freelancers"
+        "title": "Traditional marketers",
+        "src": "https://academy.infozub.com/wp-content/uploads/2026/01/Social-media-marketing-master-course-INFOZUB-Digital-Academy.jpeg"
+      },
+      {
+        "title": "Students / Freshers",
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_students.jpg"
+      },
+      {
+        "title": "Business Owners",
+        "src": "https://academy.infozub.com/wp-content/uploads/2026/05/BSF_IDA_Course.png"
+      },
+      {
+        "title": "Freelancers",
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_freelancers.jpg"
+      },
+      {
+        "title": "Anyone learning",
+        "src": "https://academy.infozub.com/wp-content/uploads/2025/01/IDA_Team.png"
       }
     ],
     "testimonials": {}

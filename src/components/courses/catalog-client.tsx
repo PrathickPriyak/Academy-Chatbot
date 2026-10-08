@@ -189,7 +189,7 @@ export function CatalogClient() {
                   alt=""
                   fill
                   sizes="220px"
-                  className="aspect-[16/10]"
+                  className="aspect-[16/9]"
                 />
               </motion.div>
             ))}

@@ -45,28 +45,32 @@ export function FeaturedLearning() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1.35fr_1fr]">
+        <div className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_1fr]">
           <motion.article
-            className="border-border bg-card group relative overflow-hidden rounded-[2rem] border shadow-lift"
+            className="border-border bg-card group relative overflow-hidden rounded-[1.5rem] border shadow-lift"
             whileHover={reduceMotion ? undefined : { y: -3 }}
             transition={{ duration: 0.2 }}
           >
-            <Link href={`/courses/${primary.slug}`} className="grid h-full md:grid-cols-[1.1fr_0.9fr]">
+            <Link href={`/courses/${primary.slug}`} className="grid h-full md:grid-cols-[0.95fr_1.05fr]">
               <HoverMedia
                 src={primary.thumbnail}
                 alt={`${primary.title} course thumbnail`}
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="min-h-64 md:min-h-full"
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className="aspect-[16/10] md:aspect-auto md:min-h-full"
               />
-              <div className="flex flex-col justify-between gap-6 p-6 sm:p-8">
-                <div className="space-y-4">
+              <div className="flex flex-col justify-between gap-4 p-5 sm:p-6">
+                <div className="space-y-3">
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary">{categoryNameForCourse(primary)}</Badge>
                     <Badge variant="outline">{levelLabel(primary.level)}</Badge>
                   </div>
-                  <h3 className="font-display text-3xl tracking-tight group-hover:text-primary">{primary.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{primary.shortDescription}</p>
+                  <h3 className="font-display text-2xl tracking-tight group-hover:text-primary sm:text-3xl">
+                    {primary.title}
+                  </h3>
+                  <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
+                    {primary.shortDescription}
+                  </p>
                   <p className="text-muted-foreground text-xs font-medium">
                     {catalog.instructor.name} · {primary.duration}
                   </p>
@@ -82,29 +86,31 @@ export function FeaturedLearning() {
             </Link>
           </motion.article>
 
-          <div className="grid gap-6">
+          <div className="grid gap-4">
             {rest.map((course) => (
               <motion.article
                 key={course.slug}
-                className="border-border bg-card group overflow-hidden rounded-[1.75rem] border shadow-soft"
+                className="border-border bg-card group overflow-hidden rounded-[1.35rem] border shadow-soft"
                 whileHover={reduceMotion ? undefined : { y: -3 }}
                 transition={{ duration: 0.2 }}
               >
-                <Link href={`/courses/${course.slug}`} className="flex h-full flex-col sm:flex-row">
+                <Link href={`/courses/${course.slug}`} className="flex h-full">
                   <HoverMedia
                     src={course.thumbnail}
                     alt={`${course.title} course thumbnail`}
                     fill
-                    sizes="160px"
-                    className="aspect-[16/10] w-full shrink-0 sm:aspect-auto sm:min-h-full sm:w-40"
+                    sizes="140px"
+                    className="aspect-square w-28 shrink-0 sm:w-32"
                   />
-                  <div className="flex flex-1 flex-col justify-between gap-3 p-5">
+                  <div className="flex flex-1 flex-col justify-between gap-2 p-4">
                     <div>
                       <Badge variant="secondary" className="mb-2">
                         {categoryNameForCourse(course)}
                       </Badge>
-                      <h3 className="font-display text-xl tracking-tight group-hover:text-primary">{course.title}</h3>
-                      <p className="text-muted-foreground mt-2 line-clamp-2 text-sm leading-relaxed">
+                      <h3 className="font-display text-lg tracking-tight group-hover:text-primary sm:text-xl">
+                        {course.title}
+                      </h3>
+                      <p className="text-muted-foreground mt-1.5 line-clamp-2 text-sm leading-relaxed">
                         {course.shortDescription}
                       </p>
                     </div>
@@ -119,7 +125,7 @@ export function FeaturedLearning() {
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-6">
           <Button asChild variant="outline">
             <Link href="/courses">Browse all courses</Link>
           </Button>

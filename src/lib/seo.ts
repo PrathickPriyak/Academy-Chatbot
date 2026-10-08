@@ -3,7 +3,7 @@ import { founder, site } from "@/data/site";
 import type { CourseFaq } from "@/lib/courses/presenters";
 
 export const defaultOgImage = {
-  url: "/infozub-logo.jpg",
+  url: "/infozub-logo.png",
   width: 1200,
   height: 630,
   alt: `${site.name} logo`,
@@ -21,7 +21,7 @@ export function organizationJsonLd() {
     "@type": "EducationalOrganization",
     name: site.name,
     url: site.url,
-    logo: absoluteUrl("/infozub-logo.jpg"),
+    logo: absoluteUrl("/infozub-logo.png"),
     email: site.email,
     telephone: site.phone,
     description: site.description,

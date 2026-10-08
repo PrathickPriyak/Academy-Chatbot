@@ -149,7 +149,7 @@ export function CourseDetailView({
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                className="aspect-[4/3]"
+                className="aspect-[16/11]"
               />
             </motion.div>
           </div>
