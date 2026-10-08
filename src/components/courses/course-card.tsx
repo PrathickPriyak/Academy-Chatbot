@@ -55,7 +55,7 @@ export function CourseCard({
 
         <div className="flex flex-1 flex-col gap-3 p-5">
           <div className="space-y-2">
-            <h3 className="font-display text-xl leading-snug tracking-tight transition-colors group-hover:text-primary">
+            <h3 className="font-display line-clamp-2 text-xl leading-snug tracking-tight transition-colors group-hover:text-primary">
               {course.title}
             </h3>
             <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">

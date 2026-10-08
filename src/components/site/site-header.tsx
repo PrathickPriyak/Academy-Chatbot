@@ -64,10 +64,10 @@ export function SiteHeader() {
             : "border-border/50 bg-card/85 backdrop-blur-md",
         )}
       >
-        <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:h-[4.25rem] sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 w-full min-w-0 max-w-6xl items-center gap-2 px-4 sm:h-[4.25rem] sm:gap-3 sm:px-6 lg:px-8">
           <BrandLogo priority className="shrink-0" />
 
-          <nav className="ml-2 hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+          <nav className="ml-1 hidden min-w-0 items-center gap-0.5 lg:flex" aria-label="Primary">
             {navLinks.map((link) => {
               if (link.label === "Categories") {
                 return (
@@ -76,7 +76,7 @@ export function SiteHeader() {
                       <button
                         type="button"
                         className={cn(
-                          "inline-flex h-10 items-center gap-1 rounded-xl px-3 text-sm font-semibold transition-colors",
+                          "inline-flex h-10 items-center gap-1 rounded-xl px-2.5 text-sm font-semibold transition-colors xl:px-3",
                           isActive(link.href)
                             ? "bg-primary/10 text-primary"
                             : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -109,7 +109,7 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "relative inline-flex h-10 items-center rounded-xl px-3 text-sm font-semibold transition-colors",
+                    "relative inline-flex h-10 items-center rounded-xl px-2.5 text-sm font-semibold transition-colors xl:px-3",
                     active
                       ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -120,7 +120,7 @@ export function SiteHeader() {
                   {active ? (
                     <motion.span
                       layoutId={reduceMotion ? undefined : "nav-active"}
-                      className="bg-primary absolute inset-x-3 -bottom-px h-0.5 rounded-full"
+                      className="bg-primary absolute inset-x-2.5 -bottom-px h-0.5 rounded-full xl:inset-x-3"
                       transition={{ duration: 0.2 }}
                     />
                   ) : null}
@@ -129,11 +129,11 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <div className="ml-auto hidden min-w-0 flex-1 items-center justify-end gap-2 lg:flex xl:max-w-md xl:flex-none">
-            <CourseSearch className="max-w-sm flex-1" />
+          <div className="ml-auto hidden min-w-0 max-w-xs flex-1 items-center justify-end gap-2 lg:flex xl:max-w-sm">
+            <CourseSearch className="w-full min-w-0" />
           </div>
 
-          <div className="ml-auto flex items-center gap-1.5 lg:ml-2">
+          <div className="ml-auto flex shrink-0 items-center gap-1 lg:ml-1 lg:gap-1.5">
             <Button
               type="button"
               variant="ghost"
@@ -146,17 +146,17 @@ export function SiteHeader() {
               <Search />
             </Button>
 
-            <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Open chatbot">
+            <Button asChild variant="ghost" size="icon" className="hidden md:inline-flex" aria-label="Open chatbot">
               <Link href="/chat">
                 <MessageCircle />
               </Link>
             </Button>
 
-            <div className="hidden sm:block">
+            <div className="hidden md:block">
               <ThemeToggle />
             </div>
 
-            <Button asChild className="hidden md:inline-flex" size="default">
+            <Button asChild className="hidden xl:inline-flex" size="default">
               <Link href="/courses">Explore Courses</Link>
             </Button>
 
@@ -178,11 +178,11 @@ export function SiteHeader() {
         <AnimatePresence initial={false}>
           {mobileSearchOpen ? (
             <motion.div
-              initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="border-border overflow-hidden border-t lg:hidden"
+              initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+              transition={{ duration: 0.18 }}
+              className="border-border relative z-[60] border-t lg:hidden"
             >
               <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6">
                 <CourseSearch autoFocus onNavigate={() => setMobileSearchOpen(false)} />

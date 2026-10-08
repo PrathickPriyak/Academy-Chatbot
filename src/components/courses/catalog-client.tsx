@@ -24,6 +24,7 @@ import {
   type CourseSort,
   type PriceFilter,
 } from "@/data/catalog";
+import { useChromeOverlayLock } from "@/hooks/use-chrome-overlay-lock";
 import { duration as motionDuration, easeOutPremium } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -42,6 +43,7 @@ export function CatalogClient() {
   const reduceMotion = useReducedMotion();
   const [pending, startTransition] = useTransition();
   const [filtersOpen, setFiltersOpen] = useState(false);
+  useChromeOverlayLock(filtersOpen);
 
   const query = searchParams.get("q") ?? "";
   const category = searchParams.get("category") ?? "all";
@@ -256,16 +258,25 @@ export function CatalogClient() {
           </p>
         </div>
 
-        <div id="categories" className="mt-8 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <FilterChip active={category === "all"} onClick={() => updateParams({ category: "all" })} label="All" />
-          {categories.map((item) => (
-            <FilterChip
-              key={item.slug}
-              active={category === item.slug}
-              onClick={() => updateParams({ category: item.slug })}
-              label={item.name}
-            />
-          ))}
+        <div className="relative mt-8">
+          <div
+            id="categories"
+            className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <FilterChip active={category === "all"} onClick={() => updateParams({ category: "all" })} label="All" />
+            {categories.map((item) => (
+              <FilterChip
+                key={item.slug}
+                active={category === item.slug}
+                onClick={() => updateParams({ category: item.slug })}
+                label={item.name}
+              />
+            ))}
+          </div>
+          <div
+            aria-hidden
+            className="from-background pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l to-transparent sm:hidden"
+          />
         </div>
 
         <div className="mt-6 flex flex-col gap-3 lg:flex-row">
@@ -409,7 +420,7 @@ export function CatalogClient() {
 
       <AnimatePresence>
         {filtersOpen ? (
-          <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="fixed inset-0 z-[60] lg:hidden">
             <motion.button
               type="button"
               className="absolute inset-0 bg-foreground/40 backdrop-blur-[2px]"
@@ -423,7 +434,7 @@ export function CatalogClient() {
               role="dialog"
               aria-modal="true"
               aria-label="Course filters"
-              className="border-border bg-card absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t p-5 shadow-hero"
+              className="border-border bg-card absolute inset-x-0 bottom-0 max-h-[min(85vh,100dvh)] overflow-y-auto rounded-t-3xl border-t p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-hero"
               initial={reduceMotion ? false : { y: "100%" }}
               animate={{ y: 0 }}
               exit={reduceMotion ? undefined : { y: "100%" }}
@@ -468,7 +479,7 @@ function FilterChip({
       onClick={onClick}
       whileTap={{ scale: 0.97 }}
       className={cn(
-        "relative inline-flex min-h-10 shrink-0 items-center rounded-xl px-3 text-sm font-semibold transition-colors",
+        "relative inline-flex min-h-11 shrink-0 items-center rounded-xl px-3.5 text-sm font-semibold transition-colors",
         active ? "bg-primary text-primary-foreground shadow-soft" : "bg-muted text-foreground hover:bg-muted/80",
       )}
     >
@@ -482,7 +493,7 @@ function ActiveChip({ label, onClear }: { label: string; onClear: () => void }) 
     <button
       type="button"
       onClick={onClear}
-      className="border-border bg-card inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold"
+      className="border-border bg-card inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3.5 text-xs font-semibold"
     >
       <span className="max-w-[14rem] truncate">{label}</span>
       <X className="size-3.5" aria-hidden />

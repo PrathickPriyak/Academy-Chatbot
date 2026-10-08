@@ -19,9 +19,11 @@ export function BrandLogo({ className, priority = false }: { className?: string;
         priority={priority}
         className="h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02] sm:h-10"
       />
-      <span className="text-foreground hidden font-semibold tracking-tight sm:inline">
+      <span className="text-foreground hidden min-w-0 font-semibold tracking-tight xl:inline">
         <span className="block text-sm leading-none">Digital Academy</span>
-        <span className="text-muted-foreground mt-1 block text-[11px] font-medium">{site.tagline}</span>
+        <span className="text-muted-foreground mt-1 block max-w-[11rem] truncate text-[11px] font-medium">
+          {site.tagline}
+        </span>
       </span>
     </Link>
   );

@@ -6,8 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useEffect, useRef, useState } from "react";
 
 import { Container } from "@/components/layout/container";
-import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
+import { LoadingDots } from "@/components/ui/loading-dots";
 import { suggestionPrompts, welcomeMessage } from "@/lib/chat/prompts";
 
 type Message = {
@@ -22,6 +22,7 @@ type Message = {
 function ChatWorkspace() {
   const searchParams = useSearchParams();
   const bootstrapped = useRef(false);
+  const listRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -76,26 +77,32 @@ function ChatWorkspace() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  useEffect(() => {
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, loading]);
+
   function onSubmit(event: FormEvent) {
     event.preventDefault();
     void ask(input);
   }
 
   return (
-    <Section spacing="md">
-      <Container className="max-w-3xl">
-        <h1 className="font-display text-4xl tracking-tight">Academy Assistant</h1>
-        <p className="text-muted-foreground mt-3 text-base leading-relaxed">
-          Ask about published Infozub Digital Academy courses, categories, instructors, refunds, and contact details.
-          I won’t invent facts or answer off-topic questions.
-        </p>
+    <div className="flex min-h-[calc(100svh-4rem)] flex-col sm:min-h-[calc(100svh-4.25rem)]">
+      <Container className="flex max-w-3xl flex-1 flex-col py-6 sm:py-10">
+        <div className="shrink-0">
+          <h1 className="font-display text-3xl tracking-tight sm:text-4xl">Academy Assistant</h1>
+          <p className="text-muted-foreground mt-2 text-sm leading-relaxed sm:mt-3 sm:text-base">
+            Ask about published Infozub Digital Academy courses, categories, instructors, refunds, and contact details.
+            I won’t invent facts or answer off-topic questions.
+          </p>
+        </div>
 
-        <div className="border-border bg-card mt-8 flex min-h-[28rem] flex-col rounded-3xl border shadow-soft">
-          <div className="flex-1 space-y-4 overflow-y-auto p-5">
+        <div className="border-border bg-card mt-6 flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border shadow-soft sm:mt-8">
+          <div ref={listRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-4 sm:p-5">
             {messages.map((message) => (
               <div key={message.id} className={message.role === "user" ? "text-right" : "text-left"}>
                 <div
-                  className={`inline-block max-w-[90%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                  className={`inline-block max-w-[92%] rounded-2xl px-4 py-3 text-sm leading-relaxed break-words sm:max-w-[90%] ${
                     message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
                   }`}
                 >
@@ -123,7 +130,12 @@ function ChatWorkspace() {
                 </div>
               </div>
             ))}
-            {loading ? <p className="text-muted-foreground text-sm">Assistant is typing…</p> : null}
+            {loading ? (
+              <p className="text-muted-foreground flex items-center gap-2 text-sm">
+                Assistant is typing
+                <LoadingDots label="Assistant is typing" />
+              </p>
+            ) : null}
             {error ? (
               <p className="text-destructive text-sm" role="alert">
                 {error}
@@ -131,12 +143,12 @@ function ChatWorkspace() {
             ) : null}
           </div>
 
-          <div className="border-border flex flex-wrap gap-2 border-t px-4 py-3">
+          <div className="border-border flex max-h-32 shrink-0 flex-wrap gap-2 overflow-y-auto border-t px-3 py-3 sm:px-4">
             {suggestionPrompts.map((prompt) => (
               <button
                 key={prompt}
                 type="button"
-                className="border-border hover:bg-muted rounded-full border px-3 py-1.5 text-xs font-medium"
+                className="border-border hover:bg-muted inline-flex min-h-11 items-center rounded-full border px-3.5 py-2 text-xs font-medium"
                 onClick={() => void ask(prompt)}
               >
                 {prompt}
@@ -144,7 +156,10 @@ function ChatWorkspace() {
             ))}
           </div>
 
-          <form onSubmit={onSubmit} className="border-border flex items-end gap-2 border-t p-4">
+          <form
+            onSubmit={onSubmit}
+            className="border-border flex shrink-0 items-end gap-2 border-t p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:p-4"
+          >
             <textarea
               value={input}
               rows={2}
@@ -159,13 +174,17 @@ function ChatWorkspace() {
           </form>
         </div>
       </Container>
-    </Section>
+    </div>
   );
 }
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-3xl px-4 py-16">Loading assistant…</div>}>
+    <Suspense
+      fallback={
+        <div className="mx-auto flex min-h-[50svh] max-w-3xl items-center px-4 py-16">Loading assistant…</div>
+      }
+    >
       <ChatWorkspace />
     </Suspense>
   );

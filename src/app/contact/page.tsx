@@ -111,7 +111,7 @@ export default function ContactPage() {
                           href={item.href}
                           target="_blank"
                           rel="noreferrer"
-                          className="border-border hover:border-primary/40 inline-flex min-h-10 items-center rounded-xl border px-3 text-sm font-semibold transition-colors"
+                          className="border-border hover:border-primary/40 inline-flex min-h-11 items-center rounded-xl border px-3.5 text-sm font-semibold transition-colors"
                         >
                           {item.label}
                         </a>

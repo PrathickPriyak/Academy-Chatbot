@@ -112,11 +112,23 @@
     }
   }
 
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
     background-image: var(--surface-grid);
-    background-attachment: fixed;
+    background-attachment: scroll;
     min-height: 100vh;
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      background-attachment: fixed;
+    }
   }
 
   ::selection {

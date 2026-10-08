@@ -23,14 +23,14 @@ export function SiteFooter() {
           <div className="space-y-4 lg:col-span-1">
             <BrandLogo />
             <p className="text-muted-foreground max-w-xs text-sm leading-relaxed">{site.description}</p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               {site.social.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-muted-foreground hover:text-primary text-sm font-medium underline-offset-4 hover:underline"
+                  className="text-muted-foreground hover:text-primary inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-medium underline-offset-4 hover:underline"
                 >
                   {item.label}
                 </a>
@@ -40,12 +40,12 @@ export function SiteFooter() {
 
           <div>
             <h2 className="text-foreground mb-3 text-sm font-semibold tracking-wide uppercase">Explore</h2>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+                    className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center text-sm font-medium transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -54,7 +54,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/chat"
-                  className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+                  className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center text-sm font-medium transition-colors"
                 >
                   Academy Assistant
                 </Link>
@@ -64,7 +64,7 @@ export function SiteFooter() {
                   href={site.lms}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+                  className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center text-sm font-medium transition-colors"
                 >
                   Learning platform
                 </a>
@@ -74,12 +74,12 @@ export function SiteFooter() {
 
           <div>
             <h2 className="text-foreground mb-3 text-sm font-semibold tracking-wide uppercase">Categories</h2>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {categories.map((category) => (
                 <li key={category.slug}>
                   <Link
                     href={`/courses?category=${category.slug}`}
-                    className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+                    className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center text-sm font-medium transition-colors"
                   >
                     {category.name}
                   </Link>
@@ -91,14 +91,20 @@ export function SiteFooter() {
           <div className="space-y-5">
             <div>
               <h2 className="text-foreground mb-3 text-sm font-semibold tracking-wide uppercase">Contact</h2>
-              <ul className="text-muted-foreground space-y-2 text-sm">
+              <ul className="text-muted-foreground space-y-1 text-sm">
                 <li>
-                  <a href={`mailto:${site.email}`} className="hover:text-foreground font-medium transition-colors">
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="hover:text-foreground inline-flex min-h-11 items-center break-all font-medium transition-colors"
+                  >
                     {site.email}
                   </a>
                 </li>
                 <li>
-                  <a href={site.phoneHref} className="hover:text-foreground font-medium transition-colors">
+                  <a
+                    href={site.phoneHref}
+                    className="hover:text-foreground inline-flex min-h-11 items-center font-medium transition-colors"
+                  >
                     {site.phone}
                   </a>
                 </li>
@@ -127,12 +133,12 @@ export function SiteFooter() {
             </a>
             .
           </p>
-          <ul className="flex flex-wrap gap-x-4 gap-y-2">
+          <ul className="flex flex-wrap gap-x-2 gap-y-1">
             {legalLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-muted-foreground hover:text-foreground text-xs font-medium underline-offset-4 hover:underline sm:text-sm"
+                  className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center px-2 text-xs font-medium underline-offset-4 hover:underline sm:text-sm"
                 >
                   {link.label}
                 </Link>

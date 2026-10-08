@@ -12,6 +12,8 @@ import { navLinks, site } from "@/data/site";
 import { duration, easeOutPremium } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
+import { useChromeOverlayLock } from "@/hooks/use-chrome-overlay-lock";
+
 import { BrandLogo } from "./brand-logo";
 import { CourseSearch } from "./course-search";
 import { ThemeToggle } from "./theme-toggle";
@@ -26,6 +28,7 @@ export function MobileNav({
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
   const categories = listCategories();
+  useChromeOverlayLock(open);
 
   useEffect(() => {
     if (!open) return;

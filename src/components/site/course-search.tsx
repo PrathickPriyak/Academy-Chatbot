@@ -111,7 +111,7 @@ export function CourseSearch({
         {query ? (
           <button
             type="button"
-            className="text-muted-foreground hover:text-foreground rounded-lg p-1"
+            className="text-muted-foreground hover:text-foreground inline-flex size-11 shrink-0 items-center justify-center rounded-xl"
             aria-label="Clear search"
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => {

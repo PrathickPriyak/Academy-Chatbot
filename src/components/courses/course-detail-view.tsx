@@ -90,7 +90,9 @@ export function CourseDetailView({
                 <Badge variant="secondary">{category}</Badge>
                 <Badge variant="outline">{level}</Badge>
               </div>
-              <h1 className="font-display mt-4 text-4xl tracking-tight sm:text-5xl">{course.title}</h1>
+              <h1 className="font-display mt-4 text-3xl tracking-tight break-words sm:text-4xl lg:text-5xl">
+                {course.title}
+              </h1>
               <p className="text-muted-foreground mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">
                 {course.shortDescription}
               </p>
@@ -106,13 +108,14 @@ export function CourseDetailView({
                 Course ratings and student counts are not published in the archived catalog, so they are not shown here.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button asChild size="lg" className="w-full whitespace-normal sm:w-auto sm:whitespace-nowrap">
                   <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
-                    Enroll / View on Academy
+                    <span className="sm:hidden">Enroll on Academy</span>
+                    <span className="hidden sm:inline">Enroll / View on Academy</span>
                   </a>
                 </Button>
-                <Button asChild variant="outline" size="lg">
+                <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
                   <Link href={`/chat?q=${encodeURIComponent(`Tell me about ${course.title}`)}`}>Ask Assistant</Link>
                 </Button>
               </div>
@@ -137,7 +140,7 @@ export function CourseDetailView({
         </Container>
       </section>
 
-      <Section spacing="lg" className="pb-28 lg:pb-16">
+      <Section spacing="lg" className="pb-[calc(7.5rem+env(safe-area-inset-bottom))] lg:pb-16">
         <Container className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_19rem]">
           <div className="space-y-14">
             <Reveal>
@@ -302,13 +305,13 @@ export function CourseDetailView({
         </Container>
       </Section>
 
-      <div className="border-border bg-card/95 fixed inset-x-0 bottom-0 z-40 border-t p-3 backdrop-blur lg:hidden">
+      <div className="border-border bg-card/95 fixed inset-x-0 bottom-0 z-40 border-t px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-6xl items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">{course.title}</p>
             <p className="text-muted-foreground text-xs">{price}</p>
           </div>
-          <Button asChild>
+          <Button asChild className="shrink-0">
             <a href={course.enrollmentUrl} target="_blank" rel="noreferrer">
               Enroll
             </a>
