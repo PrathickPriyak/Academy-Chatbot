@@ -49,7 +49,10 @@ export function CourseCard({
         >
           <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f2a]/55 via-[#0b1f2a]/08 to-transparent" />
           <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
-            <Badge variant="secondary" className="bg-white/95 text-foreground shadow-xs backdrop-blur-sm">
+            <Badge
+              variant="secondary"
+              className="border-white/20 bg-[#0b1f2a]/82 text-white shadow-xs backdrop-blur-sm"
+            >
               {category}
             </Badge>
             {featured ? <Badge variant="accent">Featured</Badge> : null}
@@ -58,7 +61,7 @@ export function CourseCard({
 
         <div className="flex flex-1 flex-col gap-3 px-4 pt-3.5 pb-4">
           <div className="space-y-1.5">
-            <h3 className="font-display line-clamp-2 text-xl leading-snug tracking-tight transition-colors group-hover:text-primary">
+            <h3 className="font-display line-clamp-2 text-lg leading-snug tracking-tight transition-colors group-hover:text-primary sm:text-xl">
               {course.title}
             </h3>
             <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">

@@ -483,7 +483,6 @@ function FilterPanel({
           onClick={() => updateParams({ category: "all" })}
           label="All"
           reduceMotion={reduceMotion}
-          block
         />
         {categories.map((item) => (
           <FilterChip
@@ -492,7 +491,6 @@ function FilterPanel({
             onClick={() => updateParams({ category: item.slug })}
             label={item.name}
             reduceMotion={reduceMotion}
-            block
           />
         ))}
       </FilterGroup>
@@ -503,7 +501,6 @@ function FilterPanel({
           onClick={() => updateParams({ level: "all" })}
           label="All levels"
           reduceMotion={reduceMotion}
-          block
         />
         {levels.map((value) => (
           <FilterChip
@@ -512,7 +509,6 @@ function FilterPanel({
             onClick={() => updateParams({ level: value })}
             label={value.charAt(0) + value.slice(1).toLowerCase()}
             reduceMotion={reduceMotion}
-            block
           />
         ))}
       </FilterGroup>
@@ -523,21 +519,18 @@ function FilterPanel({
           onClick={() => updateParams({ price: "all" })}
           label="All"
           reduceMotion={reduceMotion}
-          block
         />
         <FilterChip
           active={price === "priced"}
           onClick={() => updateParams({ price: "priced" })}
           label="Priced"
           reduceMotion={reduceMotion}
-          block
         />
         <FilterChip
           active={price === "request"}
           onClick={() => updateParams({ price: "request" })}
           label="On request"
           reduceMotion={reduceMotion}
-          block
         />
       </FilterGroup>
 
@@ -566,7 +559,6 @@ function FilterPanel({
           onClick={() => updateParams({ instructor: "all" })}
           label="All"
           reduceMotion={reduceMotion}
-          block
         />
         {instructors.map((name) => (
           <FilterChip
@@ -575,7 +567,6 @@ function FilterPanel({
             onClick={() => updateParams({ instructor: name })}
             label={name}
             reduceMotion={reduceMotion}
-            block
           />
         ))}
       </FilterGroup>
@@ -608,8 +599,10 @@ function FilterPanel({
 function FilterGroup({ legend, children }: { legend: string; children: React.ReactNode }) {
   return (
     <fieldset>
-      <legend className="text-foreground mb-2 text-sm font-semibold">{legend}</legend>
-      <div className="grid gap-1.5">{children}</div>
+      <legend className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase">
+        {legend}
+      </legend>
+      <div className="flex flex-wrap gap-1.5">{children}</div>
     </fieldset>
   );
 }
@@ -634,11 +627,11 @@ function FilterChip({
       aria-pressed={active}
       whileTap={reduceMotion ? undefined : { scale: 0.98 }}
       className={cn(
-        "inline-flex min-h-10 items-center rounded-lg px-3 text-sm font-medium transition-colors",
+        "inline-flex min-h-9 items-center rounded-lg px-3 text-[13px] font-medium transition-colors",
         block ? "w-full justify-start" : "shrink-0",
         active
           ? "bg-primary text-primary-foreground shadow-xs"
-          : "bg-secondary/70 text-foreground hover:bg-secondary",
+          : "bg-secondary/55 text-foreground ring-1 ring-border/60 hover:bg-secondary",
       )}
     >
       {label}
