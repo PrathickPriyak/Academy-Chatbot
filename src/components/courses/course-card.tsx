@@ -33,7 +33,7 @@ export function CourseCard({
   return (
     <motion.article
       className={cn(
-        "bg-card group relative flex h-full flex-col overflow-hidden rounded-2xl ring-1 ring-border/70 transition-[box-shadow,ring-color,transform] duration-200 hover:ring-primary/30 hover:shadow-[0_8px_28px_rgb(11_31_42/0.1)]",
+        "bg-card group relative flex h-full flex-col overflow-hidden rounded-2xl ring-1 ring-border/70 transition-[box-shadow,ring-color,transform] duration-200 hover:ring-primary/30 hover:shadow-[0_8px_28px_rgb(10_27_46/0.12)]",
         className,
       )}
       whileHover={hoverLift(reduceMotion, 2)}
@@ -47,11 +47,11 @@ export function CourseCard({
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="aspect-[16/9] bg-muted"
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f2a]/55 via-[#0b1f2a]/08 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#061018]/55 via-[#0b2e5b]/10 to-transparent" />
           <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
             <Badge
               variant="secondary"
-              className="border-white/20 bg-[#0b1f2a]/82 text-white shadow-xs backdrop-blur-sm"
+              className="border-white/20 bg-[#0b2e5b]/88 text-white shadow-xs backdrop-blur-sm"
             >
               {category}
             </Badge>

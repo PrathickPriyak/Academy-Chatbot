@@ -42,7 +42,7 @@ export function CourseGallery({
                 src={current}
                 alt={`${title} gallery image ${active + 1}`}
                 fill
-                className="object-contain bg-[#0b1f2a]/04"
+                className="bg-muted/40 object-contain"
                 sizes="(max-width: 1024px) 100vw, 60vw"
               />
             </motion.div>

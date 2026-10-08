@@ -36,11 +36,11 @@ export function HomeHero() {
             className="object-cover object-center"
           />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#061116]/95 via-[#0b1f2a]/88 to-[#0b1f2a]/55" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#061116]/85 via-transparent to-[#061116]/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#061018]/95 via-[#0b2e5b]/88 to-[#0b2e5b]/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#061018]/85 via-transparent to-[#061018]/35" />
         {!reduceMotion ? (
           <motion.div
-            className="absolute -inset-x-10 top-[28%] h-36 bg-gradient-to-r from-transparent via-[#9ee8e1]/12 to-transparent blur-2xl"
+            className="absolute -inset-x-10 top-[28%] h-36 bg-gradient-to-r from-transparent via-[#f08a35]/14 to-transparent blur-2xl"
             animate={{ x: ["-20%", "20%", "-20%"] }}
             transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
           />
@@ -59,7 +59,7 @@ export function HomeHero() {
           </motion.h1>
 
           <motion.p
-            className="mt-4 text-xl font-medium tracking-tight text-[#9ee8e1] sm:mt-5 sm:text-2xl"
+            className="mt-4 text-xl font-medium tracking-tight text-[#f0b27a] sm:mt-5 sm:text-2xl"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={t(duration.base, 0.06)}
@@ -83,7 +83,7 @@ export function HomeHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={t(duration.base, 0.18)}
           >
-            <Button asChild size="lg" className="w-full bg-[#0d7377] text-white hover:bg-[#0d7377]/90 sm:w-auto">
+            <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
               <Link href="/courses">Explore Courses</Link>
             </Button>
             <Button

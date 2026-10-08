@@ -338,7 +338,7 @@ export function AssistantWidget() {
             type="button"
             size="lg"
             className={cn(
-              "min-h-12 shadow-hero",
+              "bg-accent text-accent-foreground hover:bg-accent/90 min-h-12 shadow-hero",
               onCourseDetail ? "max-lg:size-12 max-lg:rounded-2xl max-lg:px-0" : "rounded-full",
               !onCourseDetail && "rounded-full",
             )}

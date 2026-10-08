@@ -154,19 +154,19 @@ export function CatalogClient() {
   return (
     <Section spacing="md">
       <Container>
-        <div className="relative overflow-hidden rounded-[1.75rem] bg-[#0b1f2a] text-white shadow-hero ring-1 ring-border/40">
+        <div className="relative overflow-hidden rounded-[1.75rem] bg-[#0b2e5b] text-white shadow-hero ring-1 ring-border/40">
           <Image
             src={academyMedia.brandMark}
             alt=""
             fill
             priority
-            className="object-cover opacity-35"
+            className="object-cover opacity-30"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#061116]/95 via-[#0b1f2a]/88 to-[#0b1f2a]/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#061018]/95 via-[#0b2e5b]/88 to-[#0b2e5b]/50" />
           <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:p-10">
             <div>
-              <p className="text-[#9ee8e1] text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
+              <p className="text-[#f0b27a] text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
               <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-5xl">Courses</h1>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
                 Browse all {catalog.courses.length} published Infozub Digital Academy courses. Filter by skill area,

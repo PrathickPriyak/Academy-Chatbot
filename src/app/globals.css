@@ -31,62 +31,62 @@
 }
 
 :root {
-  /* Deep Harbor — cool mist, ink, teal; gold used sparingly */
-  --background: #f3f7f8;
-  --foreground: #0b1f2a;
+  /* Academy Navy — brand navy + orange, clean institutional surfaces */
+  --background: #f5f7fa;
+  --foreground: #0a1b2e;
   --card: #ffffff;
-  --card-foreground: #0b1f2a;
-  --primary: #0d7377;
-  --primary-foreground: #f4fffe;
-  --secondary: #e4eef0;
-  --secondary-foreground: #16323c;
-  --muted: #e8f0f2;
-  --muted-foreground: #4a5f68;
-  --accent: #c9a227;
-  --accent-foreground: #1a1504;
-  --destructive: #c0392b;
+  --card-foreground: #0a1b2e;
+  --primary: #0b2e5b;
+  --primary-foreground: #f8fafc;
+  --secondary: #e7edf4;
+  --secondary-foreground: #14263d;
+  --muted: #eef2f6;
+  --muted-foreground: #5a6b7d;
+  --accent: #e87722;
+  --accent-foreground: #1a0f04;
+  --destructive: #b42318;
   --destructive-foreground: #fff8f7;
-  --success: #1f7a4d;
+  --success: #1f6b45;
   --warning: #b7791f;
-  --border: #d3e0e4;
-  --ring: #0d7377;
-  --radius: 0.875rem;
+  --border: #d5dde7;
+  --ring: #0b2e5b;
+  --radius: 0.75rem;
 
-  --shadow-xs: 0 1px 2px rgb(11 31 42 / 0.05);
-  --shadow-sm: 0 1px 2px rgb(11 31 42 / 0.06), 0 2px 6px rgb(11 31 42 / 0.05);
-  --shadow-md: 0 10px 28px rgb(11 31 42 / 0.08);
-  --shadow-lg: 0 20px 48px rgb(11 31 42 / 0.12);
+  --shadow-xs: 0 1px 2px rgb(10 27 46 / 0.05);
+  --shadow-sm: 0 1px 2px rgb(10 27 46 / 0.06), 0 2px 6px rgb(10 27 46 / 0.05);
+  --shadow-md: 0 10px 28px rgb(10 27 46 / 0.08);
+  --shadow-lg: 0 20px 48px rgb(10 27 46 / 0.12);
 
   --surface-grid:
-    radial-gradient(ellipse 80% 50% at 10% -10%, rgb(13 115 119 / 0.12), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 90% 0%, rgb(201 162 39 / 0.08), transparent 50%),
-    linear-gradient(180deg, #f7fbfc 0%, #f3f7f8 45%, #eef4f6 100%);
+    radial-gradient(ellipse 75% 48% at 8% -12%, rgb(11 46 91 / 0.08), transparent 55%),
+    radial-gradient(ellipse 55% 38% at 92% 0%, rgb(232 119 34 / 0.06), transparent 50%),
+    linear-gradient(180deg, #f8fafc 0%, #f5f7fa 48%, #eef2f6 100%);
 }
 
 .dark {
-  --background: #071318;
-  --foreground: #eef5f7;
-  --card: #0f1e24;
-  --card-foreground: #eef5f7;
-  --primary: #2ec4b6;
-  --primary-foreground: #04201d;
-  --secondary: #1a2c33;
-  --secondary-foreground: #d7e6ea;
-  --muted: #15252c;
-  --muted-foreground: #9fb3bb;
-  --accent: #e0b84a;
-  --accent-foreground: #1a1504;
+  --background: #070e18;
+  --foreground: #eef2f7;
+  --card: #0e1826;
+  --card-foreground: #eef2f7;
+  --primary: #5b8fd4;
+  --primary-foreground: #061018;
+  --secondary: #162334;
+  --secondary-foreground: #d7e2ef;
+  --muted: #121e2d;
+  --muted-foreground: #9aabbe;
+  --accent: #f08a35;
+  --accent-foreground: #1a0f04;
   --destructive: #e06a5c;
   --destructive-foreground: #1a0806;
   --success: #3daf74;
   --warning: #d4a017;
-  --border: #243840;
-  --ring: #2ec4b6;
+  --border: #243447;
+  --ring: #5b8fd4;
 
   --surface-grid:
-    radial-gradient(ellipse 70% 45% at 15% -5%, rgb(46 196 182 / 0.14), transparent 55%),
-    radial-gradient(ellipse 50% 35% at 90% 5%, rgb(224 184 74 / 0.08), transparent 50%),
-    linear-gradient(180deg, #0a161c 0%, #071318 100%);
+    radial-gradient(ellipse 70% 45% at 12% -6%, rgb(91 143 212 / 0.12), transparent 55%),
+    radial-gradient(ellipse 48% 32% at 90% 4%, rgb(240 138 53 / 0.07), transparent 50%),
+    linear-gradient(180deg, #0a1422 0%, #070e18 100%);
 }
 
 @layer base {
