@@ -112,3 +112,11 @@ export function tapPress(reduceMotion: boolean | null) {
   if (reduceMotion) return undefined;
   return { scale: 0.985 };
 }
+
+export const softPulse: Variants = {
+  hidden: { opacity: 0.55 },
+  visible: {
+    opacity: 1,
+    transition: { duration: duration.slow, ease: easeOutPremium },
+  },
+};

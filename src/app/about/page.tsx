@@ -7,6 +7,7 @@ import { Section } from "@/components/layout/section";
 import { Reveal, RevealItem, RevealStagger } from "@/components/marketing/reveal";
 import { Button } from "@/components/ui/button";
 import { catalog, listCourses } from "@/data/catalog";
+import { academyMedia } from "@/data/media";
 import { aboutContent, audiences, founder, highlights, site } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -27,19 +28,30 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   const courseCount = listCourses().length;
-  const portrait = listCourses()[0]?.thumbnail ?? "/infozub-logo.jpg";
+  const portrait = academyMedia.instructorPortrait;
 
   return (
     <>
       <section className="border-border relative overflow-hidden border-b bg-card/50">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 70% 55% at 90% 0%, rgb(13 115 119 / 0.18), transparent 55%), radial-gradient(ellipse 45% 40% at 0% 80%, rgb(201 162 39 / 0.1), transparent 50%)",
-          }}
-        />
+        <div className="absolute inset-0">
+          <Image
+            src={academyMedia.team}
+            alt=""
+            fill
+            priority
+            className="object-cover object-center opacity-30"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/92 to-background/70" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 70% 55% at 90% 0%, rgb(13 115 119 / 0.18), transparent 55%), radial-gradient(ellipse 45% 40% at 0% 80%, rgb(201 162 39 / 0.1), transparent 50%)",
+            }}
+          />
+        </div>
         <Container className="relative grid items-end gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
           <Reveal>
             <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">About</p>
@@ -61,7 +73,7 @@ export default function AboutPage() {
                 src={portrait}
                 alt={`${founder.name}, ${founder.title}`}
                 fill
-                className="object-cover"
+                className="object-cover object-top"
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
@@ -194,6 +206,45 @@ export default function AboutPage() {
       <Section spacing="lg" className="bg-card/40">
         <Container>
           <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">In the press</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight">Published coverage</h2>
+            <p className="text-muted-foreground mt-3 text-base leading-relaxed">
+              Features and mentions published on the Infozub Academy about page.
+            </p>
+          </Reveal>
+          <RevealStagger className="mt-10 grid gap-4 sm:grid-cols-3">
+            {academyMedia.press.map((src) => (
+              <RevealItem key={src}>
+                <div className="border-border bg-card relative aspect-[4/3] overflow-hidden rounded-2xl border shadow-soft">
+                  <Image src={src} alt="Press feature from Infozub Academy about page" fill className="object-contain p-4" sizes="33vw" />
+                </div>
+              </RevealItem>
+            ))}
+          </RevealStagger>
+        </Container>
+      </Section>
+
+      <Section spacing="lg">
+        <Container>
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Team</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight">The academy team</h2>
+          </Reveal>
+          <Reveal className="border-border relative mx-auto mt-10 aspect-[21/9] max-w-5xl overflow-hidden rounded-[2rem] border shadow-lift">
+            <Image
+              src={academyMedia.team}
+              alt="Infozub Digital Academy team"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 960px"
+            />
+          </Reveal>
+        </Container>
+      </Section>
+
+      <Section spacing="lg" className="bg-card/40">
+        <Container>
+          <Reveal className="mx-auto max-w-2xl text-center">
             <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Instructor</p>
             <h2 className="font-display mt-3 text-3xl tracking-tight">Meet the founder</h2>
           </Reveal>
@@ -204,7 +255,7 @@ export default function AboutPage() {
                   src={portrait}
                   alt={`${founder.name}, ${founder.title}`}
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   sizes="(max-width: 768px) 100vw, 40vw"
                 />
               </div>

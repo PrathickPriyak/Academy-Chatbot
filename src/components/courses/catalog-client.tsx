@@ -11,6 +11,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
+import { HoverMedia } from "@/components/ui/hover-media";
 import { Input } from "@/components/ui/input";
 import { LoadingDots } from "@/components/ui/loading-dots";
 import {
@@ -18,6 +19,7 @@ import {
   countActiveFilters,
   filterCourses,
   listCategories,
+  listCourses,
   listDurations,
   listInstructors,
   listLevels,
@@ -145,28 +147,52 @@ export function CatalogClient() {
     reduceMotion: !!reduceMotion,
   };
 
+  const mosaic = listCourses().slice(0, 6);
+
   return (
     <Section spacing="md">
       <Container>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
-            <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-[3.25rem]">Courses</h1>
-            <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
-              Browse all {catalog.courses.length} published Infozub Digital Academy courses. Search by name, category,
-              instructor, skill, or topic — then open a course for modules and enrollment.
+        <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between lg:block">
+            <div>
+              <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
+              <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-[3.25rem]">Courses</h1>
+              <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
+                Browse all {catalog.courses.length} published Infozub Digital Academy courses. Search by name, category,
+                instructor, skill, or topic — then open a course for modules and enrollment.
+              </p>
+            </div>
+            <p className="text-muted-foreground mt-4 flex items-center gap-2 text-sm font-medium" aria-live="polite">
+              {pending ? (
+                <>
+                  Updating
+                  <LoadingDots label="Updating results" />
+                </>
+              ) : (
+                `${courses.length} course${courses.length === 1 ? "" : "s"}`
+              )}
             </p>
           </div>
-          <p className="text-muted-foreground flex items-center gap-2 text-sm font-medium" aria-live="polite">
-            {pending ? (
-              <>
-                Updating
-                <LoadingDots label="Updating results" />
-              </>
-            ) : (
-              `${courses.length} course${courses.length === 1 ? "" : "s"}`
-            )}
-          </p>
+          <div className="hidden grid-cols-3 gap-2 sm:grid" aria-hidden>
+            {mosaic.map((course, index) => (
+              <motion.div
+                key={course.slug}
+                className={cn(
+                  "overflow-hidden rounded-2xl ring-1 ring-border/70",
+                  index === 0 || index === 5 ? "row-span-1 aspect-[4/3]" : "aspect-square",
+                )}
+                initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : motionDuration.base,
+                  delay: reduceMotion ? 0 : index * 0.04,
+                  ease: easeOutPremium,
+                }}
+              >
+                <HoverMedia src={course.thumbnail} alt="" fill sizes="180px" className="h-full w-full" />
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         <div id="categories" className="scroll-mt-28">

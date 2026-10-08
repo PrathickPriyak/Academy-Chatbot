@@ -7,13 +7,16 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { CourseFaqList } from "@/components/courses/course-faq";
+import { CourseGallery } from "@/components/courses/course-gallery";
 import { ModuleList } from "@/components/courses/module-list";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Reveal } from "@/components/marketing/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { HoverMedia } from "@/components/ui/hover-media";
 import type { CatalogCourse } from "@/data/catalog";
+import { academyMedia } from "@/data/media";
 import { refundSummary } from "@/data/site";
 import type { CourseFaq } from "@/lib/courses/presenters";
 import { duration, easeOutPremium } from "@/lib/motion";
@@ -130,22 +133,23 @@ export function CourseDetailView({
             </motion.div>
 
             <motion.div
-              className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] shadow-hero ring-1 ring-border/70"
+              className="overflow-hidden rounded-[1.75rem] shadow-hero ring-1 ring-border/70"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
+              whileHover={reduceMotion ? undefined : { y: -4 }}
               transition={{
                 duration: reduceMotion ? 0 : duration.slow,
                 ease: easeOutPremium,
                 delay: reduceMotion ? 0 : 0.08,
               }}
             >
-              <Image
+              <HoverMedia
                 src={course.thumbnail}
                 alt={`${course.title} course thumbnail`}
                 fill
                 priority
-                className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 40vw"
+                className="aspect-[4/3]"
               />
             </motion.div>
           </div>
@@ -194,6 +198,12 @@ export function CourseDetailView({
               </section>
             </Reveal>
 
+            {course.gallery.length > 0 ? (
+              <Reveal>
+                <CourseGallery title={course.title} images={course.gallery} />
+              </Reveal>
+            ) : null}
+
             <Reveal>
               <section>
                 <h2 className="font-display text-3xl tracking-tight">Requirements</h2>
@@ -218,8 +228,8 @@ export function CourseDetailView({
                   <div className="grid sm:grid-cols-[8rem_1fr]">
                     <div className="relative min-h-40 bg-muted sm:min-h-full">
                       <Image
-                        src={course.thumbnail}
-                        alt=""
+                        src={academyMedia.instructorPortrait}
+                        alt={`${instructorName}, ${instructorTitle}`}
                         fill
                         className="object-cover"
                         sizes="160px"

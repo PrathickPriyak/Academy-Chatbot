@@ -41,9 +41,9 @@
       "category": "design",
       "title": "Adobe Photoshop Master Course",
       "slug": "adobe-photoshop",
-      "shortDescription": "Learn Adobe Photoshop in Tamil! Enroll now for just \u20b91,999 and master essential tools, design techniques, and creative skills easily.",
-      "description": "Learn Adobe Photoshop in Tamil! Enroll now for just \u20b91,999 and master essential tools, design techniques, and creative skills easily. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "shortDescription": "Learn Adobe Photoshop in Tamil! Enroll now for just ₹1,999 and master essential tools, design techniques, and creative skills easily.",
+      "description": "Learn Adobe Photoshop in Tamil! Enroll now for just ₹1,999 and master essential tools, design techniques, and creative skills easily. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/01/Adobe-photoshop-master-course-INFOZUB-Digital-Academy.jpeg",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 1999,
@@ -51,11 +51,11 @@
       "modules": [
         {
           "title": "Module 01: Photoshop Foundations",
-          "description": "Get fully comfortable with Photoshop \u2013 setting up the workspace, understanding layers, and building a smooth beginner workflow that forms the base for all future designs."
+          "description": "Get fully comfortable with Photoshop – setting up the workspace, understanding layers, and building a smooth beginner workflow that forms the base for all future designs."
         },
         {
           "title": "Module 02: Typography and Text Design",
-          "description": "Learn to work professionally with text \u2014 mastering font selection, paragraph styling, and creative typography. Includes Tamil typing and real practice designing text perfectly for posters and social media."
+          "description": "Learn to work professionally with text — mastering font selection, paragraph styling, and creative typography. Includes Tamil typing and real practice designing text perfectly for posters and social media."
         },
         {
           "title": "Module 03: Shapes, Gradients and Transformations",
@@ -81,15 +81,23 @@
           "title": "Module 08: Real-World Design Projects",
           "description": "Create industry-level designs including social media posters, cinematic posters, product ads, and print-ready materials. Build a strong portfolio and gain practical confidence."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2026/01/Dune-graphic_ida.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/01/Juice-graphi_ida.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/01/Samurai-graphic_ida.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/01/shoe-graphic_ida.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/01/winter-coming-graphic_ida.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/01/GDMP-Certification_ida.jpg"
       ]
     },
     {
       "category": "video",
       "title": "Adobe Premiere Pro Master Course",
       "slug": "adobe-premiere-pro",
-      "shortDescription": "Earn a globally recognized Adobe Premiere Pro Master Course certification and learn professional editing\u2014from fundamentals to pro\u2014with lifetime access.",
-      "description": "Earn a globally recognized Adobe Premiere Pro Master Course certification and learn professional editing\u2014from fundamentals to pro\u2014with lifetime access. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "shortDescription": "Earn a globally recognized Adobe Premiere Pro Master Course certification and learn professional editing—from fundamentals to pro—with lifetime access.",
+      "description": "Earn a globally recognized Adobe Premiere Pro Master Course certification and learn professional editing—from fundamentals to pro—with lifetime access. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/07/Adobe-Premiere-Pro-Master-Course_APP_IDA.jpeg",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 0,
@@ -131,6 +139,10 @@
           "title": "AI-Powered Video Editing",
           "description": "The page covers AI audio cleanup, Generative Extend, Higgsfield, and Magnific AI."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2026/07/AI-Powered-Video-editing_APP_IDA.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/07/APRCertificate_Ida.jpeg"
       ]
     },
     {
@@ -139,7 +151,7 @@
       "slug": "ai-website-builder-mastery",
       "shortDescription": "Explore comprehensive modules on AI website builder mastery in Tamil, from prompt engineering to deployment and advanced customization techniques.",
       "description": "Explore comprehensive modules on AI website builder mastery in Tamil, from prompt engineering to deployment and advanced customization techniques. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/03/AI-Website-Builder-Mastery_IDA.png",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 0,
@@ -161,6 +173,10 @@
           "title": "Module 04: Deployment and Integration",
           "description": "Learn to host your sites using Netlify and GitHub like a pro."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2026/03/10Web_AI_IDA.png",
+        "https://academy.infozub.com/wp-content/uploads/2026/03/Ai-Website-Builder-Certificate_IDA.png"
       ]
     },
     {
@@ -169,7 +185,7 @@
       "slug": "business-success-formula",
       "shortDescription": "Transform your business with the Tamil Business Success Formula course: comprehensive modules on mindset, planning, marketing, and data-driven decisions.",
       "description": "Transform your business with the Tamil Business Success Formula course: comprehensive modules on mindset, planning, marketing, and data-driven decisions. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/05/BSF_IDA_Course.png",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 0,
@@ -204,7 +220,7 @@
           "description": "Learn how to build efficient business operations and systems. Create SOPs, manage teams, and improve productivity. Develop leadership skills using proven frameworks and ensure smooth workflow management."
         },
         {
-          "title": "Module 08: Innovation & R&D \u2013 Stay Ahead",
+          "title": "Module 08: Innovation & R&D – Stay Ahead",
           "description": "Stay competitive by learning innovation strategies and product development frameworks like MVP and Design Thinking. Understand how to use customer feedback, market trends, and new technologies like AI to continuously improve your business."
         },
         {
@@ -219,6 +235,11 @@
           "title": "Module 11: Business Growth & Scaling Strategies",
           "description": "Transform your business from survival mode to scalable success. Learn growth strategies like franchising, partnerships, and automation. Avoid common growth mistakes and build a long-term sustainable business."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2026/05/Anuthama_BSF_IDA.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/05/Aravind-Dhandapani_BSF_IDA.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/05/Audithyavignesh_BSF_IDA.jpeg"
       ]
     },
     {
@@ -227,7 +248,7 @@
       "slug": "canva-master-course",
       "shortDescription": "Canva Master Course",
       "description": "Canva Master Course This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/01/Canva-master-course-INFOZUB-Digital-Academy.jpeg",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 0,
@@ -247,7 +268,7 @@
         },
         {
           "title": "Module 04: Building Your Brand Identity",
-          "description": "Learn how to create a strong brand identity using logos, brand colors, fonts, and style guides in Canva. You will design visuals that reflect your brand\u2019s personality and values."
+          "description": "Learn how to create a strong brand identity using logos, brand colors, fonts, and style guides in Canva. You will design visuals that reflect your brand’s personality and values."
         },
         {
           "title": "Module 05: Design Creation: Social Media",
@@ -257,6 +278,9 @@
           "title": "Module 06: Bonus",
           "description": "Explore additional tips, shortcuts, and advanced design ideas to improve your Canva skills. These lessons help you work faster and create more polished designs."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2026/01/Canva-CErtificate-IDA.jpeg"
       ]
     },
     {
@@ -265,7 +289,7 @@
       "slug": "google-ads",
       "shortDescription": "Master the art of Google Ads with Infozub Digital Academy specialized marketing course. Drive targeted traffic and achieve higher ROI. Enroll now!",
       "description": "Master the art of Google Ads with Infozub Digital Academy specialized marketing course. Drive targeted traffic and achieve higher ROI. Enroll now! This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/04/Google-ads_IDA.png",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 0,
@@ -315,6 +339,11 @@
           "title": "Module 11: Budget Control and Bidding Strategies",
           "description": "Understand how CPC and Quality Score affect cost. Learn to control budget and increase profit using bidding strategies and the Auction Insights Tool."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2026/04/Display_Campiagns_IDA.png",
+        "https://academy.infozub.com/wp-content/uploads/2026/04/Google-Ads_Master-Course_IDA.jpeg",
+        "https://academy.infozub.com/wp-content/uploads/2026/04/Google_ADS_IDA.png"
       ]
     },
     {
@@ -323,7 +352,7 @@
       "slug": "interview-success-formula",
       "shortDescription": "Interview Success Formula",
       "description": "Interview Success Formula This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/01/ISF-Thumbnail.png",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 0,
@@ -397,15 +426,23 @@
           "title": "Module 17: Common Interview Question and Answer",
           "description": "Access a curated list of common interview questions with sample answers. Use them as a reference to prepare and practice confidently."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2025/10/Audithya-scaled.jpg",
+        "https://academy.infozub.com/wp-content/uploads/2025/10/Dharshani--scaled.jpg",
+        "https://academy.infozub.com/wp-content/uploads/2025/10/Iswarya--scaled.jpg",
+        "https://academy.infozub.com/wp-content/uploads/2025/10/Lambert-Rizario--scaled.jpg",
+        "https://academy.infozub.com/wp-content/uploads/2025/10/MARTIN--scaled.jpg",
+        "https://academy.infozub.com/wp-content/uploads/2025/10/MadhuBala-scaled.jpg"
       ]
     },
     {
       "category": "video",
       "title": "Mobile App Video Editing Master Course",
       "slug": "mobile-app-video-editing",
-      "shortDescription": "Unlock Mobile App Video Editing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! Join Now for \u20b9999. Mastering Popular Video Editing Apps. Storyboarding and Video Planning. Essential Editing Techniques. Color Correction and Grading. Audio Mastery for Mobile Videos.",
-      "description": "Unlock Mobile App Video Editing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! Join Now for \u20b9999. Mastering Popular Video Editing Apps. Storyboarding and Video Planning. Essential Editing Techniques. Color Correction and Grading. Audio Mastery for Mobile Videos. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "shortDescription": "Unlock Mobile App Video Editing in தமிழ்! Join Now for ₹999. Mastering Popular Video Editing Apps. Storyboarding and Video Planning. Essential Editing Techniques. Color Correction and Grading. Audio Mastery for Mobile Videos.",
+      "description": "Unlock Mobile App Video Editing in தமிழ்! Join Now for ₹999. Mastering Popular Video Editing Apps. Storyboarding and Video Planning. Essential Editing Techniques. Color Correction and Grading. Audio Mastery for Mobile Videos. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/01/Mobile-app-video-editing-master-course-INFOZUB-Digital-Academy.jpeg",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 999,
@@ -451,6 +488,9 @@
           "title": "Module 10: Film Maker App",
           "description": "Get started with simple video editing using the Film Maker App. You will learn basic trimming, effects, text, music, and transitions to create engaging videos with ease."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2025/01/MAVE_certification.jpeg"
       ]
     },
     {
@@ -459,7 +499,7 @@
       "slug": "search-engine-optimisation",
       "shortDescription": "Become an SEO master with Infozub Digital Academy comprehensive course. Learn cutting-edge strategies, boost rankings, and drive organic traffic like a pro. Enroll now in our SEO Master course.",
       "description": "Become an SEO master with Infozub Digital Academy comprehensive course. Learn cutting-edge strategies, boost rankings, and drive organic traffic like a pro. Enroll now in our SEO Master course. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IMAGE.jpg",
       "level": "BEGINNER",
       "duration": "12 months access and 15+ hours of content",
       "price": 0,
@@ -489,15 +529,16 @@
           "title": "Advanced SEO Marketing Strategies",
           "description": "Google page experience and Core Web Vitals, technical SEO, SEO for website migrations, and SEO performance analytics."
         }
-      ]
+      ],
+      "gallery": []
     },
     {
       "category": "marketing",
       "title": "Social Media Marketing Master Course",
       "slug": "social-media-marketing",
-      "shortDescription": "Master Social Media Marketing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd with our course at just \u20b9999! Learn effective strategies, analytics, trends, community building & platform-specific marketing.",
-      "description": "Master Social Media Marketing in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd with our course at just \u20b9999! Learn effective strategies, analytics, trends, community building & platform-specific marketing. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "shortDescription": "Master Social Media Marketing in தமிழ் with our course at just ₹999! Learn effective strategies, analytics, trends, community building & platform-specific marketing.",
+      "description": "Master Social Media Marketing in தமிழ் with our course at just ₹999! Learn effective strategies, analytics, trends, community building & platform-specific marketing. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/01/Social-media-marketing-master-course-INFOZUB-Digital-Academy.jpeg",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 999,
@@ -525,7 +566,7 @@
         },
         {
           "title": "Module 06: Meta Ads Fundamentals and Automation",
-          "description": "Learn all Meta campaign objectives across awareness, consideration, and conversion stages. Automate basic optimizations so Meta\u2019s algorithm can get you best results."
+          "description": "Learn all Meta campaign objectives across awareness, consideration, and conversion stages. Automate basic optimizations so Meta’s algorithm can get you best results."
         },
         {
           "title": "Module 07: Lead Generation and Conversion Campaigns",
@@ -551,15 +592,18 @@
           "title": "Module 12: AI Tools for Marketing and Content Automation",
           "description": "Use ChatGPT, Gemini, Grok and similar tools to ideate, script and write content at scale. Build your own AI-assisted workflow for ads, captions, emails, and client reports."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2025/01/Social-media-marketing_Certification.jpg"
       ]
     },
     {
       "category": "web",
       "title": "WordPress Webdesign Master Course",
       "slug": "web-design",
-      "shortDescription": "Learn WordPress Web Design in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! At Just \u20b9999. Master DIVI Framework. Creative Animations. Dynamic Website Development. Visual Storytelling Through Web Design.",
-      "description": "Learn WordPress Web Design in \u0ba4\u0bae\u0bbf\u0bb4\u0bcd! At Just \u20b9999. Master DIVI Framework. Creative Animations. Dynamic Website Development. Visual Storytelling Through Web Design. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
-      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+      "shortDescription": "Learn WordPress Web Design in தமிழ்! At Just ₹999. Master DIVI Framework. Creative Animations. Dynamic Website Development. Visual Storytelling Through Web Design.",
+      "description": "Learn WordPress Web Design in தமிழ்! At Just ₹999. Master DIVI Framework. Creative Animations. Dynamic Website Development. Visual Storytelling Through Web Design. This is a published Infozub Digital Academy course. Learning access is delivered through the courses.infozub.com learning platform after purchase.",
+      "thumbnail": "https://academy.infozub.com/wp-content/uploads/2026/01/Web-design-master-course-INFOZUB-Digital-Academy.jpeg",
       "level": "BEGINNER",
       "duration": "Self-paced, lifetime access",
       "price": 999,
@@ -575,7 +619,7 @@
         },
         {
           "title": "Module 03: Divi Theme & Divi 5 Basics",
-          "description": "Learn to install and configure the Divi theme for any WordPress website. Manage roles, permissions, and the Divi Library for reusable designs. Get comfortable with Divi 5\u2019s updated builder interface and core features."
+          "description": "Learn to install and configure the Divi theme for any WordPress website. Manage roles, permissions, and the Divi Library for reusable designs. Get comfortable with Divi 5’s updated builder interface and core features."
         },
         {
           "title": "Module 04: Divi Theme Builder & Core Modules",
@@ -599,7 +643,7 @@
         },
         {
           "title": "Module 09: Shopify store setup and Customization",
-          "description": "Learn to create and configure a Shopify store from signup to launch. Add products, manage shipping, and customize your theme\u2019s sections for branding. Integrate Razorpay and connect a custom domain for a professional storefront."
+          "description": "Learn to create and configure a Shopify store from signup to launch. Add products, manage shipping, and customize your theme’s sections for branding. Integrate Razorpay and connect a custom domain for a professional storefront."
         },
         {
           "title": "Module 10: Woo-Commerce and Payment Integration",
@@ -613,6 +657,9 @@
           "title": "Module 12: Advanced Divi Design Tutorials",
           "description": "Learn WooCommerce basics, from installation to essential settings and features. Create simple and advanced product types suited for different business models. Integrate Razorpay and prepare a fully functional e-commerce site on your hosting."
         }
+      ],
+      "gallery": [
+        "https://academy.infozub.com/wp-content/uploads/2025/01/WWD_Certification.jpeg"
       ]
     }
   ],
@@ -677,5 +724,70 @@
       "title": "About the academy",
       "content": "academy.infozub.com describes INFOZUB Digital Academy as quality education for everyone. The about page says INFOZUB is a digital marketing company with 10+ years of experience, and the academy is built from that customer experience. The homepage says the courses help people navigate the digital landscape."
     }
-  ]
+  ],
+  "media": {
+    "logoBlack": "https://academy.infozub.com/wp-content/uploads/2025/12/IDA_LOGO_black.png",
+    "brandMark": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
+    "instructorPortrait": "https://academy.infozub.com/wp-content/uploads/2023/07/logesh_ida_profile.jpg",
+    "team": "https://academy.infozub.com/wp-content/uploads/2025/01/IDA_Team.png",
+    "hero": "https://academy.infozub.com/wp-content/uploads/2026/01/Social-media-marketing-master-course-INFOZUB-Digital-Academy.jpeg",
+    "press": [
+      "https://academy.infozub.com/wp-content/uploads/2023/07/BV-magazine.png",
+      "https://academy.infozub.com/wp-content/uploads/2023/07/CEOMagazine.png",
+      "https://academy.infozub.com/wp-content/uploads/2023/07/startupcitysilicon.png"
+    ],
+    "highlights": [
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/analytics.png",
+        "label": "Updated strategies"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/creatives.png",
+        "label": "Certificate on completion from INFOZUB"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/work-process.png",
+        "label": "Hands-on learning"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/discussion.png",
+        "label": "Community group"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/brainstorming.png",
+        "label": "Step-by-step training"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/campaign.png",
+        "label": "Learn on any device"
+      }
+    ],
+    "audiences": [
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_students.jpg",
+        "title": "Students / Freshers"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/analytics.png",
+        "title": "Digital marketers"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/campaign.png",
+        "title": "Traditional marketers"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/work-process.png",
+        "title": "Business Owners"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_freelancers.jpg",
+        "title": "Freelancers"
+      },
+      {
+        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/brainstorming.png",
+        "title": "Anyone learning"
+      }
+    ],
+    "testimonials": {}
+  }
 }

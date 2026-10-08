@@ -5,13 +5,14 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { catalog, listCourses } from "@/data/catalog";
+import { academyMedia } from "@/data/media";
 import { founder } from "@/data/site";
 
 import { Reveal } from "./reveal";
 
 export function InstructorSpotlight() {
   const courseCount = listCourses().length;
-  const portrait = listCourses()[0]?.thumbnail ?? "/infozub-logo.jpg";
+  const portrait = academyMedia.instructorPortrait;
 
   return (
     <Section spacing="lg">

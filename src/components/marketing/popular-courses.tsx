@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { CourseCard } from "@/components/courses/course-card";
@@ -6,7 +8,7 @@ import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { listCourses } from "@/data/catalog";
 
-import { Reveal } from "./reveal";
+import { Reveal, RevealItem, RevealStagger } from "./reveal";
 
 export function PopularCourses() {
   const courses = listCourses().slice(0, 6);
@@ -28,11 +30,13 @@ export function PopularCourses() {
           </Button>
         </Reveal>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealStagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {courses.map((course, index) => (
-            <CourseCard key={course.slug} course={course} featured={index < 2} />
+            <RevealItem key={course.slug}>
+              <CourseCard course={course} featured={index < 2} />
+            </RevealItem>
           ))}
-        </div>
+        </RevealStagger>
       </Container>
     </Section>
   );

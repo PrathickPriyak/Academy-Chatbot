@@ -1,6 +1,8 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import { Send } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useEffect, useId, useRef, useState } from "react";
@@ -8,7 +10,9 @@ import { FormEvent, Suspense, useEffect, useId, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { LoadingDots } from "@/components/ui/loading-dots";
+import { academyMedia } from "@/data/media";
 import { suggestionPrompts, welcomeMessage } from "@/lib/chat/prompts";
+import { duration, easeOutPremium } from "@/lib/motion";
 
 type Message = {
   id: string;
@@ -26,6 +30,7 @@ function ChatWorkspace() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const inputId = useId();
   const hintId = `${inputId}-hint`;
+  const reduceMotion = useReducedMotion();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,8 +101,18 @@ function ChatWorkspace() {
   }
 
   return (
-    <div className="flex min-h-[calc(100svh-4rem)] flex-col sm:min-h-[calc(100svh-4.25rem)]">
-      <Container className="flex max-w-3xl flex-1 flex-col py-6 sm:py-10">
+    <div className="relative flex min-h-[calc(100svh-4rem)] flex-col sm:min-h-[calc(100svh-4.25rem)]">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <Image
+          src={academyMedia.hero}
+          alt=""
+          fill
+          className="object-cover opacity-[0.07]"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      </div>
+      <Container className="relative flex max-w-3xl flex-1 flex-col py-6 sm:py-10">
         <div className="shrink-0">
           <h1 className="font-display text-3xl tracking-tight sm:text-4xl">Academy Assistant</h1>
           <p className="text-muted-foreground mt-2 text-sm leading-relaxed sm:mt-3 sm:text-base">
@@ -106,7 +121,7 @@ function ChatWorkspace() {
           </p>
         </div>
 
-        <div className="bg-card mt-6 flex min-h-[min(32rem,70dvh)] flex-1 flex-col overflow-hidden rounded-[1.5rem] shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 sm:mt-8">
+        <div className="bg-card/95 mt-6 flex min-h-[min(32rem,70dvh)] flex-1 flex-col overflow-hidden rounded-[1.5rem] shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 backdrop-blur-sm sm:mt-8">
           <div
             ref={listRef}
             role="log"
@@ -117,7 +132,13 @@ function ChatWorkspace() {
             className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-4 sm:p-5"
           >
             {messages.map((message) => (
-              <div key={message.id} className={message.role === "user" ? "text-right" : "text-left"}>
+              <motion.div
+                key={message.id}
+                className={message.role === "user" ? "text-right" : "text-left"}
+                initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: reduceMotion ? 0 : duration.fast, ease: easeOutPremium }}
+              >
                 <div
                   className={`inline-block max-w-[92%] rounded-2xl px-4 py-3 text-sm leading-relaxed break-words sm:max-w-[90%] ${
                     message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
@@ -146,7 +167,7 @@ function ChatWorkspace() {
                     </div>
                   ) : null}
                 </div>
-              </div>
+              </motion.div>
             ))}
             {loading ? (
               <p className="text-muted-foreground flex items-center gap-2 text-sm" role="status">

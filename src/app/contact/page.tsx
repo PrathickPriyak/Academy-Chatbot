@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
@@ -6,6 +7,7 @@ import { Section } from "@/components/layout/section";
 import { ContactForm } from "@/components/marketing/contact-form";
 import { Reveal } from "@/components/marketing/reveal";
 import { Button } from "@/components/ui/button";
+import { academyMedia } from "@/data/media";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -28,14 +30,25 @@ export default function ContactPage() {
   return (
     <>
       <section className="border-border relative overflow-hidden border-b bg-card/50">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 50% at 10% 0%, rgb(13 115 119 / 0.16), transparent 55%), radial-gradient(ellipse 40% 35% at 100% 80%, rgb(201 162 39 / 0.1), transparent 50%)",
-          }}
-        />
+        <div className="absolute inset-0">
+          <Image
+            src={academyMedia.team}
+            alt=""
+            fill
+            priority
+            className="object-cover object-center opacity-25"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/75" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 60% 50% at 10% 0%, rgb(13 115 119 / 0.16), transparent 55%), radial-gradient(ellipse 40% 35% at 100% 80%, rgb(201 162 39 / 0.1), transparent 50%)",
+            }}
+          />
+        </div>
         <Container className="relative py-14 sm:py-16">
           <Reveal>
             <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Contact</p>
@@ -53,6 +66,16 @@ export default function ContactPage() {
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <Reveal>
               <div className="space-y-6">
+                <div className="border-border relative mb-2 aspect-[16/9] overflow-hidden rounded-2xl border shadow-soft">
+                  <Image
+                    src={academyMedia.instructorPortrait}
+                    alt={`${site.name} founder`}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                </div>
+
                 <div className="border-border bg-card rounded-2xl border p-5 shadow-soft">
                   <p className="text-muted-foreground text-xs font-semibold uppercase">Email</p>
                   <a

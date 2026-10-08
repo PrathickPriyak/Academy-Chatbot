@@ -1,18 +1,17 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 import { CourseSearch } from "@/components/site/course-search";
 import { Button } from "@/components/ui/button";
-import { listCourses } from "@/data/catalog";
+import { ParallaxMedia } from "@/components/ui/parallax-media";
+import { academyMedia } from "@/data/media";
 import { site } from "@/data/site";
 import { duration, easeOutPremium } from "@/lib/motion";
 
 export function HomeHero() {
   const reduceMotion = useReducedMotion();
-  const heroImage = listCourses()[0]?.thumbnail ?? "/infozub-logo.jpg";
   const t = (ms: number, delay = 0) => ({
     duration: reduceMotion ? 0 : ms,
     ease: easeOutPremium,
@@ -21,18 +20,24 @@ export function HomeHero() {
 
   return (
     <section className="relative isolate min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-4.25rem)]">
-      <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <Image
-          src={heroImage}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center scale-[1.02]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#061116]/94 via-[#0b1f2a]/82 to-[#0b1f2a]/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#061116]/78 via-transparent to-[#061116]/30" />
-      </div>
+      <ParallaxMedia
+        src={academyMedia.hero}
+        alt=""
+        priority
+        intensity={18}
+        className="absolute inset-0"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-[#061116]/94 via-[#0b1f2a]/82 to-[#0b1f2a]/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#061116]/80 via-transparent to-[#061116]/28" />
+        {!reduceMotion ? (
+          <motion.div
+            aria-hidden
+            className="absolute -inset-x-8 top-1/4 h-40 bg-gradient-to-r from-transparent via-[#9ee8e1]/10 to-transparent blur-2xl"
+            animate={{ x: ["-15%", "15%", "-15%"] }}
+            transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+          />
+        ) : null}
+      </ParallaxMedia>
 
       <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-end px-4 py-12 sm:min-h-[calc(100svh-4.25rem)] sm:px-6 sm:py-20 lg:justify-center lg:px-8 lg:py-24">
         <div className="max-w-2xl text-white">

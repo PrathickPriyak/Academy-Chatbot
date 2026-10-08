@@ -1,10 +1,19 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { HoverMedia } from "@/components/ui/hover-media";
+import { audienceImage } from "@/data/media";
 import { audiences } from "@/data/site";
+import { hoverLift, transitionFast } from "@/lib/motion";
 
 import { Reveal, RevealItem, RevealStagger } from "./reveal";
 
 export function AudienceGrid() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <Section spacing="lg" className="bg-card/40">
       <Container>
@@ -13,14 +22,34 @@ export function AudienceGrid() {
           <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">Built for learners at every stage</h2>
         </Reveal>
         <RevealStagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((audience) => (
-            <RevealItem key={audience.title}>
-              <article className="border-border bg-card h-full rounded-2xl border p-6 shadow-soft">
-                <h3 className="font-display text-xl tracking-tight">{audience.title}</h3>
-                <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{audience.text}</p>
-              </article>
-            </RevealItem>
-          ))}
+          {audiences.map((audience) => {
+            const image = audienceImage(audience.title);
+            return (
+              <RevealItem key={audience.title}>
+                <motion.article
+                  className="border-border bg-card group h-full overflow-hidden rounded-2xl border shadow-soft"
+                  whileHover={hoverLift(reduceMotion, 3)}
+                  transition={transitionFast}
+                >
+                  {image ? (
+                    <HoverMedia
+                      src={image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                      className="aspect-[16/10] bg-muted"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f2a]/55 via-transparent to-transparent" />
+                    </HoverMedia>
+                  ) : null}
+                  <div className="p-6">
+                    <h3 className="font-display text-xl tracking-tight">{audience.title}</h3>
+                    <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{audience.text}</p>
+                  </div>
+                </motion.article>
+              </RevealItem>
+            );
+          })}
         </RevealStagger>
       </Container>
     </Section>
