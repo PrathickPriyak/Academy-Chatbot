@@ -33,25 +33,14 @@ export default function AboutPage() {
   return (
     <>
       <section className="border-border relative overflow-hidden border-b bg-card/50">
-        <div className="absolute inset-0">
-          <Image
-            src={academyMedia.team}
-            alt=""
-            fill
-            priority
-            className="object-cover object-center opacity-30"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/92 to-background/70" />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 70% 55% at 90% 0%, rgb(13 115 119 / 0.18), transparent 55%), radial-gradient(ellipse 45% 40% at 0% 80%, rgb(201 162 39 / 0.1), transparent 50%)",
-            }}
-          />
-        </div>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 55% at 90% 0%, rgb(13 115 119 / 0.18), transparent 55%), radial-gradient(ellipse 45% 40% at 0% 80%, rgb(201 162 39 / 0.1), transparent 50%)",
+          }}
+        />
         <Container className="relative grid items-end gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
           <Reveal>
             <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">About</p>
@@ -215,8 +204,14 @@ export default function AboutPage() {
           <RevealStagger className="mt-10 grid gap-4 sm:grid-cols-3">
             {academyMedia.press.map((src) => (
               <RevealItem key={src}>
-                <div className="border-border bg-card relative aspect-[4/3] overflow-hidden rounded-2xl border shadow-soft">
-                  <Image src={src} alt="Press feature from Infozub Academy about page" fill className="object-contain p-4" sizes="33vw" />
+                <div className="border-border bg-card relative flex aspect-[5/3] items-center justify-center overflow-hidden rounded-2xl border p-6 shadow-soft">
+                  <Image
+                    src={src}
+                    alt="Press feature from Infozub Academy about page"
+                    width={280}
+                    height={160}
+                    className="h-auto max-h-28 w-auto max-w-full object-contain"
+                  />
                 </div>
               </RevealItem>
             ))}

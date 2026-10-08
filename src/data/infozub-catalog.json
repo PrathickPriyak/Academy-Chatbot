@@ -730,62 +730,21 @@
     "brandMark": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
     "instructorPortrait": "https://academy.infozub.com/wp-content/uploads/2023/07/logesh_ida_profile.jpg",
     "team": "https://academy.infozub.com/wp-content/uploads/2025/01/IDA_Team.png",
-    "hero": "https://academy.infozub.com/wp-content/uploads/2026/01/Social-media-marketing-master-course-INFOZUB-Digital-Academy.jpeg",
+    "hero": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_2000x2000-JPG.jpg",
     "press": [
       "https://academy.infozub.com/wp-content/uploads/2023/07/BV-magazine.png",
       "https://academy.infozub.com/wp-content/uploads/2023/07/CEOMagazine.png",
       "https://academy.infozub.com/wp-content/uploads/2023/07/startupcitysilicon.png"
     ],
-    "highlights": [
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/analytics.png",
-        "label": "Updated strategies"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/creatives.png",
-        "label": "Certificate on completion from INFOZUB"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/work-process.png",
-        "label": "Hands-on learning"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/discussion.png",
-        "label": "Community group"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/brainstorming.png",
-        "label": "Step-by-step training"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/campaign.png",
-        "label": "Learn on any device"
-      }
-    ],
+    "highlights": [],
     "audiences": [
       {
         "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_students.jpg",
         "title": "Students / Freshers"
       },
       {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/analytics.png",
-        "title": "Digital marketers"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/campaign.png",
-        "title": "Traditional marketers"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/work-process.png",
-        "title": "Business Owners"
-      },
-      {
         "src": "https://academy.infozub.com/wp-content/uploads/2023/10/IDA_freelancers.jpg",
         "title": "Freelancers"
-      },
-      {
-        "src": "https://academy.infozub.com/wp-content/uploads/2023/07/brainstorming.png",
-        "title": "Anyone learning"
       }
     ],
     "testimonials": {}

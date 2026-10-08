@@ -1,11 +1,20 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+import { Award, BookOpen, Laptop, LineChart, Users, Wrench } from "lucide-react";
+
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { HoverMedia } from "@/components/ui/hover-media";
-import { academyMedia } from "@/data/media";
+import { highlights } from "@/data/site";
+import { hoverLift, transitionFast } from "@/lib/motion";
 
 import { Reveal, RevealItem, RevealStagger } from "./reveal";
 
+const icons = [LineChart, Award, Wrench, Users, BookOpen, Laptop] as const;
+
 export function WhyInfozub() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <Section spacing="lg">
       <Container>
@@ -19,22 +28,23 @@ export function WhyInfozub() {
         </Reveal>
 
         <RevealStagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {academyMedia.highlights.map((item) => (
-            <RevealItem key={item.label}>
-              <div className="border-border bg-card group h-full overflow-hidden rounded-2xl border shadow-soft transition-colors hover:border-primary/35">
-                <HoverMedia
-                  src={item.src}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="aspect-[16/10] bg-muted"
-                />
-                <div className="p-5">
-                  <h3 className="font-display text-xl tracking-tight">{item.label}</h3>
-                </div>
-              </div>
-            </RevealItem>
-          ))}
+          {highlights.map((item, index) => {
+            const Icon = icons[index] ?? BookOpen;
+            return (
+              <RevealItem key={item}>
+                <motion.div
+                  className="border-border bg-card group h-full rounded-2xl border p-6 shadow-soft transition-colors hover:border-primary/35"
+                  whileHover={hoverLift(reduceMotion, 3)}
+                  transition={transitionFast}
+                >
+                  <div className="bg-primary/10 text-primary mb-4 inline-flex size-11 items-center justify-center rounded-xl transition-transform motion-safe:group-hover:-translate-y-0.5">
+                    <Icon className="size-5" aria-hidden />
+                  </div>
+                  <h3 className="font-display text-xl tracking-tight">{item}</h3>
+                </motion.div>
+              </RevealItem>
+            );
+          })}
         </RevealStagger>
       </Container>
     </Section>

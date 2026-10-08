@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { Send } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useEffect, useId, useRef, useState } from "react";
@@ -10,7 +9,6 @@ import { FormEvent, Suspense, useEffect, useId, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { LoadingDots } from "@/components/ui/loading-dots";
-import { academyMedia } from "@/data/media";
 import { suggestionPrompts, welcomeMessage } from "@/lib/chat/prompts";
 import { duration, easeOutPremium } from "@/lib/motion";
 
@@ -101,18 +99,8 @@ function ChatWorkspace() {
   }
 
   return (
-    <div className="relative flex min-h-[calc(100svh-4rem)] flex-col sm:min-h-[calc(100svh-4.25rem)]">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <Image
-          src={academyMedia.hero}
-          alt=""
-          fill
-          className="object-cover opacity-[0.07]"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
-      <Container className="relative flex max-w-3xl flex-1 flex-col py-6 sm:py-10">
+    <div className="flex min-h-[calc(100svh-4rem)] flex-col sm:min-h-[calc(100svh-4.25rem)]">
+      <Container className="flex max-w-3xl flex-1 flex-col py-6 sm:py-10">
         <div className="shrink-0">
           <h1 className="font-display text-3xl tracking-tight sm:text-4xl">Academy Assistant</h1>
           <p className="text-muted-foreground mt-2 text-sm leading-relaxed sm:mt-3 sm:text-base">
@@ -121,7 +109,7 @@ function ChatWorkspace() {
           </p>
         </div>
 
-        <div className="bg-card/95 mt-6 flex min-h-[min(32rem,70dvh)] flex-1 flex-col overflow-hidden rounded-[1.5rem] shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 backdrop-blur-sm sm:mt-8">
+        <div className="bg-card mt-6 flex min-h-[min(32rem,70dvh)] flex-1 flex-col overflow-hidden rounded-[1.5rem] shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 sm:mt-8">
           <div
             ref={listRef}
             role="log"

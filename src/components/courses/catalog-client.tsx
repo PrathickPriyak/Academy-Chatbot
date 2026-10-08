@@ -147,21 +147,19 @@ export function CatalogClient() {
     reduceMotion: !!reduceMotion,
   };
 
-  const mosaic = listCourses().slice(0, 6);
+  const mosaic = listCourses().slice(0, 4);
 
   return (
     <Section spacing="md">
       <Container>
-        <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between lg:block">
-            <div>
-              <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
-              <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-[3.25rem]">Courses</h1>
-              <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
-                Browse all {catalog.courses.length} published Infozub Digital Academy courses. Search by name, category,
-                instructor, skill, or topic — then open a course for modules and enrollment.
-              </p>
-            </div>
+        <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">Catalog</p>
+            <h1 className="font-display mt-2 text-4xl tracking-tight sm:text-[3.25rem]">Courses</h1>
+            <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
+              Browse all {catalog.courses.length} published Infozub Digital Academy courses. Search by name, category,
+              instructor, skill, or topic — then open a course for modules and enrollment.
+            </p>
             <p className="text-muted-foreground mt-4 flex items-center gap-2 text-sm font-medium" aria-live="polite">
               {pending ? (
                 <>
@@ -173,23 +171,26 @@ export function CatalogClient() {
               )}
             </p>
           </div>
-          <div className="hidden grid-cols-3 gap-2 sm:grid" aria-hidden>
+          <div className="hidden gap-2 sm:grid sm:grid-cols-2" aria-hidden>
             {mosaic.map((course, index) => (
               <motion.div
                 key={course.slug}
-                className={cn(
-                  "overflow-hidden rounded-2xl ring-1 ring-border/70",
-                  index === 0 || index === 5 ? "row-span-1 aspect-[4/3]" : "aspect-square",
-                )}
+                className="overflow-hidden rounded-2xl ring-1 ring-border/70"
                 initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: reduceMotion ? 0 : motionDuration.base,
-                  delay: reduceMotion ? 0 : index * 0.04,
+                  delay: reduceMotion ? 0 : index * 0.05,
                   ease: easeOutPremium,
                 }}
               >
-                <HoverMedia src={course.thumbnail} alt="" fill sizes="180px" className="h-full w-full" />
+                <HoverMedia
+                  src={course.thumbnail}
+                  alt=""
+                  fill
+                  sizes="220px"
+                  className="aspect-[16/10]"
+                />
               </motion.div>
             ))}
           </div>

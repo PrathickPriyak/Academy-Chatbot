@@ -1,10 +1,10 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { HoverMedia } from "@/components/ui/hover-media";
 import { audienceImage } from "@/data/media";
 import { audiences } from "@/data/site";
 import { hoverLift, transitionFast } from "@/lib/motion";
@@ -32,15 +32,16 @@ export function AudienceGrid() {
                   transition={transitionFast}
                 >
                   {image ? (
-                    <HoverMedia
-                      src={image}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      className="aspect-[16/10] bg-muted"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f2a]/55 via-transparent to-transparent" />
-                    </HoverMedia>
+                    <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                      <Image
+                        src={image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f2a]/45 via-transparent to-transparent" />
+                    </div>
                   ) : null}
                   <div className="p-6">
                     <h3 className="font-display text-xl tracking-tight">{audience.title}</h3>
