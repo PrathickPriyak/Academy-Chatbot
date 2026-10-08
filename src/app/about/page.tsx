@@ -1,41 +1,83 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Reveal } from "@/components/marketing/reveal";
+import { Reveal, RevealItem, RevealStagger } from "@/components/marketing/reveal";
 import { Button } from "@/components/ui/button";
-import { catalog } from "@/data/catalog";
-import { founder, highlights, site } from "@/data/site";
+import { catalog, listCourses } from "@/data/catalog";
+import { aboutContent, audiences, founder, highlights, site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `Learn about ${site.name}, INFOZUB, and the academy’s approach to practical digital education.`,
+  description: `Learn about ${site.name}, INFOZUB’s background since ${aboutContent.started}, and the academy’s practical learning approach.`,
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
+  const courseCount = listCourses().length;
+  const portrait = listCourses()[0]?.thumbnail ?? "/infozub-logo.jpg";
+
   return (
     <>
-      <Section spacing="lg" className="border-border border-b bg-card/40">
-        <Container className="max-w-3xl">
+      <section className="border-border relative overflow-hidden border-b bg-card/50">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 55% at 90% 0%, rgb(13 115 119 / 0.18), transparent 55%), radial-gradient(ellipse 45% 40% at 0% 80%, rgb(201 162 39 / 0.1), transparent 50%)",
+          }}
+        />
+        <Container className="relative grid items-end gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
           <Reveal>
             <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">About</p>
-            <h1 className="font-display mt-3 text-4xl tracking-tight sm:text-5xl">{site.name}</h1>
-            <p className="text-muted-foreground mt-5 text-lg leading-relaxed">{site.description}</p>
-            <p className="text-muted-foreground mt-4 text-base leading-relaxed">
-              {site.tagline}. Courses are designed to equip you with the skills and knowledge to succeed in the digital
-              realm, with learning access delivered through the courses.infozub.com platform after purchase.
-            </p>
+            <h1 className="font-display mt-3 text-4xl tracking-tight sm:text-5xl lg:text-6xl">{site.name}</h1>
+            <p className="text-muted-foreground mt-5 max-w-xl text-lg leading-relaxed">{site.tagline}</p>
+            <p className="text-muted-foreground mt-4 max-w-xl text-base leading-relaxed">{site.description}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild size="lg">
+                <Link href="/courses">Explore Courses</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/contact">Contact Us</Link>
+              </Button>
+            </div>
           </Reveal>
+          <Reveal delay={0.08}>
+            <div className="border-border relative aspect-[4/3] overflow-hidden rounded-[2rem] border shadow-hero">
+              <Image src={portrait} alt="" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 40vw" priority />
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      <Section spacing="lg">
+        <Container>
+          <Reveal className="max-w-3xl">
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Academy introduction</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">Built for practical digital skills</h2>
+          </Reveal>
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            {aboutContent.introduction.map((paragraph) => (
+              <Reveal key={paragraph}>
+                <p className="border-border bg-card h-full rounded-2xl border p-6 text-sm leading-relaxed shadow-soft">
+                  {paragraph}
+                </p>
+              </Reveal>
+            ))}
+          </div>
         </Container>
       </Section>
 
-      <Section spacing="lg">
+      <Section spacing="lg" className="bg-card/40">
         <Container className="grid gap-10 lg:grid-cols-2">
           <Reveal>
-            <h2 className="font-display text-3xl tracking-tight">INFOZUB background</h2>
-            <div className="mt-5 space-y-4">
-              {founder.story.map((paragraph) => (
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Background</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight">INFOZUB since {aboutContent.started}</h2>
+            <div className="mt-6 space-y-4">
+              {aboutContent.background.map((paragraph) => (
                 <p key={paragraph} className="text-muted-foreground text-base leading-relaxed">
                   {paragraph}
                 </p>
@@ -43,57 +85,147 @@ export default function AboutPage() {
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <div className="border-border bg-card rounded-[2rem] border p-8 shadow-soft">
-              <h3 className="font-display text-2xl tracking-tight">{founder.name}</h3>
-              <p className="text-muted-foreground mt-1 text-sm font-semibold">{founder.title}</p>
-              <p className="text-muted-foreground mt-4 text-sm leading-relaxed">{catalog.instructor.bio}</p>
-              <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-                {founder.stats.map((stat) => (
-                  <div key={stat.label}>
-                    <dt className="text-muted-foreground text-xs font-semibold uppercase">{stat.label}</dt>
-                    <dd className="font-display mt-1 text-2xl">{stat.value}</dd>
-                  </div>
-                ))}
-              </dl>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="border-border bg-card rounded-[1.75rem] border p-6 shadow-soft sm:col-span-2">
+                <h3 className="font-display text-2xl tracking-tight">{aboutContent.mission.title}</h3>
+                <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{aboutContent.mission.text}</p>
+              </div>
+              <div className="border-border bg-card rounded-[1.75rem] border p-6 shadow-soft">
+                <h3 className="font-display text-xl tracking-tight">{aboutContent.vision.title}</h3>
+                <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{aboutContent.vision.text}</p>
+              </div>
+              <div className="border-border bg-card rounded-[1.75rem] border p-6 shadow-soft">
+                <h3 className="font-display text-xl tracking-tight">{aboutContent.philosophy.title}</h3>
+                <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{aboutContent.philosophy.text}</p>
+              </div>
             </div>
           </Reveal>
+        </Container>
+      </Section>
+
+      <Section spacing="lg">
+        <Container>
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Learning approach</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">How Infozub trains learners</h2>
+            <p className="text-muted-foreground mt-3 text-base leading-relaxed">
+              Course highlights published on academy.infozub.com — strategies, certificates, community, and flexible
+              access.
+            </p>
+          </Reveal>
+          <RevealStagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {highlights.map((item) => (
+              <RevealItem key={item}>
+                <div className="border-border bg-card group h-full rounded-2xl border p-6 shadow-soft transition-colors hover:border-primary/35">
+                  <div className="bg-primary/10 text-primary mb-4 inline-flex size-10 items-center justify-center rounded-xl text-sm font-bold">
+                    ✓
+                  </div>
+                  <h3 className="font-display text-xl tracking-tight">{item}</h3>
+                </div>
+              </RevealItem>
+            ))}
+          </RevealStagger>
         </Container>
       </Section>
 
       <Section spacing="lg" className="bg-card/40">
         <Container>
           <Reveal className="max-w-2xl">
-            <h2 className="font-display text-3xl tracking-tight">Learning approach</h2>
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Experience</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight">Published impact metrics</h2>
             <p className="text-muted-foreground mt-3 text-base leading-relaxed">
-              The academy emphasizes updated strategies, hands-on learning, community support, step-by-step training, and
-              the ability to learn on any device—with a certificate on completion from INFOZUB.
+              Figures published on the Infozub Digital Academy site for INFOZUB’s digital marketing experience.
             </p>
           </Reveal>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {highlights.map((item) => (
-              <li key={item} className="border-border bg-card rounded-2xl border p-5 shadow-soft">
-                <p className="font-display text-xl tracking-tight">{item}</p>
-              </li>
+          <dl className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {founder.stats.map((stat) => (
+              <div key={stat.label} className="border-border bg-card rounded-2xl border p-5 shadow-soft">
+                <dt className="text-muted-foreground text-xs font-semibold uppercase">{stat.label}</dt>
+                <dd className="font-display mt-2 text-3xl tracking-tight">{stat.value}</dd>
+              </div>
             ))}
-          </ul>
+          </dl>
+          <p className="text-muted-foreground mt-6 text-sm">
+            The academy currently lists {courseCount} published courses across design, marketing, web, video, business,
+            and career tracks.
+          </p>
         </Container>
       </Section>
 
       <Section spacing="lg">
-        <Container className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="font-display text-3xl tracking-tight">Talk with the team</h2>
-            <p className="text-muted-foreground mt-2 text-base">
-              Questions about programs, enrollment, or corporate training? Reach out.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild>
-              <Link href="/contact">Contact Us</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/courses">Browse Courses</Link>
-            </Button>
+        <Container>
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Who it’s for</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight">Learners Infozub invites to enroll</h2>
+          </Reveal>
+          <RevealStagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {audiences.map((audience) => (
+              <RevealItem key={audience.title}>
+                <article className="border-border bg-card h-full rounded-2xl border p-6 shadow-soft">
+                  <h3 className="font-display text-xl tracking-tight">{audience.title}</h3>
+                  <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{audience.text}</p>
+                </article>
+              </RevealItem>
+            ))}
+          </RevealStagger>
+        </Container>
+      </Section>
+
+      <Section spacing="lg" className="bg-card/40">
+        <Container>
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="text-primary text-sm font-semibold tracking-[0.16em] uppercase">Instructor</p>
+            <h2 className="font-display mt-3 text-3xl tracking-tight">Meet the founder</h2>
+          </Reveal>
+          <Reveal className="border-border bg-card mx-auto mt-10 max-w-4xl overflow-hidden rounded-[2rem] border shadow-lift">
+            <div className="grid md:grid-cols-[0.85fr_1.15fr]">
+              <div className="relative min-h-72 md:min-h-full">
+                <Image src={portrait} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 40vw" />
+              </div>
+              <div className="flex flex-col justify-center gap-4 p-6 sm:p-8">
+                <div>
+                  <h3 className="font-display text-3xl tracking-tight">{founder.name}</h3>
+                  <p className="text-primary mt-1 text-sm font-semibold">{founder.title}</p>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed">{catalog.instructor.bio}</p>
+                <div className="flex flex-wrap gap-3">
+                  <Button asChild>
+                    <Link href="/courses">View courses</Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link href="/contact">Contact Us</Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+
+      <Section spacing="lg">
+        <Container>
+          <div className="border-border from-primary to-primary/90 relative overflow-hidden rounded-[2rem] bg-gradient-to-br px-6 py-12 text-primary-foreground shadow-hero sm:px-12">
+            <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="max-w-xl">
+                <h2 className="font-display text-3xl tracking-tight">Talk with the Infozub team</h2>
+                <p className="mt-3 text-sm leading-relaxed text-primary-foreground/90">
+                  Questions about programs, enrollment, or partnership? Reach us by phone, email, or the contact form.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" variant="secondary">
+                  <Link href="/contact">Contact Us</Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <a href={site.phoneHref}>{site.phone}</a>
+                </Button>
+              </div>
+            </div>
           </div>
         </Container>
       </Section>

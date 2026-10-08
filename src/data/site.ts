@@ -127,3 +127,32 @@ export const refundSummary = {
   body: "If you are not satisfied with our course within 07 days of purchase, we offer a complete refund. Eligibility also requires that you have not completed more than 20% of the course content.",
   href: "/refund",
 } as const;
+
+/** About-page copy grounded in academy.infozub.com / catalog platform notes. */
+export const aboutContent = {
+  introduction: [
+    "INFOZUB Digital Academy describes itself as quality education for everyone.",
+    "Courses are designed to equip you with the skills and knowledge to succeed in the digital realm, helping people navigate the digital landscape.",
+    "The academy is built from INFOZUB’s digital marketing customer experience, with learning access delivered through courses.infozub.com after purchase.",
+  ],
+  background: [
+    "INFOZUB started in May 2013, after a technology blog during engineering became a digital marketing company.",
+    "Logesh noticed a significant loophole in the education system—outdated syllabi that lacked real-time applications.",
+    "He followed his passion and worked in a digital marketing agency in the UK. In 2013, he gave shape to INFOZUB.",
+    "With more than ten years of experience, he has handled B2B, B2C, and D2C businesses and more than 200 digital marketing projects.",
+  ],
+  /** Published positioning — not an invented corporate manifesto. */
+  mission: {
+    title: "Mission",
+    text: "Quality Education for Everyone — practical digital skills through Infozub Digital Academy courses designed for real-world application.",
+  },
+  vision: {
+    title: "Vision",
+    text: "Help learners navigate the digital landscape with updated strategies, hands-on training, and certificates on completion from INFOZUB.",
+  },
+  philosophy: {
+    title: "Training philosophy",
+    text: "INFOZUB is a digital marketing company with 10+ years of experience, and the academy is built from that customer experience—prioritizing real-time applications over outdated syllabi.",
+  },
+  started: "May 2013",
+} as const;
