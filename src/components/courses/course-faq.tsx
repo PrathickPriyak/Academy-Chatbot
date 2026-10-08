@@ -6,7 +6,6 @@ import { useState } from "react";
 
 import type { CourseFaq } from "@/lib/courses/presenters";
 import { duration, easeOutPremium } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 
 export function CourseFaqList({ faqs }: { faqs: CourseFaq[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
