@@ -49,28 +49,47 @@ export function levelLabel(level: string): string {
   return level;
 }
 
+export function listLevels(): string[] {
+  return [...new Set(listCourses().map((course) => course.level))].sort();
+}
+
+export function listDurations(): string[] {
+  return [...new Set(listCourses().map((course) => course.duration))].sort((a, b) => a.localeCompare(b));
+}
+
+export function listInstructors(): string[] {
+  return [catalog.instructor.name];
+}
+
+export type PriceFilter = "all" | "priced" | "request";
+
 export type SearchHit =
   | { kind: "course"; course: CatalogCourse; label: string; href: string }
   | { kind: "category"; category: CatalogCategory; label: string; href: string };
+
+function courseHaystack(course: CatalogCourse): string {
+  return [
+    course.title,
+    course.shortDescription,
+    course.description,
+    categoryNameForCourse(course),
+    course.category,
+    catalog.instructor.name,
+    catalog.instructor.title,
+    course.level,
+    course.duration,
+    ...course.modules.map((module) => `${module.title} ${module.description}`),
+  ]
+    .join(" ")
+    .toLowerCase();
+}
 
 export function searchCatalog(query: string, limit = 8): SearchHit[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
 
   const courseHits: SearchHit[] = listCourses()
-    .filter((course) => {
-      const haystack = [
-        course.title,
-        course.shortDescription,
-        course.description,
-        categoryNameForCourse(course),
-        catalog.instructor.name,
-        ...course.modules.map((module) => `${module.title} ${module.description}`),
-      ]
-        .join(" ")
-        .toLowerCase();
-      return haystack.includes(q);
-    })
+    .filter((course) => courseHaystack(course).includes(q))
     .slice(0, limit)
     .map((course) => ({
       kind: "course" as const,
@@ -95,12 +114,21 @@ export function searchCatalog(query: string, limit = 8): SearchHit[] {
   return [...categoryHits, ...courseHits].slice(0, limit);
 }
 
-export type CourseSort = "title" | "price-asc" | "price-desc";
+/**
+ * Sort options backed by published catalog fields.
+ * Rating / newest are omitted — those fields are not in the archived catalog.
+ * "popular" ranks courses with published prices first, then by module count
+ * (curriculum depth), since enrollment popularity metrics are not published.
+ */
+export type CourseSort = "popular" | "title" | "price-asc" | "price-desc" | "modules";
 
 export function filterCourses(options: {
   query?: string;
   category?: string;
   level?: string;
+  price?: PriceFilter;
+  duration?: string;
+  instructor?: string;
   sort?: CourseSort;
 }): CatalogCourse[] {
   const query = options.query?.trim().toLowerCase() ?? "";
@@ -111,23 +139,63 @@ export function filterCourses(options: {
     if (options.level && options.level !== "all" && course.level !== options.level) {
       return false;
     }
+    if (options.duration && options.duration !== "all" && course.duration !== options.duration) {
+      return false;
+    }
+    if (options.instructor && options.instructor !== "all" && catalog.instructor.name !== options.instructor) {
+      return false;
+    }
+    if (options.price === "priced" && course.price <= 0) {
+      return false;
+    }
+    if (options.price === "request" && course.price > 0) {
+      return false;
+    }
     if (!query) return true;
-    const haystack = [
-      course.title,
-      course.shortDescription,
-      categoryNameForCourse(course),
-      catalog.instructor.name,
-    ]
-      .join(" ")
-      .toLowerCase();
-    return haystack.includes(query);
+    return courseHaystack(course).includes(query);
   });
 
-  if (options.sort === "price-asc") {
-    results = [...results].sort((a, b) => a.price - b.price || a.title.localeCompare(b.title));
-  } else if (options.sort === "price-desc") {
+  const sort = options.sort ?? "popular";
+  if (sort === "price-asc") {
+    results = [...results].sort((a, b) => {
+      const ap = a.price > 0 ? a.price : Number.POSITIVE_INFINITY;
+      const bp = b.price > 0 ? b.price : Number.POSITIVE_INFINITY;
+      return ap - bp || a.title.localeCompare(b.title);
+    });
+  } else if (sort === "price-desc") {
     results = [...results].sort((a, b) => b.price - a.price || a.title.localeCompare(b.title));
+  } else if (sort === "modules") {
+    results = [...results].sort(
+      (a, b) => b.modules.length - a.modules.length || a.title.localeCompare(b.title),
+    );
+  } else if (sort === "title") {
+    results = [...results].sort((a, b) => a.title.localeCompare(b.title));
+  } else {
+    // popular
+    results = [...results].sort((a, b) => {
+      const priceRank = Number(b.price > 0) - Number(a.price > 0);
+      if (priceRank !== 0) return priceRank;
+      return b.modules.length - a.modules.length || a.title.localeCompare(b.title);
+    });
   }
 
   return results;
+}
+
+export function countActiveFilters(options: {
+  query?: string;
+  category?: string;
+  level?: string;
+  price?: string;
+  duration?: string;
+  instructor?: string;
+}): number {
+  let count = 0;
+  if (options.query?.trim()) count += 1;
+  if (options.category && options.category !== "all") count += 1;
+  if (options.level && options.level !== "all") count += 1;
+  if (options.price && options.price !== "all") count += 1;
+  if (options.duration && options.duration !== "all") count += 1;
+  if (options.instructor && options.instructor !== "all") count += 1;
+  return count;
 }
