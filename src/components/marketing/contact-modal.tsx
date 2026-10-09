@@ -41,12 +41,12 @@ export function ContactModal({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className={cn(
-          "w-[min(100%-1rem,52rem)] gap-0 overflow-hidden p-0 sm:rounded-[1.75rem]",
+          "w-[min(100%-1rem,48rem)] max-h-[min(88dvh,36rem)] gap-0 overflow-hidden p-0 sm:rounded-[1.75rem]",
           "border-border/70 bg-card shadow-[0_28px_90px_rgb(10_27_46/0.32)]",
         )}
       >
-        <div className="grid md:grid-cols-[0.95fr_1.05fr]">
-          <aside className="relative hidden overflow-hidden bg-[#0b2e5b] px-8 py-9 text-white md:flex md:flex-col md:justify-between">
+        <div className="grid md:max-h-[min(88dvh,36rem)] md:grid-cols-[0.9fr_1.1fr]">
+          <aside className="relative hidden overflow-hidden bg-[#0b2e5b] px-6 py-6 text-white md:flex md:flex-col md:justify-between">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0"
@@ -66,31 +66,31 @@ export function ContactModal({
               }}
             />
 
-            <div className="relative space-y-6">
+            <div className="relative space-y-5">
               <div className="inline-flex rounded-xl bg-white px-2.5 py-1.5 shadow-sm ring-1 ring-black/5">
                 <Image
                   src="/infozub-logo.png"
                   alt=""
                   width={200}
                   height={67}
-                  className="h-9 w-auto object-contain object-left"
+                  className="h-8 w-auto object-contain object-left"
                 />
               </div>
               <div>
                 <p className="text-[11px] font-semibold tracking-[0.18em] text-[#f0b27a] uppercase">
                   Talk with us
                 </p>
-                <p className="font-display mt-2 text-[1.85rem] leading-tight tracking-tight text-white">
+                <p className="font-display mt-2 text-[1.65rem] leading-tight tracking-tight text-white">
                   Let’s find the right course
                 </p>
-                <p className="mt-3 max-w-[16.5rem] text-sm leading-relaxed text-white/78">
+                <p className="mt-2.5 max-w-[16.5rem] text-sm leading-relaxed text-white/78">
                   Share a short note about your goals. The academy team replies through the published Infozub
                   channels.
                 </p>
               </div>
             </div>
 
-            <ul className="relative mt-10 space-y-4 text-sm text-white/90">
+            <ul className="relative mt-8 space-y-3.5 text-sm text-white/90">
               <li className="flex items-start gap-3">
                 <span className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-white/10 ring-1 ring-white/10">
                   <Mail className="size-3.5" aria-hidden />
@@ -129,14 +129,14 @@ export function ContactModal({
             </ul>
           </aside>
 
-          <div className="bg-gradient-to-b from-card to-[#f7f9fc] px-5 py-6 sm:px-8 sm:py-9">
-            <DialogHeader className="mb-5 md:mb-6">
+          <div className="overflow-y-auto bg-gradient-to-b from-card to-[#f7f9fc] px-5 py-5 sm:px-6 sm:py-6 md:max-h-[min(88dvh,36rem)]">
+            <DialogHeader className="mb-3.5 pr-8">
               <p className="text-primary text-[11px] font-semibold tracking-[0.16em] uppercase">Inquiry</p>
-              <DialogTitle className="font-display mt-1.5 text-2xl tracking-tight md:text-[1.65rem]">
+              <DialogTitle className="font-display mt-1 text-xl tracking-tight">
                 Send a message
               </DialogTitle>
-              <DialogDescription className="mt-2 text-sm leading-relaxed">
-                Course questions, enrollment help, or partnerships — your note opens via email to {site.email}.
+              <DialogDescription className="mt-1 text-sm leading-relaxed">
+                Course questions or partnerships — opens via email to {site.email}.
               </DialogDescription>
             </DialogHeader>
 

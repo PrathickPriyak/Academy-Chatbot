@@ -136,7 +136,7 @@ export function ContactForm({
       ref={formRef}
       onSubmit={onSubmit}
       className={cn(
-        "space-y-4",
+        compact ? "space-y-3" : "space-y-4",
         compact
           ? "bg-transparent p-0 shadow-none ring-0"
           : "bg-card space-y-5 rounded-[1.5rem] p-6 shadow-[0_1px_2px_rgb(11_31_42/0.04),0_12px_32px_rgb(11_31_42/0.06)] ring-1 ring-border/80 sm:p-8",
@@ -153,7 +153,7 @@ export function ContactForm({
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className={cn("grid sm:grid-cols-2", compact ? "gap-3" : "gap-4")}>
         <Field
           id={`${formId}-name`}
           label="Name"
@@ -187,7 +187,7 @@ export function ContactForm({
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className={cn("grid sm:grid-cols-2", compact ? "gap-3" : "gap-4")}>
         <Field
           id={`${formId}-phone`}
           label="Phone"
@@ -229,7 +229,7 @@ export function ContactForm({
           <Textarea
             id={`${formId}-message`}
             name="message"
-            rows={compact ? 4 : 5}
+            rows={compact ? 3 : 5}
             required
             aria-invalid={Boolean(fieldErrors.message)}
             aria-describedby={fieldErrors.message ? `${formId}-message-error` : undefined}
