@@ -1,18 +1,37 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import type { HTMLAttributes } from "react";
 
 import { cn } from "@/lib/utils";
 
+const cardVariants = cva("border-border bg-card text-card-foreground rounded-2xl border shadow-soft", {
+  variants: {
+    variant: {
+      default: "",
+      elevated: "border-border/70 shadow-lift",
+      outline: "bg-transparent shadow-none",
+      glass: "border-white/30 bg-card/70 shadow-md backdrop-blur-md",
+      interactive:
+        "transition-[transform,box-shadow] duration-200 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lift",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
 export function Card({
   className,
+  variant,
   interactive = false,
   ...props
-}: HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {
+}: HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof cardVariants> & {
+    interactive?: boolean;
+  }) {
   return (
     <div
       className={cn(
-        "border-border bg-card text-card-foreground rounded-2xl border shadow-soft",
-        interactive &&
-          "transition-[transform,box-shadow] duration-200 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lift",
+        cardVariants({ variant: interactive ? "interactive" : variant }),
         className,
       )}
       {...props}
